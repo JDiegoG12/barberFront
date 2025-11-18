@@ -1,0 +1,16 @@
+.list-container {
+  // Cambiamos el fondo para esta sección para crear contraste visual
+  background-color: var(--background-color);
+  padding: 4rem 1rem;
+}
+
+.barbers-grid-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.barbers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}

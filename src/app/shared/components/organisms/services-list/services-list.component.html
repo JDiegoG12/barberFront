@@ -1,0 +1,17 @@
+<div class="list-container">
+  <!-- 6. Usamos nuestro átomo de título -->
+  <app-section-title title="Nuestros Servicios"></app-section-title>
+
+  <!-- 7. Creamos una grilla para las tarjetas -->
+  <div class="services-grid">
+    <!-- 8. Usamos el pipe 'async' para suscribirnos al observable 'services$' -->
+    <!-- y el nuevo bloque @for para iterar -->
+    @for (service of services$ | async; track service.id) {
+      <!-- 9. Por cada servicio, renderizamos nuestra molécula de tarjeta -->
+      <app-service-card [service]="service"></app-service-card>
+    } @empty {
+      <!-- Esto se muestra si la lista de servicios está vacía -->
+      <p>No hay servicios disponibles en este momento.</p>
+    }
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<!-- 2. Usamos el objeto 'service' para mostrar sus datos. -->
+<!-- La tarjeta solo se renderiza si el objeto 'service' existe. -->
+<div *ngIf="service" class="card-container">
+  <div class="card-content">
+    <h3 class="card-title">{{ service.name }}</h3>
+    <p class="card-description">{{ service.description }}</p>
+  </div>
+  <div class="card-footer">
+    <span class="card-duration">🕒 {{ service.duration }} min</span>
+    <span class="card-price">{{ service.price | currency:'COP':'symbol':'1.0-0' }}</span>
+  </div>
+</div>

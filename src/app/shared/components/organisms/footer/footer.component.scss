@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  padding: 2rem;
+  text-align: center;
+  margin-top: auto; /* Empuja el footer hacia abajo */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--text-muted-color);
+}

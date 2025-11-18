@@ -1,0 +1,20 @@
+<div *ngIf="barber" class="card-container">
+  <!-- Indicador de disponibilidad -->
+  <div
+    class="status-indicator"
+    [class.available]="barber.availabilityStatus === 'Disponible'"
+    [title]="barber.availabilityStatus"
+  ></div>
+
+  <img [src]="barber.photoUrl" [alt]="barber.name + ' ' + barber.lastName" class="barber-photo">
+
+  <h3 class="barber-name">{{ barber.name }} {{ barber.lastName }}</h3>
+
+  <div class="specialties-container">
+    @for(specialty of barber.specialties; track specialty) {
+      <span class="specialty-tag">{{ specialty }}</span>
+    }
+  </div>
+
+  <p class="barber-bio">{{ barber.bio }}</p>
+</div>

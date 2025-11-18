@@ -1,0 +1,40 @@
+<div class="info-section-container">
+  <div class="info-section-wrapper">
+    <app-section-title title="Visítanos"></app-section-title>
+
+    <div class="content-grid">
+      <!-- Columna de Información -->
+      <div class="info-text">
+        <h3>Barbería</h3>
+        <p>
+          Sumérgete en una experiencia de barbería clásica con un toque moderno.
+          Nuestros expertos están dedicados a perfeccionar tu estilo.
+        </p>
+        <ul>
+          <li><strong>Dirección:</strong> Campus Universitario de Tulcán, Popayán, Cauca</li>
+          <li><strong>Teléfono:</strong> +57 300 123 4567</li>
+          <li><strong>Email:</strong> contacto&#64;barberia.com</li>
+        </ul>
+        <h4>Horario de Atención</h4>
+        <ul>
+          <li><strong>Lunes a Viernes:</strong> 9:00 AM - 8:00 PM</li>
+          <li><strong>Sábados:</strong> 10:00 AM - 6:00 PM</li>
+          <li><strong>Domingos:</strong> Cerrado</li>
+        </ul>
+      </div>
+
+      <!-- Columna del Mapa -->
+      <div class="map-container">
+        <iframe
+          [src]="safeMapUrl"
+          width="600"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>

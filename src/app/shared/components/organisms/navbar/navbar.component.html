@@ -1,0 +1,30 @@
+<nav class="navbar-container">
+  <div class="navbar-brand">
+    <!-- Se usa routerLink para evitar recargar la página -->
+    <a routerLink="/">Barbería</a>
+  </div>
+
+  <button class="navbar-toggle" (click)="toggleMenu()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+
+  <ul class="navbar-links" [class.is-open]="isMenuOpen">
+    <!-- Se [routerLink] y [fragment] para la navegación suave en la SPA -->
+    <li><a routerLink="/" (click)="isMenuOpen = false">Inicio</a></li>
+    <li><a routerLink="/" fragment="seccion-servicios" (click)="isMenuOpen = false">Servicios</a></li>
+    <li><a routerLink="/" fragment="seccion-barberos" (click)="isMenuOpen = false">Barberos</a></li>
+    <li><a routerLink="/" fragment="seccion-contacto" (click)="isMenuOpen = false">Contacto</a></li>
+
+    <li class="navbar-actions-mobile">
+      <app-theme-toggle></app-theme-toggle>
+    </li>
+  </ul>
+
+  <div class="navbar-actions-desktop">
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+</nav>

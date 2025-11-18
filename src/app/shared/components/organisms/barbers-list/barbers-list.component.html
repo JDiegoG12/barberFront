@@ -1,0 +1,12 @@
+<div class="list-container">
+  <div class="barbers-grid-wrapper">
+    <app-section-title title="Nuestro Equipo"></app-section-title>
+    <div class="barbers-grid">
+      @for (barber of barbers$ | async; track barber.id) {
+        <app-barber-card [barber]="barber"></app-barber-card>
+      } @empty {
+        <p>No hay barberos disponibles en este momento.</p>
+      }
+    </div>
+  </div>
+</div>
