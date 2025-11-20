@@ -1,0 +1,83 @@
+/* El fondo oscuro que cubre TODA la pantalla */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Negro al 50% de opacidad */
+  z-index: 2000; /* Muy alto para estar encima de todo (incluso de la barra de reserva) */
+  
+  /* Centrado perfecto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  
+  /* Animación de entrada suave */
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* La tarjeta pequeña centrada */
+.modal-card {
+  background-color: var(--surface-color);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px; /* Ancho máximo de la cajita */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  
+  /* Animación de entrada (zoom in sutil) */
+  animation: scaleIn 0.2s ease-out;
+}
+
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.modal-message {
+  color: var(--text-muted-color);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; /* Botones a la derecha */
+  align-items: center;
+  gap: 16px;
+}
+
+/* Estilo simple para el botón de cancelar */
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-muted-color);
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: rgba(0,0,0,0.05);
+    color: var(--text-color);
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

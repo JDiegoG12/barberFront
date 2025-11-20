@@ -1,0 +1,170 @@
+/* ===============================================
+   ESTILOS BASE (MÓVIL - BARRA INFERIOR FIJA)
+   =============================================== */
+:host {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.summary-card {
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  padding: 16px 24px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  
+  /* Flexbox para alinear texto a la izq y botón a la der en móvil */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Elementos ocultos en móvil */
+.desktop-only-section { display: none; }
+.desktop-text { display: none; }
+
+/* Ajustes de texto móvil */
+.mobile-text {
+  display: inline;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Contenedor del área dinámica */
+.booking-section {
+  width: 100%;
+}
+
+.service-summary, .empty-state {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+/* Detalles del servicio en la barra */
+.service-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .service-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Evita que el nombre empuje al botón fuera */
+  }
+
+  .service-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted-color);
+    
+    .separator { margin: 0 4px; }
+    .price { font-weight: 600; color: var(--primary-color); }
+  }
+}
+
+/* Botón en móvil */
+.action-button-wrapper {
+  min-width: 120px; /* Tamaño fijo para el botón en móvil */
+  flex-shrink: 0;
+}
+
+/* ===============================================
+   ESTILOS DESKTOP (TARJETA LATERAL)
+   =============================================== */
+@media (min-width: 1024px) {
+  :host {
+    position: static; /* Ya no es fija, es controlada por el Grid del Home */
+    z-index: auto;
+  }
+
+  .summary-card {
+    /* Restauramos aspecto de tarjeta */
+    display: block;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Mostrar elementos desktop */
+  .desktop-only-section { display: block; }
+  .desktop-text { display: inline; }
+  .mobile-text { display: none; }
+
+  /* Header del Negocio */
+  .business-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 4px;
+  }
+
+  .business-description {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+    margin-bottom: 0;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 20px 0;
+  }
+
+  /* Re-estilizar sección dinámica a Vertical */
+  .service-summary, .empty-state {
+    display: block; /* Stack vertical */
+    text-align: left;
+  }
+
+  .service-details {
+    margin-bottom: 16px;
+    background-color: var(--background-color);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+    
+    .service-name {
+      max-width: 100%;
+      white-space: normal;
+    }
+  }
+
+  .instruction-text {
+    color: var(--text-muted-color);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .action-button-wrapper {
+    width: 100%; /* Botón ancho completo */
+  }
+
+  /* Footer Info */
+  .info-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    .icon { font-size: 1.2rem; }
+    
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+      
+      .address { color: var(--text-color); }
+      .link { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+    }
+  }
+}

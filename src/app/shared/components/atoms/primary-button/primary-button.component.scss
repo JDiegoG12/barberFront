@@ -1,0 +1,37 @@
+.btn-primary {
+  background-color: var(--text-color); /* Usamos el color oscuro/texto como fondo para resaltar (estilo Fresha/Uber) o puedes usar --primary-color */
+  color: var(--surface-color); /* Texto blanco/claro */
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px; /* Bordes redondeados elegantes */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    background-color: var(--primary-color); /* Al hover cambiamos al color primario de la marca */
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background-color: var(--border-color);
+    color: var(--text-muted-color);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &.full-width {
+    width: 100%;
+  }
+}

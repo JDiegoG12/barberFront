@@ -1,12 +1,11 @@
-.list-container {
-  max-width: 1200px;
-  margin: 4rem auto; // Espacio arriba y abajo
-  padding: 0 1rem; // Espacio a los lados en pantallas pequeñas
+.section-container {
+  padding: 2rem 0; 
+  width: 100%;
 }
 
-.services-grid {
+.grid-list {
   display: grid;
-  // En pantallas grandes, 3 columnas. En medianas, 2. En pequeñas, 1.
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem; // Espacio entre las tarjetas
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem; 
+  margin-top: 2rem;
 }

@@ -1,0 +1,110 @@
+.hero-container {
+  position: relative;
+  /* Altura: Ocupa el 85% de la altura de la pantalla, dejando ver un poco lo de abajo */
+  height: 85vh; 
+  min-height: 600px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--background-color);
+}
+
+/* IMAGEN DE FONDO ANIMADA (Ken Burns Effect) */
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* La animación: Zoom lento infinito */
+    animation: slowZoom 20s infinite alternate ease-in-out;
+  }
+}
+
+/* OVERLAY (Para que el texto blanco se lea sobre cualquier foto) */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom, 
+    rgba(0,0,0,0.3), 
+    rgba(0,0,0,0.7)
+  );
+  z-index: 1;
+}
+
+/* CONTENIDO */
+.hero-content {
+  position: relative;
+  z-index: 2; /* Encima de todo */
+  max-width: 800px;
+  padding: 0 24px;
+  color: #FFFFFF; /* Texto blanco fijo porque el fondo es oscuro */
+  
+  /* Animación de entrada del texto */
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.hero-subtitle {
+  display: block;
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--primary-color); /* Tu color dorado */
+  font-weight: 600;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem); /* Tipografía responsiva grande */
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif; /* Asegúrate de usar tu fuente */
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ANIMACIONES */
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ajuste Móvil */
+@media (max-width: 768px) {
+  .hero-container {
+    height: 75vh; /* Un poco más corto en móvil */
+  }
+}

@@ -1,0 +1,51 @@
+/* Layout base */
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  padding-bottom: 100px;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Estilos exclusivos para Escritorio (Desktop) */
+@media (min-width: 1024px) {
+  .home-layout {
+    display: grid;
+    /* Definimos 12 columnas totales */
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    padding: 3rem 2rem;
+  }
+
+  /* Columna de contenido (8 de 12 = ~66%) */
+  .content-column {
+    grid-column: span 8;
+  }
+
+  /* Columna lateral (4 de 12 = ~33%) */
+  .sidebar-column {
+    grid-column: span 4;
+    height: 100%;
+    /* Necesario para que el sticky tenga carril por donde moverse */
+  }
+
+  /* Lógica Sticky */
+  app-business-summary-card {
+    display: block;
+    position: sticky;
+    /* Se pega 100px abajo del top de la ventana (dejando espacio para el Navbar) */
+    top: 100px;
+    /* Importante: El elemento dejará de ser sticky cuando llegue al final de .sidebar-column,
+       el cual termina justo antes del footer gracias a la estructura del Grid */
+  }
+}
+
+/* Ajustes móviles por defecto */
+.sidebar-column {
+  /* En móvil ponemos la carta al final o al principio según prefieras.
+     Por defecto HTML la pone al final. */
+  margin-top: 2rem;
+}

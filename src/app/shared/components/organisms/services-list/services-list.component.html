@@ -1,17 +1,14 @@
-<div class="list-container">
-  <!-- 6. Usamos nuestro átomo de título -->
-  <app-section-title title="Nuestros Servicios"></app-section-title>
-
-  <!-- 7. Creamos una grilla para las tarjetas -->
-  <div class="services-grid">
-    <!-- 8. Usamos el pipe 'async' para suscribirnos al observable 'services$' -->
-    <!-- y el nuevo bloque @for para iterar -->
-    @for (service of services$ | async; track service.id) {
-      <!-- 9. Por cada servicio, renderizamos nuestra molécula de tarjeta -->
-      <app-service-card [service]="service"></app-service-card>
-    } @empty {
-      <!-- Esto se muestra si la lista de servicios está vacía -->
-      <p>No hay servicios disponibles en este momento.</p>
-    }
+<section class="section-container">
+  <app-section-title title="Nuestros Servicios" subtitle="Calidad y estilo para ti"></app-section-title>
+  
+  <div class="grid-list">
+    <ng-container *ngIf="services$ | async as services">
+      <app-service-card 
+        *ngFor="let service of services" 
+        [service]="service"
+        [isSelected]="selectedService?.id === service.id"
+        (toggleSelection)="handleSelection(service)">
+      </app-service-card>
+    </ng-container>
   </div>
-</div>
+</section>

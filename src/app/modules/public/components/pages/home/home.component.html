@@ -1,6 +1,40 @@
-<!-- 3. Envolvemos todo con nuestra plantilla pública -->
 <app-public-template>
-  <app-services-list id="seccion-servicios"></app-services-list>
-  <app-barbers-list id="seccion-barberos"></app-barbers-list>
-  <app-info-section id="seccion-contacto"></app-info-section>
+  <app-hero-section></app-hero-section>
+  <!-- Contenedor principal del Layout Grid -->
+  <div class="home-layout">
+    
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="content-column">
+      <app-services-list 
+        id="seccion-servicios"
+        [selectedService]="selectedService"
+        (onServiceSelect)="toggleService($event)">
+      </app-services-list>
+      
+      <app-barbers-list id="seccion-barberos"></app-barbers-list>
+      <app-info-section id="seccion-contacto"></app-info-section>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="sidebar-column">
+      <app-business-summary-card
+        [selectedService]="selectedService"
+        (onReserveClick)="handleReservationAttempt()">
+      </app-business-summary-card>
+    </div>
+
+  </div>
+
+  <!-- MODAL DE ALERTA PARA INVITADOS -->
+  <!-- Se muestra encima de todo gracias al z-index del componente -->
+  <app-modal-alert
+    *ngIf="showGuestModal"
+    title="Inicia sesión para reservar"
+    message="Para agendar tu cita con nosotros, necesitas identificarte. Si aún no tienes cuenta, puedes registrarte gratis."
+    confirmLabel="Iniciar Sesión"
+    cancelLabel="Cancelar"
+    (onConfirm)="redirectToLogin()"
+    (onCancel)="showGuestModal = false">
+  </app-modal-alert>
+
 </app-public-template>

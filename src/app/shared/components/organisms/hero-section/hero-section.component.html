@@ -1,0 +1,35 @@
+<section class="hero-container">
+  
+  <!-- Capa de Fondo con Animación -->
+  <div class="hero-background">
+    <!-- Imagen de ejemplo de barbería elegante -->
+    <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop" alt="Ambiente de la barbería">
+  </div>
+
+  <!-- Capa Oscura para contraste -->
+  <div class="hero-overlay"></div>
+
+  <!-- Contenido de Texto -->
+  <div class="hero-content">
+    <!-- Badge o texto pequeño superior -->
+    <span class="hero-subtitle">ESTILO & TRADICIÓN</span>
+    
+    <h1 class="hero-title">
+      Tu mejor versión <br>
+      comienza aquí
+    </h1>
+    
+    <p class="hero-description">
+      Disfruta de una experiencia de barbería premium donde la técnica clásica se encuentra con el estilo moderno.
+    </p>
+
+    <div class="hero-actions">
+      <!-- Usamos tu átomo existente -->
+      <app-primary-button 
+        label="Reservar Cita" 
+        (onClick)="scrollToServices()">
+      </app-primary-button>
+    </div>
+  </div>
+
+</section>

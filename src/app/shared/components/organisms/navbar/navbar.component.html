@@ -19,12 +19,18 @@
     <li><a routerLink="/" fragment="seccion-barberos" (click)="isMenuOpen = false">Barberos</a></li>
     <li><a routerLink="/" fragment="seccion-contacto" (click)="isMenuOpen = false">Contacto</a></li>
 
+    <!-- Acciones Móviles -->
     <li class="navbar-actions-mobile">
-      <app-theme-toggle></app-theme-toggle>
+      <button class="btn-login full-width" (click)="isMenuOpen = false">Iniciar Sesión</button>
+      <div class="theme-toggle-wrapper">
+        <app-theme-toggle></app-theme-toggle>
+      </div>
     </li>
   </ul>
 
+  <!-- Acciones Desktop -->
   <div class="navbar-actions-desktop">
     <app-theme-toggle></app-theme-toggle>
+    <button class="btn-login">Iniciar Sesión</button>
   </div>
 </nav>

@@ -1,0 +1,43 @@
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background-color: transparent;
+  color: var(--text-color); /* Este color pinta las líneas del SVG (stroke="currentColor") */
+  
+  /* Centrado perfecto del SVG */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0; /* Importante para quitar padding nativo de botones */
+
+  &:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(0,0,0,0.02);
+  }
+
+  &.selected {
+    background-color: var(--text-color); /* Fondo oscuro */
+    border-color: var(--text-color);
+    color: var(--surface-color); /* El SVG se pintará blanco/claro */
+    
+    /* Opcional: Animación al seleccionar */
+    animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* Asegura que el SVG no capture eventos de ratón */
+  svg {
+    pointer-events: none;
+    display: block; /* Elimina espacios fantasma */
+  }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); }
+  100% { transform: scale(1); }
+}

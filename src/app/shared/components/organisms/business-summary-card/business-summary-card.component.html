@@ -1,0 +1,72 @@
+<div class="summary-card">
+  
+  <!-- 1. INFO NEGOCIO (Solo Desktop) -->
+  <div class="desktop-only-section">
+    <div class="business-header">
+      <h2 class="business-name">Barbería</h2>
+      <p class="business-description">Reserva tu cita para disfrutar de nuestros servicios.</p>
+    </div>
+    <hr class="divider">
+  </div>
+
+  <!-- 2. SECCIÓN DINÁMICA (Visible en ambos) -->
+  <div class="booking-section">
+    
+    <!-- CASO A: Hay servicio seleccionado -->
+    <div *ngIf="selectedService; else noServiceTemplate" class="service-summary">
+      <div class="service-details">
+        <span class="service-name">{{ selectedService.name }}</span>
+        <div class="service-meta">
+          <span class="duration">{{ selectedService.duration }} min</span>
+          <span class="separator">•</span>
+          <span class="price">{{ selectedService.price | currency:'COP':'symbol':'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="action-button-wrapper">
+        <app-primary-button 
+          label="Reservar" 
+          [fullWidth]="true"
+          (onClick)="handleReserve()">
+        </app-primary-button>
+      </div>
+    </div>
+
+    <!-- CASO B: No hay servicio -->
+    <ng-template #noServiceTemplate>
+      <div class="empty-state">
+        <div class="text-wrapper">
+          <!-- Texto corto para móvil, largo para PC -->
+          <p class="instruction-text">
+            <span class="mobile-text">Elige un servicio</span>
+            <span class="desktop-text">Selecciona un servicio de la lista para iniciar tu proceso de reserva.</span>
+          </p>
+        </div>
+        
+        <div class="action-button-wrapper">
+          <app-primary-button 
+            label="Reservar" 
+            [fullWidth]="true" 
+            [disabled]="true">
+          </app-primary-button>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+
+  <!-- 3. INFO FOOTER (Solo Desktop) -->
+  <div class="desktop-only-section">
+    <hr class="divider">
+    <div class="info-footer">
+      <div class="info-item">
+        <span class="icon">📍</span>
+        <div class="text-content">
+          <span class="address">Calle 2 Norte 15, Popayán</span>
+          <a href="#seccion-contacto" class="link">Cómo llegar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

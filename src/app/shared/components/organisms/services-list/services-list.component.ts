@@ -1,30 +1,33 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
-
-// 1. Importamos todo lo que necesitamos
-import { Service } from '../../../../core/models/views/service.view.model';
+import { ServiceCardComponent } from '../../molecules/service-card/service-card.component';
 import { ServiceService } from '../../../../core/services/api/service.service';
 import { SectionTitleComponent } from '../../atoms/section-title/section-title.component';
-import { ServiceCardComponent } from '../../molecules/service-card/service-card.component';
+import { Observable } from 'rxjs';
+import { Service } from '../../../../core/models/views/service.view.model';
 
 @Component({
   selector: 'app-services-list',
   standalone: true,
-  // 2. Añadimos los componentes que usará este organismo
-  imports: [CommonModule, SectionTitleComponent, ServiceCardComponent],
+  imports: [CommonModule, ServiceCardComponent, SectionTitleComponent],
   templateUrl: './services-list.component.html',
   styleUrl: './services-list.component.scss'
 })
 export class ServicesListComponent implements OnInit {
-  // 3. Inyectamos el servicio para obtener los datos
   private serviceService = inject(ServiceService);
-
-  // 4. Creamos una propiedad para almacenar los servicios
   public services$!: Observable<Service[]>;
 
+  // Recibimos del Home cuál es el servicio seleccionado actualmente
+  @Input() selectedService: Service | null = null;
+
+  // Avisamos al Home que el usuario quiere seleccionar/deseleccionar este servicio
+  @Output() onServiceSelect = new EventEmitter<Service>();
+
   ngOnInit(): void {
-    // 5. Al iniciar el componente, llamamos al servicio
     this.services$ = this.serviceService.getServices();
+  }
+
+  handleSelection(service: Service): void {
+    this.onServiceSelect.emit(service);
   }
 }

@@ -1,53 +1,78 @@
 :host {
   display: block;
+  height: 100%;
 }
 
 .card-container {
   background-color: var(--surface-color);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border-radius: 12px; /* Un poco más redondeado para modernidad */
+  border: 2px solid transparent; /* Borde transparente por defecto para evitar saltos de tamaño */
+  box-shadow: 0 0 0 1px var(--border-color); /* Simulamos el borde gris sutil */
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: all 0.3s ease;
+  cursor: pointer; /* Cursor de mano para indicar interactividad */
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-color); /* Feedback visual al pasar el mouse */
+  }
+
+  /* ESTADO SELECCIONADO */
+  &.selected {
+    border-color: var(--text-color); /* Borde oscuro fuerte al seleccionar (Estilo Fresha/Uber) */
+    background-color: var(--background-color); /* Un sutil cambio de fondo */
   }
 }
 
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--secondary-color);
+/* Nuevo contenedor para alinear Título y Botón */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color); /* Usamos text-color en lugar de secondary para mayor contraste principal */
+  margin: 0;
+  line-height: 1.4;
 }
 
 .card-description {
   font-size: 0.9rem;
   color: var(--text-muted-color);
-  flex-grow: 1; /* Asegura que la descripción empuje el footer hacia abajo */
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
   font-weight: 500;
 }
 
 .card-duration {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-muted-color);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .card-price {
   font-size: 1.1rem;
-  color: var(--primary-color);
+  font-weight: 600;
+  color: var(--text-color);
 }

@@ -42,6 +42,32 @@
   }
 }
 
+/* === NUEVOS ESTILOS PARA EL BOTÓN DE LOGIN === */
+.btn-login {
+  background-color: transparent;
+  border: 1px solid var(--text-color); /* Borde sutil del color del texto */
+  color: var(--text-color);
+  padding: 0.5rem 1.2rem;
+  border-radius: 24px; /* Bordes redondeados */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: var(--text-color);
+    color: var(--surface-color); /* Invertimos colores al pasar el mouse */
+  }
+}
+
+.navbar-actions-desktop {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Espacio entre el toggle y el botón */
+}
+
 // Ocultamos la versión móvil de las acciones por defecto
 .navbar-actions-mobile {
   display: none;
@@ -101,7 +127,20 @@
 
   // Mostramos la versión móvil de las acciones dentro del menú
   .navbar-actions-mobile {
-    display: block;
-    margin-top: 2rem; // Espacio extra arriba
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0 2rem; /* Padding lateral para el botón full width */
+  }
+
+  /* Botón específico para móvil */
+  .btn-login.full-width {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.8rem;
+    font-size: 1.1rem;
   }
 }

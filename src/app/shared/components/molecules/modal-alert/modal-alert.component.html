@@ -1,0 +1,27 @@
+<!-- Capa de fondo (Backdrop) -->
+<!-- Al hacer click afuera (en el fondo oscuro), se cancela/cierra -->
+<div class="modal-overlay" (click)="onCancel.emit()">
+  
+  <!-- La caja del mensaje -->
+  <div class="modal-card" (click)="stopPropagation($event)">
+    <h3 class="modal-title">{{ title }}</h3>
+    
+    <p class="modal-message">
+      {{ message }}
+    </p>
+
+    <div class="modal-actions">
+      <!-- Botón Secundario (Texto simple para cancelar) -->
+      <button class="btn-text" (click)="onCancel.emit()">
+        {{ cancelLabel }}
+      </button>
+
+      <!-- Botón Primario (Tu componente átomo) -->
+      <app-primary-button 
+        [label]="confirmLabel" 
+        (onClick)="onConfirm.emit()">
+      </app-primary-button>
+    </div>
+  </div>
+
+</div>
