@@ -1,0 +1,64 @@
+/* ===============================================
+   LAYOUT GENERAL (Móvil First)
+   =============================================== */
+.client-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  
+  /* Espacio inferior crítico para que la barra fija en móvil no tape contenido */
+  padding-bottom: 100px; 
+  
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ===============================================
+   LAYOUT ESCRITORIO (Desktop)
+   =============================================== */
+@media (min-width: 1024px) {
+  .client-layout {
+    display: grid;
+    /* Definimos 12 columnas totales */
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    padding: 3rem 2rem;
+    
+    /* Restauramos el padding normal en desktop (ya no hay barra fija) */
+    padding-bottom: 3rem;
+  }
+
+  /* Columna de contenido (Izquierda - 66%) */
+  .content-column {
+    grid-column: span 8;
+  }
+
+  /* Columna lateral (Derecha - 33%) */
+  .sidebar-column {
+    grid-column: span 4;
+    height: 100%; /* Carril para el sticky */
+  }
+
+  /* Lógica Sticky y Centrado de la Tarjeta */
+  app-business-summary-card {
+    display: block;
+    position: sticky;
+    
+    /* Se pega 100px abajo del top de la ventana */
+    top: 100px; 
+    
+    /* Ajustes visuales para centrarla en su columna */
+    width: 100%;
+    max-width: 380px; 
+    margin: 0 auto; 
+  }
+}
+
+/* Ajustes para móvil */
+.sidebar-column {
+  /* En móvil, la carta es una barra fija controlada por su propio CSS,
+     este margen es solo por si acaso */
+  margin-top: 0; 
+}

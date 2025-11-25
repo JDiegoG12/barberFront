@@ -17,7 +17,7 @@
       <div class="service-details">
         <span class="service-name">{{ selectedService.name }}</span>
         <div class="service-meta">
-          <span class="duration">{{ selectedService.duration }} min</span>
+          <span class="duration">{{ selectedService.duration | duration }}</span>
           <span class="separator">•</span>
           <span class="price">{{ selectedService.price | currency:'COP':'symbol':'1.0-0' }}</span>
         </div>
@@ -63,7 +63,7 @@
         <span class="icon">📍</span>
         <div class="text-content">
           <span class="address">Calle 2 Norte 15, Popayán</span>
-          <a href="#seccion-contacto" class="link">Cómo llegar</a>
+          <a href="#" class="link" (click)="scrollToContact($event)">Cómo llegar</a>
         </div>
       </div>
     </div>

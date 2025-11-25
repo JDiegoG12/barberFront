@@ -1,0 +1,51 @@
+<!--
+  SECCIÓN HERO (Reutilizada)
+  Muestra el banner principal de bienvenida. Se reutiliza el mismo componente que en la vista pública
+  para mantener la consistencia de marca, aunque el usuario ya esté autenticado.
+-->
+<app-hero-section></app-hero-section>
+
+<!--
+  CONTENEDOR PRINCIPAL DEL LAYOUT
+  Define la estructura de rejilla (Grid) para la página del cliente.
+  En escritorio, divide la pantalla en contenido principal (izquierda) y barra lateral (derecha).
+  En móviles, apila el contenido verticalmente.
+-->
+<div class="client-layout">
+  
+  <!--
+    COLUMNA DE CONTENIDO (Izquierda / Principal)
+    Contiene los organismos interactivos para la exploración de la oferta del negocio.
+  -->
+  <div class="content-column">
+    <!--
+      Lista de Servicios:
+      - [selectedService]: Recibe el estado actual para marcar visualmente la tarjeta seleccionada.
+      - (onServiceSelect): Emite el evento cuando el usuario elige o deselecciona un servicio.
+    -->
+    <app-services-list 
+      id="seccion-servicios"
+      [selectedService]="selectedService"
+      (onServiceSelect)="toggleService($event)">
+    </app-services-list>
+    
+    <!-- Lista de Barberos (Visualización del equipo) -->
+    <app-barbers-list id="seccion-barberos"></app-barbers-list>
+    
+    <!-- Información de Contacto y Ubicación -->
+    <app-info-section id="seccion-contacto"></app-info-section>
+  </div>
+
+  <!--
+    COLUMNA LATERAL (Derecha / Sticky)
+    Contiene la tarjeta de resumen que "persigue" al usuario durante el scroll (Sticky).
+    Actúa como el punto de acción principal para iniciar el flujo de reserva.
+  -->
+  <div class="sidebar-column">
+    <app-business-summary-card
+      [selectedService]="selectedService"
+      (onReserveClick)="handleReservationFlow()">
+    </app-business-summary-card>
+  </div>
+
+</div>

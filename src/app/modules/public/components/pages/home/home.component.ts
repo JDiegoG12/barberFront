@@ -12,6 +12,13 @@ import { HeroSectionComponent } from '../../../../../shared/components/organisms
 // Modelos
 import { Service } from '../../../../../core/models/views/service.view.model';
 
+/**
+ * Componente de página principal (Landing Page) para la vista pública de la aplicación.
+ * Actúa como el controlador de la experiencia del usuario invitado (no autenticado),
+ * integrando las secciones de Hero, Servicios, Barberos e Información de contacto.
+ * Gestiona la interacción inicial de selección de servicios y restringe el acceso
+ * al flujo de reserva mediante un modal de inicio de sesión.
+ */
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -29,14 +36,27 @@ import { Service } from '../../../../../core/models/views/service.view.model';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  // Estado del servicio seleccionado
+  /**
+   * Almacena el servicio que el usuario ha seleccionado de la lista pública.
+   * Utilizado para mostrar el resumen en la tarjeta lateral y validar la intención de reserva.
+   */
   public selectedService: Service | null = null;
   
-  // Estado del modal de invitado
+  /**
+   * Bandera que controla la visibilidad del modal de "Inicio de Sesión Requerido".
+   * Se activa cuando un invitado intenta proceder con una reserva.
+   */
   public showGuestModal: boolean = false;
 
   constructor(private router: Router) {}
 
+  /**
+   * Gestiona la lógica de selección y deselección de servicios.
+   * Si el usuario hace clic en el servicio que ya estaba activo, lo deselecciona.
+   * De lo contrario, actualiza el estado con el nuevo servicio.
+   *
+   * @param service - El objeto de servicio interactuado.
+   */
   toggleService(service: Service): void {
     if (this.selectedService?.id === service.id) {
       this.selectedService = null;
@@ -46,20 +66,22 @@ export class HomeComponent {
   }
 
   /**
-   * Se ejecuta al dar click en "Reservar".
-   * Lógica Actual: Simula comportamiento de Invitado -> Muestra Modal.
-   * Lógica Futura: Verificará Auth y decidirá si mostrar modal o ir a pagar.
+   * Maneja el evento de clic en el botón "Reservar" de la tarjeta de resumen.
+   * En el contexto de usuario invitado, este método intercepta el flujo para
+   * mostrar el modal que solicita autenticación antes de continuar.
    */
   handleReservationAttempt(): void {
     this.showGuestModal = true;
   }
 
   /**
-   * Acción al confirmar en el modal
+   * Ejecuta la redirección hacia la página de inicio de sesión.
+   * Se invoca cuando el usuario confirma en el modal que desea autenticarse
+   * para proceder con la reserva.
    */
   redirectToLogin(): void {
     this.showGuestModal = false;
-    console.log('Redirigiendo al login...');
+    //console.log('Redirigiendo al login...');
     // this.router.navigate(['/login']); // Descomentar cuando exista la ruta
   }
 }

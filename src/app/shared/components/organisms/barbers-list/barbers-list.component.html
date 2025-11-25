@@ -1,12 +1,20 @@
 <div class="list-container">
-  <div class="barbers-grid-wrapper">
-    <app-section-title title="Nuestro Equipo"></app-section-title>
-    <div class="barbers-grid">
+  <div class="barbers-wrapper">
+    
+    <app-section-title title="Nuestro Equipo" subtitle="Profesionales a tu servicio"></app-section-title>
+    
+    <div class="barbers-carousel">
+      <!-- Iteramos los barberos -->
       @for (barber of barbers$ | async; track barber.id) {
-        <app-barber-card [barber]="barber"></app-barber-card>
+        <div class="carousel-item">
+          <app-barber-card [barber]="barber"></app-barber-card>
+        </div>
       } @empty {
-        <p>No hay barberos disponibles en este momento.</p>
+        <div class="empty-state">
+          <p>No hay barberos disponibles en este momento.</p>
+        </div>
       }
     </div>
+
   </div>
 </div>

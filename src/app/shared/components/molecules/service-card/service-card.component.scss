@@ -5,74 +5,115 @@
 
 .card-container {
   background-color: var(--surface-color);
-  border-radius: 12px; /* Un poco más redondeado para modernidad */
-  border: 2px solid transparent; /* Borde transparente por defecto para evitar saltos de tamaño */
-  box-shadow: 0 0 0 1px var(--border-color); /* Simulamos el borde gris sutil */
-  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  /* REDUCCIÓN DE ESPACIO: De 1.5rem a 1rem */
+  padding: 1rem; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  transition: all 0.3s ease;
-  cursor: pointer; /* Cursor de mano para indicar interactividad */
+  min-height: 140px; /* Altura mínima controlada */
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative; /* Para posicionar elementos internos si fuera necesario */
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border-color: var(--primary-color); /* Feedback visual al pasar el mouse */
+    transform: translateY(-2px); /* Movimiento más sutil */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary-color);
   }
 
-  /* ESTADO SELECCIONADO */
+  /* --- ESTADO SELECCIONADO --- */
   &.selected {
-    border-color: var(--text-color); /* Borde oscuro fuerte al seleccionar (Estilo Fresha/Uber) */
-    background-color: var(--background-color); /* Un sutil cambio de fondo */
+    border-color: var(--text-color);
+    background-color: var(--background-color);
+    box-shadow: 0 0 0 1px var(--text-color); /* Borde doble sutil */
+  }
+
+  /* --- ESTADO NO DISPONIBLE --- */
+  &.unavailable {
+    opacity: 0.6;
+    background-color: var(--background-color); /* Fondo grisáceo */
+    cursor: not-allowed;
+    border-style: dashed; /* Indicador visual de "no activo" */
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--border-color);
+    }
+
+    .card-title, .card-price {
+      color: var(--text-muted-color);
+    }
   }
 }
 
-/* Nuevo contenedor para alinear Título y Botón */
 .card-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .card-title {
-  font-size: 1.1rem;
+  /* REDUCCIÓN FUENTE: De 1.1rem a 0.95rem */
+  font-size: 0.95rem; 
   font-weight: 600;
-  color: var(--text-color); /* Usamos text-color en lugar de secondary para mayor contraste principal */
+  color: var(--text-color);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .card-description {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-muted-color);
   flex-grow: 1;
-  margin-bottom: 1rem;
-  line-height: 1.5;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  
+  /* Limitar descripción a 2 líneas para mantener compacidad */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--border-color);
   font-weight: 500;
 }
 
 .card-duration {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted-color);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+
+  svg {
+    color: var(--text-muted-color);
+  }
 }
 
 .card-price {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-color); /* Usamos text color para limpieza, o primary para destacar */
+}
+
+.badge-unavailable {
+  font-size: 0.6rem;
+  background-color: var(--border-color);
+  color: var(--text-muted-color);
+  padding: 2px 6px;
+  border-radius: 4px;
   font-weight: 600;
-  color: var(--text-color);
+  text-transform: uppercase;
 }

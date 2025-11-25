@@ -1,0 +1,112 @@
+.grid-container {
+  width: 100%;
+  margin-top: 2rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* --- PESTAÑAS DE FILTRO --- */
+.filter-tabs {
+  display: flex;
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    color: var(--text-color);
+    background-color: rgba(0,0,0,0.02);
+  }
+
+  &.active {
+    background-color: var(--text-color);
+    color: var(--surface-color);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    /* Invertir color del badge al estar activo */
+    .count-badge {
+      background-color: rgba(255,255,255,0.2);
+      color: var(--surface-color);
+    }
+  }
+}
+
+.count-badge {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* --- GRILLA --- */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+/* --- ESTADOS VACÍOS --- */
+.info-message {
+  text-align: center;
+  color: var(--text-muted-color);
+  padding: 2rem;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  border: 1px dashed var(--border-color);
+}
+
+.filter-empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted-color);
+  font-style: italic;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted-color);
+  background-color: var(--background-color);
+  border-radius: 12px;
+
+  svg {
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+
+  p {
+    font-size: 0.95rem;
+    max-width: 300px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

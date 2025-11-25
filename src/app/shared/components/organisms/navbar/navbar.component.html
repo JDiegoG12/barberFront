@@ -1,7 +1,19 @@
 <nav class="navbar-container">
   <div class="navbar-brand">
-    <!-- Se usa routerLink para evitar recargar la página -->
-    <a routerLink="/">Barbería</a>
+    <a [routerLink]="user ? '/client' : '/'">Barbería</a>
+  </div>
+
+  <!-- === CONTENIDO VISIBLE EN CABECERA MÓVIL === -->
+  <div class="mobile-header-content">
+    <!-- Caso Invitado: Botón pequeño de entrar -->
+    <button *ngIf="!user" class="btn-login-mobile-header" routerLink="/login">
+      Iniciar Sesión
+    </button>
+    
+    <!-- Caso Cliente: Saludo -->
+    <span *ngIf="user" class="greeting-mobile-header">
+      Hola, {{ user.firstName }}
+    </span>
   </div>
 
   <button class="navbar-toggle" (click)="toggleMenu()">
@@ -12,25 +24,52 @@
     </svg>
   </button>
 
+  <!-- MENÚ DESPLEGABLE -->
   <ul class="navbar-links" [class.is-open]="isMenuOpen">
-    <!-- Se [routerLink] y [fragment] para la navegación suave en la SPA -->
-    <li><a routerLink="/" (click)="isMenuOpen = false">Inicio</a></li>
-    <li><a routerLink="/" fragment="seccion-servicios" (click)="isMenuOpen = false">Servicios</a></li>
-    <li><a routerLink="/" fragment="seccion-barberos" (click)="isMenuOpen = false">Barberos</a></li>
-    <li><a routerLink="/" fragment="seccion-contacto" (click)="isMenuOpen = false">Contacto</a></li>
+    
+    <!-- Enlaces comunes -->
+    <li><a [routerLink]="user ? '/client' : '/'" (click)="isMenuOpen = false">Inicio</a></li>
+    <li><a [routerLink]="user ? '/client' : '/'" fragment="seccion-servicios" (click)="isMenuOpen = false">Servicios</a></li>
+    <li><a [routerLink]="user ? '/client' : '/'" fragment="seccion-barberos" (click)="isMenuOpen = false">Barberos</a></li>
+    <li><a [routerLink]="user ? '/client' : '/'" fragment="seccion-contacto" (click)="isMenuOpen = false">Contacto</a></li>
 
-    <!-- Acciones Móviles -->
+    <!-- Enlace Cliente -->
+    <li *ngIf="user">
+      <a routerLink="/client/reservations" (click)="isMenuOpen = false" class="nav-highlight">Mis Reservas</a>
+    </li>
+
+    <!-- Acciones Móviles (Dentro del menú) -->
     <li class="navbar-actions-mobile">
-      <button class="btn-login full-width" (click)="isMenuOpen = false">Iniciar Sesión</button>
+      
+      <!-- Nota: Ya no ponemos el botón de Login aquí porque está arriba -->
+
+      <!-- Caso Cliente: Botón Cerrar Sesión -->
+      <div *ngIf="user" class="mobile-user-info">
+        <button class="btn-logout-mobile" (click)="handleLogout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Cerrar Sesión
+        </button>
+      </div>
+
       <div class="theme-toggle-wrapper">
         <app-theme-toggle></app-theme-toggle>
       </div>
     </li>
   </ul>
 
-  <!-- Acciones Desktop -->
+  <!-- ACCIONES DESKTOP  -->
   <div class="navbar-actions-desktop">
     <app-theme-toggle></app-theme-toggle>
-    <button class="btn-login">Iniciar Sesión</button>
+    <button *ngIf="!user" class="btn-login">Iniciar Sesión</button>
+    <div *ngIf="user" class="user-menu-desktop">
+      <span class="greeting">Hola, {{ user.firstName }}</span>
+      <button class="btn-logout-icon" (click)="handleLogout()" title="Cerrar Sesión">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>

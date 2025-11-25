@@ -1,0 +1,62 @@
+<div class="summary-card">
+  
+  <!-- TÍTULO (Solo Desktop) -->
+  <h3 class="card-title desktop-only-section">Resumen de reserva</h3>
+  
+  <!-- CONTENIDO PRINCIPAL (Barra en Móvil / Lista en Desktop) -->
+  <div class="mobile-bar-content">
+    
+    <!-- INFO SERVICIO (Siempre visible) -->
+    <div class="service-info-group" *ngIf="service">
+      <!-- En móvil esto se alinea a la izquierda -->
+      <span class="service-name">{{ service.name }}</span>
+      <div class="service-meta">
+        <span class="duration desktop-only-text">{{ service.duration | duration }} </span>
+        <span class="price">{{ service.price | currency:'COP':'symbol':'1.0-0' }}</span>
+      </div>
+    </div>
+
+    <!-- DETALLES ADICIONALES (Solo Desktop: Barbero y Fecha) -->
+    <div class="desktop-details desktop-only-section">
+      
+      <!-- Barbero -->
+      <div class="summary-item" *ngIf="barber">
+        <hr class="divider">
+        <span class="item-label">Profesional</span>
+        <div class="item-value flex-row">
+          <img [src]="barber.photoUrl" alt="Avatar" class="mini-avatar">
+          <span>{{ barber.name }} {{ barber.lastName }}</span>
+        </div>
+      </div>
+
+      <!-- Fecha y Hora -->
+      <div class="summary-item" *ngIf="date">
+        <hr class="divider">
+        <span class="item-label">Fecha y Hora</span>
+        <div class="item-value">
+          <span class="date-text capitalized">{{ formattedDate }}</span>
+          <span *ngIf="timeSlot" class="time-badge">{{ timeSlot.label }}</span>
+        </div>
+      </div>
+
+      <!-- Total (Visualmente separado en desktop) -->
+      <hr class="divider">
+      <div class="total-row">
+        <span>Total a pagar</span>
+        <!-- El precio ya se muestra arriba en móvil, aquí se repite para estructura desktop -->
+        <span class="total-price">{{ service?.price | currency:'COP':'symbol':'1.0-0' }}</span>
+      </div>
+    </div>
+
+    <!-- BOTÓN DE ACCIÓN (Siempre visible, a la derecha en móvil) -->
+    <div class="action-wrapper">
+      <app-primary-button 
+        [label]="buttonLabel" 
+        [fullWidth]="true"
+        [disabled]="isDisabled"
+        (onClick)="handleClick()">
+      </app-primary-button>
+    </div>
+
+  </div>
+</div>

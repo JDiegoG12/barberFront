@@ -1,0 +1,213 @@
+/* ===============================================
+   ESTILOS BASE (MÓVIL - BARRA INFERIOR FIJA)
+   =============================================== */
+:host {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.summary-card {
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  padding: 16px 24px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  
+  /* En móvil, el contenedor principal actúa como wrapper del flex */
+  width: 100%;
+}
+
+/* Ocultar elementos exclusivos de Desktop */
+.desktop-only-section { display: none; }
+.desktop-only-text { display: none; }
+
+/* Layout Flex para la barra móvil (Info Izq - Botón Der) */
+.mobile-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+/* Estilos del Servicio en la Barra Móvil */
+.service-info-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  .service-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  .service-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 0.9rem;
+    
+    .price {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+  }
+}
+
+/* Botón en Móvil */
+.action-wrapper {
+  min-width: 140px; /* Ancho fijo para el botón */
+  flex-shrink: 0;
+}
+
+
+/* ===============================================
+   ESTILOS DESKTOP (TARJETA LATERAL STICKY)
+   =============================================== */
+@media (min-width: 1024px) {
+  :host {
+    position: static; /* Controlado por el grid padre */
+    z-index: auto;
+  }
+
+  .summary-card {
+    /* Restaurar estilo de tarjeta */
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    
+    /* Resetear ancho */
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  /* Mostrar elementos Desktop */
+  .desktop-only-section { display: block; }
+  .desktop-only-text { display: inline; }
+
+  /* Restaurar flujo vertical */
+  .mobile-bar-content {
+    display: block; /* Ya no es flex row */
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 1.5rem 0;
+  }
+
+  /* Re-estilizar info del servicio para Desktop */
+  .service-info-group {
+    margin-bottom: 1rem;
+    
+    .service-name {
+      font-size: 1.1rem;
+      white-space: normal; /* Permitir saltos de línea */
+      max-width: 100%;
+      margin-bottom: 4px;
+    }
+
+    .service-meta {
+      display: flex;
+      justify-content: space-between; /* Precio a la derecha */
+      color: var(--text-muted-color);
+      font-weight: 500;
+    }
+  }
+
+  /* Detalles (Barbero, Fecha) */
+  .desktop-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .item-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted-color);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+
+  .item-value {
+    font-size: 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+
+    &.flex-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+    opacity: 0.5;
+  }
+
+  .mini-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+  }
+
+  .date-text {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .capitalized { text-transform: capitalize; }
+
+  .time-badge {
+    display: inline-block;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  /* Total y Botón en Desktop */
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    
+    /* En desktop el precio del .service-info-group puede ocultarse o dejarse, 
+       pero aquí destacamos el total */
+  }
+
+  .action-wrapper {
+    width: 100%; /* Botón full width */
+    margin-top: 1rem;
+  }
+}

@@ -1,0 +1,131 @@
+<!--
+  VISTA PRINCIPAL DE GESTIÓN DE RESERVAS
+  Contenedor global que organiza el historial y las citas futuras del cliente.
+  Utiliza un diseño centrado con ancho máximo para facilitar la lectura en pantallas grandes.
+-->
+<div class="page-container">
+  
+  <!-- Encabezado de la sección -->
+  <div class="header-section">
+    <h1 class="page-title">Mis Reservas</h1>
+  </div>
+
+  <!--
+    NAVEGACIÓN POR PESTAÑAS (TABS)
+    Permite alternar la vista entre reservas 'Próximas' (activas) e 'Historial' (pasadas).
+    Incluye un 'badge' numérico para notificar rápidamente cuántas citas activas tiene el usuario.
+  -->
+  <div class="tabs-container">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'upcoming'"
+      (click)="setTab('upcoming')">
+      Próximas
+      <span class="badge" *ngIf="upcomingReservations.length > 0">{{ upcomingReservations.length }}</span>
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'history'"
+      (click)="setTab('history')">
+      Historial
+    </button>
+  </div>
+
+  <!-- ÁREA DE CONTENIDO DINÁMICO -->
+  <div class="content-area">
+    
+    <!--
+      VISTA: RESERVAS PRÓXIMAS
+      Se muestra solo si la pestaña activa es 'upcoming'.
+      Contiene lógica para mostrar la lista de tarjetas o un estado vacío (Empty State).
+    -->
+    <div *ngIf="activeTab === 'upcoming'" class="reservations-list fade-in">
+      
+      <ng-container *ngIf="upcomingReservations.length > 0; else noUpcoming">
+        
+        <!--
+          BANNER DE POLÍTICAS (UX)
+          Elemento informativo visualmente destacado que recuerda al usuario las reglas de negocio
+          (cancelación/reprogramación solo hasta 1 hora antes) para evitar frustraciones.
+        -->
+        <div class="policy-banner">
+          <div class="icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <p class="policy-text">
+            Puedes cancelar o reprogramar tu cita hasta <strong>1 hora antes</strong> de la hora programada.
+          </p>
+        </div>
+
+        <!-- Iteración de tarjetas de reserva interactiva -->
+        <app-reservation-card
+          *ngFor="let res of upcomingReservations"
+          [reservation]="res"
+          (onCancel)="initiateCancel($event)"
+          (onReschedule)="handleReschedule($event)">
+        </app-reservation-card>
+      </ng-container>
+
+      <!--
+        ESTADO VACÍO (EMPTY STATE) - PRÓXIMAS
+        Se muestra cuando no hay citas activas. Incluye un Call-to-Action (CTA)
+        para invitar al usuario a agendar una nueva cita inmediatamente.
+      -->
+      <ng-template #noUpcoming>
+        <div class="empty-state">
+          <div class="icon-bg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <h3>No tienes reservas pendientes</h3>
+          <p>¿Es hora de un cambio de look? Agenda tu cita ahora.</p>
+          <div class="action-wrap">
+            <app-primary-button label="Agendar Cita" routerLink="/client"></app-primary-button>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+
+    <!--
+      VISTA: HISTORIAL DE RESERVAS
+      Se muestra solo si la pestaña activa es 'history'.
+      Lista las reservas pasadas o canceladas para referencia y re-agendamiento rápido.
+    -->
+    <div *ngIf="activeTab === 'history'" class="reservations-list fade-in">
+      <ng-container *ngIf="historyReservations.length > 0; else noHistory">
+        <app-reservation-card
+          *ngFor="let res of historyReservations"
+          [reservation]="res"
+          (onRebook)="handleRebook($event)">
+        </app-reservation-card>
+      </ng-container>
+      
+      <!-- Estado vacío para historial -->
+      <ng-template #noHistory>
+        <div class="empty-state">
+          <p>Aún no tienes historial de reservas.</p>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+
+  <!--
+    MODAL DE CONFIRMACIÓN
+    Componente de alerta que intercepta la acción de cancelación para prevenir clics accidentales.
+  -->
+  <app-modal-alert
+    *ngIf="showCancelModal"
+    title="Cancelar Reserva"
+    message="¿Estás seguro de que quieres cancelar esta cita? Esta acción no se puede deshacer."
+    confirmLabel="Sí, cancelar cita"
+    cancelLabel="Volver"
+    (onConfirm)="confirmCancel()"
+    (onCancel)="showCancelModal = false">
+  </app-modal-alert>
+
+</div>

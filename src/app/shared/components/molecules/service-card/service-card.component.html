@@ -1,22 +1,35 @@
 <div 
   *ngIf="service" 
   class="card-container" 
-  [class.selected]="isSelected" 
-  (click)="onToggle()">
+  [class.selected]="isSelected"
+  [class.unavailable]="!isAvailable" 
+  (click)="onToggle()"
+  [title]="!isAvailable ? 'Este servicio no está disponible actualmente' : ''">
   
-  <!-- Header: Título y Botón de selección -->
+  <!-- Header: Título y Botón -->
   <div class="card-header-row">
     <h3 class="card-title">{{ service.name }}</h3>
+    
     <app-icon-button 
+      *ngIf="isAvailable"
       [selected]="isSelected" 
       (onClick)="onToggle()">
     </app-icon-button>
+
+    <span *ngIf="!isAvailable" class="badge-unavailable">No disponible</span>
   </div>
 
   <p class="card-description">{{ service.description }}</p>
   
   <div class="card-footer">
-    <span class="card-duration">🕒 {{ service.duration }} min</span>
+    <span class="card-duration">
+      <!-- Icono Reloj -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      {{ service.duration | duration }}
+    </span>
     <span class="card-price">{{ service.price | currency:'COP':'symbol':'1.0-0' }}</span>
   </div>
 </div>

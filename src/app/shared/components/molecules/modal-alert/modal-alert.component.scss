@@ -5,8 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Negro al 50% de opacidad */
-  z-index: 2000; /* Muy alto para estar encima de todo (incluso de la barra de reserva) */
+  z-index: 2000; /* Encima de todo */
   
   /* Centrado perfecto */
   display: flex;
@@ -14,8 +13,8 @@
   align-items: center;
   padding: 1rem;
   
-  /* Animación de entrada suave */
-  animation: fadeIn 0.2s ease-out;
+  /* Animación de entrada del fondo (Fade + Blur) */
+  animation: backdropEnter 0.4s ease-out forwards;
 }
 
 /* La tarjeta pequeña centrada */
@@ -24,12 +23,15 @@
   border-radius: 16px;
   padding: 24px;
   width: 100%;
-  max-width: 400px; /* Ancho máximo de la cajita */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
   border: 1px solid var(--border-color);
   
-  /* Animación de entrada (zoom in sutil) */
-  animation: scaleIn 0.2s ease-out;
+  /* Sombra suave y profunda */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  
+  /* Animación de entrada de la tarjeta (Pop elástico) */
+  /* cubic-bezier crea el efecto de rebote al final */
+  animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .modal-title {
@@ -37,23 +39,24 @@
   margin-bottom: 12px;
   font-size: 1.25rem;
   color: var(--text-color);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .modal-message {
   color: var(--text-muted-color);
   margin-bottom: 24px;
-  line-height: 1.5;
+  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
 .modal-actions {
   display: flex;
-  justify-content: flex-end; /* Botones a la derecha */
+  justify-content: flex-end;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-/* Estilo simple para el botón de cancelar */
+/* Botón de texto (Cancelar) */
 .btn-text {
   background: none;
   border: none;
@@ -61,23 +64,82 @@
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 8px;
-  transition: background 0.2s;
+  transition: all 0.2s;
 
   &:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: var(--background-color);
     color: var(--text-color);
   }
 }
 
-/* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* --- DEFINICIÓN DE ANIMACIONES --- */
+
+@keyframes backdropEnter {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    /* Oscuro con desenfoque para enfocar la atención */
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px); 
+  }
 }
 
-@keyframes scaleIn {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+@keyframes cardPopIn {
+  0% {
+    opacity: 0;
+    /* Empieza un poco más pequeño y desplazado abajo */
+    transform: scale(0.9) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    /* Termina en su tamaño real y posición original */
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Ajuste Móvil */
+@media (max-width: 768px) {
+  .modal-card {
+    padding: 20px;
+    width: 90%;
+    max-width: 320px; /* Limitamos el ancho para que no se estire en tablets pequeñas */
+  }
+  
+  .modal-actions {
+    /* Cambiamos a fila para que estén lado a lado */
+    flex-direction: row; 
+    width: 100%;
+    gap: 12px;
+    justify-content: space-between;
+  }
+  
+  /* Ajustamos el contenedor del botón primario */
+  app-primary-button {
+    flex: 1; /* Ocupa el 50% del espacio disponible */
+    min-width: 0; /* Permite que el flexbox encoja el contenido si es necesario */
+    
+    /* Usamos ::ng-deep para afectar al estilo del botón átomo SOLO dentro de este modal móvil */
+    ::ng-deep .btn-primary {
+      width: 100%;
+      padding: 10px 4px; /* Reducimos el relleno vertical y horizontal */
+      font-size: 0.75rem; /* Fuente más pequeña */
+      height: 40px; /* Altura fija más compacta */
+      white-space: nowrap; /* Evita saltos de línea */
+    }
+  }
+  
+  /* Ajustamos el botón de texto (Cancelar) */
+  .btn-text {
+    flex: 1; /* Ocupa el otro 50% */
+    padding: 10px 4px;
+    font-size: 0.85rem; /* Fuente más pequeña */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

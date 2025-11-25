@@ -1,0 +1,81 @@
+:host {
+  display: inline-block;
+}
+
+.day-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* gap reducido ligeramente para agrupar mejor */
+  gap: 2px; 
+  
+  min-width: 64px;
+  height: 90px; /* Aumentado para que quepa el mes */
+  
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px 4px;
+  outline: none;
+
+  color: var(--text-color);
+
+  &:hover:not(:disabled):not(.selected) {
+    border-color: var(--primary-color);
+    background-color: var(--background-color);
+    transform: translateY(-2px);
+  }
+
+  /* --- ESTADO SELECCIONADO --- */
+  &.selected {
+    background-color: var(--text-color);
+    border-color: var(--text-color);
+    
+    .day-name, .day-number, .month-name {
+      color: var(--surface-color);
+    }
+    
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  /* --- ESTADO DESHABILITADO --- */
+  &.disabled-state {
+    background-color: var(--background-color);
+    border-color: transparent;
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    .day-name, .day-number, .month-name {
+      color: var(--text-muted-color);
+    }
+  }
+}
+
+.day-name {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted-color);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.day-number {
+  font-size: 1.3rem; /* Un poco más grande y destacado */
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+/* Estilo nuevo para el mes */
+.month-name {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--text-muted-color);
+  margin-top: 2px;
+}

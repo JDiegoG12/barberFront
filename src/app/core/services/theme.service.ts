@@ -1,14 +1,25 @@
 import { Injectable, signal } from '@angular/core';
 
-// Definimos un tipo para asegurar que solo usamos 'light' o 'dark'.
+/**
+ * Define los tipos de tema permitidos en la aplicación.
+ * Restringe los valores posibles a 'light' (claro) o 'dark' (oscuro).
+ */
 type Theme = 'light' | 'dark';
 
+/**
+ * Servicio encargado de la gestión global del tema visual de la aplicación.
+ * Maneja la detección de preferencias del sistema, la persistencia de la elección del usuario
+ * en el almacenamiento local y la aplicación de clases CSS al documento.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  // Usamos una señal de Angular para mantener el estado del tema actual.
-  // Es moderno, reactivo y eficiente.
+  /**
+   * Señal reactiva de Angular que mantiene el estado actual del tema.
+   * Permite a los componentes suscribirse o reaccionar eficientemente a los cambios de tema.
+   * @default 'light'
+   */
   public theme = signal<Theme>('light');
 
   constructor() {
@@ -16,27 +27,30 @@ export class ThemeService {
   }
 
   /**
-   * Inicializa el tema al cargar la aplicación.
-   * Prioridad:
-   * 1. Preferencia manual guardada en localStorage.
-   * 2. Preferencia del sistema operativo del usuario.
-   * 3. Tema claro como último recurso.
+   * Inicializa la configuración del tema al arrancar el servicio.
+   * Determina el tema inicial siguiendo una jerarquía de prioridades:
+   * 1. Preferencia guardada manualmente por el usuario (localStorage).
+   * 2. Preferencia del sistema operativo (media query `prefers-color-scheme`).
+   * 3. Tema claro por defecto.
+   *
+   * También establece un "listener" para reaccionar a cambios en la configuración del sistema operativo
+   * si el usuario no ha establecido una preferencia manual.
    */
   private initializeTheme(): void {
-    // 1. Buscamos si el usuario ya eligió un tema manualmente.
+    // 1. Verificamos si existe una preferencia guardada previamente
     const storedTheme = localStorage.getItem('theme') as Theme | null;
     if (storedTheme) {
       this.setTheme(storedTheme);
       return;
     }
 
-    // 2. Si no hay preferencia manual, detectamos la del sistema.
+    // 2. Si no, detectamos la preferencia del sistema
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     this.setTheme(prefersDark.matches ? 'dark' : 'light');
 
-    // Escuchamos cambios en la preferencia del sistema en tiempo real.
+    // Escuchamos cambios en tiempo real en la preferencia del sistema
     prefersDark.addEventListener('change', (e) => {
-      // Solo cambiamos el tema si el usuario NO ha elegido uno manualmente.
+      // Solo aplicamos el cambio del sistema si el usuario NO ha forzado una preferencia manual
       if (!localStorage.getItem('theme')) {
         this.setTheme(e.matches ? 'dark' : 'light');
       }
@@ -44,18 +58,23 @@ export class ThemeService {
   }
 
   /**
-   * Cambia el tema actual y lo guarda como preferencia manual.
+   * Alterna el tema actual entre 'light' y 'dark'.
+   * Además de actualizar el estado visual, persiste la nueva elección en el localStorage
+   * para recordar la preferencia del usuario en futuras visitas.
    */
   public toggleTheme(): void {
     const newTheme = this.theme() === 'light' ? 'dark' : 'light';
     this.setTheme(newTheme);
-    // Guardamos la elección del usuario para que persista.
+    // Persistencia de la elección
     localStorage.setItem('theme', newTheme);
   }
 
   /**
-   * Aplica el tema al documento y actualiza la señal.
-   * @param theme El tema a aplicar ('light' o 'dark').
+   * Aplica el tema especificado al estado de la aplicación y al DOM.
+   * Actualiza la señal `theme` y añade o remueve la clase CSS `theme-dark` en el body
+   * para activar las variables CSS correspondientes.
+   *
+   * @param theme - El tema a aplicar ('light' o 'dark').
    */
   private setTheme(theme: Theme): void {
     this.theme.set(theme);

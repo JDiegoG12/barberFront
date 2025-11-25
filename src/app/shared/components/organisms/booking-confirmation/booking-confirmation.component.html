@@ -1,0 +1,85 @@
+<div class="confirmation-container">
+  
+  <div class="confirmation-card">
+    <h3 class="title">Confirma los detalles</h3>
+    
+    <div class="details-list">
+      
+      <!-- 1. BARBERÍA -->
+      <div class="detail-item shop-info">
+        <div class="icon-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4 8 4v14M13 10v4"/></svg>
+        </div>
+        <div class="detail-content">
+          <span class="label">Lugar</span>
+          <span class="value">Barberia</span>
+          <span class="sub-value">Calle 2 Norte 15, Popayán</span>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2. SERVICIO -->
+      <div class="detail-item">
+        <div class="icon-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+        </div>
+        <div class="detail-content">
+          <span class="label">Servicio</span>
+          <span class="value">{{ service.name }}</span>
+        </div>
+      </div>
+
+      <!-- 3. BARBERO (CON FOTO) -->
+      <div class="detail-item">
+        <!-- Reemplazamos el icon-box por la imagen -->
+        <img [src]="barber.photoUrl" [alt]="barber.name" class="barber-avatar">
+        
+        <div class="detail-content">
+          <span class="label">Profesional</span>
+          <span class="value">{{ barber.name }} {{ barber.lastName }}</span>
+        </div>
+      </div>
+
+      <!-- 4. FECHA Y HORA -->
+      <div class="detail-item">
+        <div class="icon-box">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
+        <div class="detail-content">
+          <span class="label">Fecha y Hora</span>
+          <span class="value text-capitalize">{{ formattedDate }}</span>
+          <span class="highlight-text">{{ formattedTimeRange }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+
+    <!-- PAGO Y TOTAL -->
+    <div class="payment-section">
+      <div class="total-row">
+        <span class="total-label">Total a pagar</span>
+        <span class="total-amount">{{ service.price | currency:'COP':'symbol':'1.0-0' }}</span>
+      </div>
+      
+      <!-- DISCLAIMER DE PAGO -->
+      <div class="payment-disclaimer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span>El pago se realiza presencialmente en el local.</span>
+      </div>
+    </div>
+
+    <!-- ACCIÓN -->
+    <div class="actions">
+      <app-primary-button 
+        [label]="loading ? 'Confirmando...' : 'Confirmar Reserva'" 
+        [fullWidth]="true"
+        [disabled]="loading"
+        (onClick)="confirm()">
+      </app-primary-button>
+    </div>
+
+  </div>
+</div>

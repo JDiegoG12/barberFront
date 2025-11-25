@@ -3,9 +3,154 @@
   width: 100%;
 }
 
-.grid-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem; 
+.categories-wrapper {
+  display: flex;
+  flex-direction: column;
+  /* Quitamos el gap global para manejarlo dentro de la animación */
+  /* gap: 3rem; */ 
   margin-top: 2rem;
+}
+
+.category-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Añadimos el margen aquí para separar los bloques */
+  margin-bottom: 3rem; 
+}
+
+.category-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.25rem 0;
+  padding-left: 4px;
+}
+
+/* --- ANIMACIÓN DE ACORDEÓN SUAVE --- */
+.expandable-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.5s ease-out, opacity 0.5s ease-out;
+  
+  /* IMPORTANTE: Esto oculta el contenido vertical sobrante, 
+     pero NO debe afectar el horizontal de los hijos si se configura bien */
+  overflow-y: hidden; /* Solo ocultamos overflow vertical */
+  overflow-x: visible; /* Permitimos que el horizontal fluya si es necesario, aunque el carrusel lo maneja */
+
+  &.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+.expandable-inner {
+  min-height: 0;
+  /* CORRECCIÓN: Asegurar ancho completo para que los carruseles tengan espacio */
+  width: 100%; 
+  min-width: 0; 
+}
+
+.extra-categories-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* --- CARRUSEL HORIZONTAL --- */
+.services-carousel {
+  display: flex;
+  gap: 1.5rem;
+  
+  /* CORRECCIÓN: Asegurar que el overflow-x funcione */
+  overflow-x: auto; 
+  width: 100%; /* Ocupar todo el ancho disponible */
+  
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+  padding-left: 4px;
+  padding-right: 20px;
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.carousel-item {
+  min-width: 280px;
+  max-width: 320px;
+  flex-shrink: 0; 
+  height: auto;
+  scroll-snap-align: start;
+}
+
+/* --- ANIMACIONES DE ENTRADA --- */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- BOTÓN VER MÁS --- */
+.view-more-container {
+  display: flex;
+  justify-content: center;
+  /* Ajustamos márgenes para que no quede pegado */
+  margin-top: -1rem; 
+  padding-bottom: 2rem;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--text-muted-color);
+  color: var(--text-color);
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(var(--surface-color-rgb), 0.5);
+  }
+
+  svg {
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Rebote suave */
+  }
+
+  svg.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+/* AJUSTES MÓVILES */
+@media (max-width: 768px) {
+  .services-carousel {
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .carousel-item {
+    min-width: unset;
+    width: 85vw;
+    max-width: 300px;
+  }
 }

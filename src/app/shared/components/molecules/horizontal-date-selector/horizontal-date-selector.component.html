@@ -1,0 +1,40 @@
+<div class="selector-wrapper">
+  
+  <!-- Botón Izquierda -->
+  <button 
+    class="nav-arrow left" 
+    *ngIf="canScrollLeft" 
+    (click)="scrollLeft()"
+    title="Ver días anteriores">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+
+  <!-- Contenedor con Scroll (Agregamos la referencia #scrollContainer y el evento scroll) -->
+  <div class="scroll-container" #scrollContainer (scroll)="checkScroll()">
+    <div class="dates-wrapper">
+      
+      <app-calendar-day-button
+        *ngFor="let date of days"
+        [date]="date"
+        [selected]="isSelected(date)"
+        [disabled]="!isDayEnabled(date)"
+        (onClick)="selectDate(date)">
+      </app-calendar-day-button>
+
+    </div>
+  </div>
+
+  <!-- Botón Derecha -->
+  <button 
+    class="nav-arrow right" 
+    *ngIf="canScrollRight" 
+    (click)="scrollRight()"
+    title="Ver más días">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </button>
+
+</div>

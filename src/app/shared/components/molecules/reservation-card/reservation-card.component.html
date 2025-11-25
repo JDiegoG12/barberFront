@@ -1,0 +1,61 @@
+<div class="card-container">
+  
+  <!-- HEADER: Fecha y Estado -->
+  <div class="card-header">
+    <div class="date-badge">
+      <span class="date-text text-capitalize">{{ formattedDate }}</span>
+      <span class="time-text">{{ formattedTime }}</span>
+    </div>
+    <span class="status-badge" [ngClass]="statusClass">
+      {{ reservation.status }}
+    </span>
+  </div>
+
+  <hr class="divider">
+
+  <!-- BODY: Info del Servicio y Barbero -->
+  <div class="card-body">
+    <div class="service-info">
+      <h3 class="service-name">{{ reservation.service?.name }}</h3>
+      <span class="service-price">{{ reservation.price | currency:'COP':'symbol':'1.0-0' }}</span>
+    </div>
+
+    <div class="barber-info" *ngIf="reservation.barber">
+      <img [src]="reservation.barber.photoUrl" alt="Avatar" class="barber-avatar">
+      <span class="barber-name">{{ reservation.barber.name }} {{ reservation.barber.lastName }}</span>
+    </div>
+  </div>
+
+  <!-- FOOTER: Acciones -->
+  <div class="card-footer">
+    
+    <!-- ACCIONES PARA PRÓXIMAS (En espera) -->
+    <div class="actions-row" *ngIf="isUpcoming">
+      <!-- Solo habilitados si cumple la regla de 1 hora -->
+      <button 
+        class="btn-action secondary" 
+        [disabled]="!canModify"
+        (click)="canModify && onCancel.emit(reservation)"
+        [title]="!canModify ? 'No se puede cancelar con menos de 1h de antelación' : ''">
+        Cancelar
+      </button>
+      
+      <button 
+        class="btn-action primary" 
+        [disabled]="!canModify"
+        (click)="canModify && onReschedule.emit(reservation)"
+        [title]="!canModify ? 'No se puede reprogramar con menos de 1h de antelación' : ''">
+        Reprogramar
+      </button>
+    </div>
+
+    <!-- ACCIONES PARA HISTORIAL (Finalizada, Cancelada...) -->
+    <div class="actions-row" *ngIf="!isUpcoming">
+      <button class="btn-action outline" (click)="onRebook.emit(reservation)">
+        Volver a reservar
+      </button>
+    </div>
+
+  </div>
+
+</div>

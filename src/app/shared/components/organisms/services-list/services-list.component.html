@@ -1,14 +1,59 @@
 <section class="section-container">
   <app-section-title title="Nuestros Servicios" subtitle="Calidad y estilo para ti"></app-section-title>
   
-  <div class="grid-list">
-    <ng-container *ngIf="services$ | async as services">
-      <app-service-card 
-        *ngFor="let service of services" 
-        [service]="service"
-        [isSelected]="selectedService?.id === service.id"
-        (toggleSelection)="handleSelection(service)">
-      </app-service-card>
-    </ng-container>
+  <div class="categories-wrapper" *ngIf="groupedServices$ | async as groups">
+    
+    <!-- 1. CATEGORÍAS INICIALES (Siempre visibles) -->
+    <!-- Usamos slice pipe: desde 0 hasta el límite -->
+    <div 
+      *ngFor="let group of groups | slice:0:INITIAL_LIMIT" 
+      class="category-block fade-in">
+      
+      <h3 class="category-title">{{ group.category.name }}</h3>
+      <div class="services-carousel">
+        <div class="carousel-item" *ngFor="let service of group.services">
+          <app-service-card 
+            [service]="service"
+            [isSelected]="selectedService?.id === service.id"
+            (toggleSelection)="handleSelection(service)">
+          </app-service-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CATEGORÍAS RESTANTES (Animación de Acordeón) -->
+    <div class="expandable-wrapper" [class.is-open]="showAll">
+      <div class="expandable-inner">
+        <!-- Contenedor interno para aplicar el gap y padding sin romper la animación -->
+        <div class="extra-categories-list">
+          <div 
+            *ngFor="let group of groups | slice:INITIAL_LIMIT" 
+            class="category-block">
+            
+            <h3 class="category-title">{{ group.category.name }}</h3>
+            <div class="services-carousel">
+              <div class="carousel-item" *ngFor="let service of group.services">
+                <app-service-card 
+                  [service]="service"
+                  [isSelected]="selectedService?.id === service.id"
+                  (toggleSelection)="handleSelection(service)">
+                </app-service-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÓN VER MÁS -->
+    <div class="view-more-container" *ngIf="groups.length > INITIAL_LIMIT">
+      <button class="btn-outline" (click)="toggleViewMore()">
+        {{ showAll ? 'Ver menos categorías' : 'Ver todas las categorías' }}
+        <svg [class.rotated]="showAll" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </div>
+
   </div>
 </section>

@@ -1,0 +1,110 @@
+:host {
+  display: block;
+}
+
+.avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 10px;
+  border-radius: 12px;
+
+  &:hover {
+    transform: translateY(-4px);
+    
+    .image-wrapper {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-color: var(--border-color);
+    }
+  }
+
+  /* Estado Seleccionado */
+  &.selected {
+    .image-wrapper {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.15); /* Asumiendo que puedas tener RGB, si no usa var normal */
+    }
+    
+    .name {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+  }
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid transparent; /* Borde invisible base */
+  background-color: var(--surface-color);
+  transition: all 0.3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Overlay oscuro suave al seleccionar para resaltar el check */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.2s ease;
+}
+
+.check-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* El check siempre blanco para contrastar con el overlay */
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  svg {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+}
+
+.name {
+  font-size: 1rem;
+  color: var(--text-color);
+  text-align: center;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+/* Animaciones */
+@keyframes popIn {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Ajuste Móvil: Iconos un poco más pequeños */
+@media (max-width: 768px) {
+  .image-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .name {
+    font-size: 0.9rem;
+  }
+}

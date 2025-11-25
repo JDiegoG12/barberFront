@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+.booking-container {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header y Barra de Progreso (Se mantienen igual que antes) */
+.wizard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.step-indicator {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.nav-btn, .close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted-color);
+  padding: 8px;
+  
+  svg { width: 24px; height: 24px; }
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: var(--border-color);
+  position: sticky;
+  top: 57px;
+  z-index: 99;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.4s ease-in-out;
+}
+
+/* =================================================
+   LAYOUT GRID (NUEVO)
+   ================================================= */
+
+.booking-layout {
+  display: flex;
+  flex-direction: column;
+  /* Padding inferior grande para móvil (espacio para la barra fija) */
+  padding: 2rem 1rem 120px 1rem; 
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.content-column {
+  width: 100%;
+}
+
+.step-content {
+  /* Centrado de textos de título */
+  h2 {
+    font-size: 1.75rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .step-description {
+    text-align: center;
+    color: var(--text-muted-color);
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Placeholder */
+.placeholder-box {
+  padding: 3rem;
+  text-align: center;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+}
+
+/* Animación */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =================================================
+   DESKTOP (Pantallas Grandes)
+   ================================================= */
+@media (min-width: 1024px) {
+  
+  .booking-layout {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3rem;
+    padding: 3rem 2rem;
+    padding-bottom: 3rem;
+  }
+
+  /* Columna Contenido Normal (8 cols) */
+  .content-column {
+    grid-column: span 8;
+    
+    /* ESTADO FULL WIDTH (Para el paso final) */
+    &.full-width {
+      grid-column: span 12; /* Ocupa todo el ancho */
+      max-width: 800px; /* Pero limitamos el contenido para que no se desparrame */
+      margin: 0 auto; /* Centrado */
+    }
+  }
+
+  /* Columna Sidebar (4 cols) */
+  .sidebar-column {
+    grid-column: span 4;
+    height: 100%;
+  }
+
+  app-booking-summary-card {
+    display: block;
+    position: sticky;
+    top: 100px;
+    width: 100%;
+  }
+}

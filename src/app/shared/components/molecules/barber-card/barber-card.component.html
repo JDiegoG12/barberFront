@@ -1,20 +1,19 @@
-<div *ngIf="barber" class="card-container">
-  <!-- Indicador de disponibilidad -->
-  <div
-    class="status-indicator"
-    [class.available]="barber.availabilityStatus === 'Disponible'"
-    [title]="barber.availabilityStatus"
-  ></div>
-
-  <img [src]="barber.photoUrl" [alt]="barber.name + ' ' + barber.lastName" class="barber-photo">
-
-  <h3 class="barber-name">{{ barber.name }} {{ barber.lastName }}</h3>
-
-  <div class="specialties-container">
-    @for(specialty of barber.specialties; track specialty) {
-      <span class="specialty-tag">{{ specialty }}</span>
-    }
+<div class="card-container" [class.unavailable]="!isAvailable">
+  
+  <!-- SECCIÓN IMAGEN -->
+  <div class="image-wrapper">
+    <img [src]="barber.photoUrl" [alt]="barber.name" loading="lazy">
+    
+    <!-- Badge de estado flotante -->
+    <span class="status-badge" [class.available]="isAvailable">
+      {{ isAvailable ? 'Disponible' : 'No disponible' }}
+    </span>
   </div>
 
-  <p class="barber-bio">{{ barber.bio }}</p>
+  <!-- SECCIÓN INFO -->
+  <div class="card-content">
+    <h3 class="barber-name">{{ barber.name }} {{ barber.lastName }}</h3>
+    <p class="barber-bio">{{ barber.bio }}</p>
+  </div>
+
 </div>

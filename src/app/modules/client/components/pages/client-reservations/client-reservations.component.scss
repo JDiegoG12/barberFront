@@ -1,0 +1,153 @@
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: 80vh;
+}
+
+.header-section {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* --- TABS --- */
+.tabs-container {
+  display: flex;
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 80px; /* Debajo del navbar */
+  z-index: 10;
+  /* Opcional: Fondo blur */
+  backdrop-filter: blur(10px);
+  background-color: rgba(var(--surface-color-rgb), 0.9); 
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted-color);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+
+  &.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+  }
+}
+
+.badge {
+  background-color: var(--primary-color);
+  color: var(--surface-color);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  line-height: 1;
+}
+/* === BANNER DE POLÍTICA === */
+.policy-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  
+  /* Usamos un fondo sutil basado en el color de texto o superficie */
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary-color); /* Borde izquierdo destacado */
+  
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  
+  .icon-wrapper {
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    margin-top: 2px; /* Alinear visualmente con el texto */
+  }
+
+  .policy-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+
+    strong {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+  }
+}
+/* --- LISTAS --- */
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  .icon-bg {
+    width: 80px;
+    height: 80px;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-muted-color);
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+  }
+
+  p {
+    color: var(--text-muted-color);
+    margin-bottom: 2rem;
+  }
+
+  .action-wrap {
+    min-width: 200px;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

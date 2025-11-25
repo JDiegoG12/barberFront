@@ -2,6 +2,11 @@ import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../../../core/services/theme.service';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Componente atómico que proporciona un interruptor (toggle) para cambiar el tema visual de la aplicación.
+ * Interactúa directamente con el `ThemeService` para alternar entre los modos Claro y Oscuro
+ * y reacciona a los cambios de estado globales.
+ */
 @Component({
   selector: 'app-theme-toggle',
   standalone: true,
@@ -10,13 +15,22 @@ import { CommonModule } from '@angular/common';
   styleUrl: './theme-toggle.component.scss'
 })
 export class ThemeToggleComponent {
-  // Inyectamos nuestro servicio de temas
+  /**
+   * Servicio inyectado encargado de la lógica de negocio del tema.
+   */
   public themeService = inject(ThemeService);
 
-  // Exponemos la señal del tema como una propiedad pública
+  /**
+   * Señal reactiva que expone el estado actual del tema ('light' o 'dark').
+   * Permite que la plantilla se actualice automáticamente (ej. cambiando el ícono)
+   * cuando el valor cambia en el servicio.
+   */
   public currentTheme = this.themeService.theme;
 
-  // Método para llamar al toggle del servicio
+  /**
+   * Ejecuta la acción de cambio de tema invocando al servicio.
+   * Usualmente vinculado al evento de clic del botón en la plantilla.
+   */
   toggleTheme(): void {
     this.themeService.toggleTheme();
   }

@@ -24,10 +24,15 @@
   text-decoration: none;
 }
 
+/* Por defecto ocultamos el contenido extra de cabecera móvil */
+.mobile-header-content {
+  display: none;
+}
+
 .navbar-links {
   list-style: none;
   display: flex;
-  align-items: center; // Alineamos verticalmente
+  align-items: center;
   gap: 2rem;
 
   a {
@@ -42,13 +47,13 @@
   }
 }
 
-/* === NUEVOS ESTILOS PARA EL BOTÓN DE LOGIN === */
+/* Estilos de botones Desktop */
 .btn-login {
   background-color: transparent;
-  border: 1px solid var(--text-color); /* Borde sutil del color del texto */
+  border: 1px solid var(--text-color);
   color: var(--text-color);
   padding: 0.5rem 1.2rem;
-  border-radius: 24px; /* Bordes redondeados */
+  border-radius: 24px;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   font-size: 0.9rem;
@@ -58,29 +63,27 @@
 
   &:hover {
     background-color: var(--text-color);
-    color: var(--surface-color); /* Invertimos colores al pasar el mouse */
+    color: var(--surface-color);
   }
 }
 
 .navbar-actions-desktop {
   display: flex;
   align-items: center;
-  gap: 1.5rem; /* Espacio entre el toggle y el botón */
+  gap: 1.5rem;
 }
 
-// Ocultamos la versión móvil de las acciones por defecto
 .navbar-actions-mobile {
   display: none;
 }
 
-// Ocultamos el botón hamburguesa en pantallas grandes
 .navbar-toggle {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  z-index: 1001; // Para que esté por encima de otros elementos
+  z-index: 1001;
 
   svg {
     width: 28px;
@@ -89,43 +92,118 @@
   }
 }
 
+/* Estilos Comunes Cliente */
+.greeting {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  margin-right: 0.5rem;
+}
 
-/* --- ESTILOS RESPONSIVE --- */
-@media (max-width: 768px) {
-  // Mostramos el botón hamburguesa
-  .navbar-toggle {
-    display: flex;
+.nav-highlight {
+  color: var(--primary-color) !important;
+  font-weight: 600 !important;
+}
+
+.user-menu-desktop {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-logout-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
   }
 
-  // Ocultamos la versión de escritorio de las acciones
+  &:hover {
+    color: var(--error-color);
+    background-color: rgba(244, 67, 54, 0.1);
+  }
+}
+
+/* --- ESTILOS RESPONSIVE (MÓVIL) --- */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0.8rem 1.5rem; /* Reducimos un poco el padding general */
+  }
+
+  /* 1. Reducimos tamaño de fuente de la marca */
+  .navbar-brand a {
+    font-size: 1.2rem; 
+  }
+
+  /* 2. Mostramos y estilizamos el contenido de cabecera móvil */
+  .mobile-header-content {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Empuja todo a la derecha (junto al toggle) */
+    margin-right: 1rem; /* Separación con el botón hamburguesa */
+    gap: 0.5rem;
+  }
+
+  .btn-login-mobile-header {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .greeting-mobile-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .navbar-toggle {
+    display: flex;
+    padding: 0; /* Quitamos padding extra para alinear mejor */
+  }
+
   .navbar-actions-desktop {
     display: none;
   }
 
+  /* Menú desplegable */
   .navbar-links {
-    display: none; // Oculto por defecto
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    min-height: 100vh; // Ocupa toda la pantalla para una mejor experiencia
+    min-height: 100vh;
     background-color: var(--surface-color);
     flex-direction: column;
-    justify-content: center; // Centramos los elementos verticalmente
-    gap: 2rem; // Espacio entre elementos
+    justify-content: center;
+    gap: 2rem;
     padding: 1rem 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     &.is-open {
-      display: flex; // Se muestra al hacer clic
+      display: flex;
     }
 
     li a {
-      font-size: 1.5rem; // Letra más grande en el menú móvil
+      font-size: 1.5rem;
     }
   }
 
-  // Mostramos la versión móvil de las acciones dentro del menú
   .navbar-actions-mobile {
     display: flex;
     flex-direction: column;
@@ -133,14 +211,42 @@
     gap: 1.5rem;
     margin-top: 1rem;
     width: 100%;
-    padding: 0 2rem; /* Padding lateral para el botón full width */
+    padding: 0 2rem;
   }
 
-  /* Botón específico para móvil */
-  .btn-login.full-width {
+  /* Botón cerrar sesión en menú móvil */
+  .btn-logout-mobile {
     width: 100%;
-    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
     padding: 0.8rem;
-    font-size: 1.1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    cursor: pointer;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:active {
+      background-color: var(--error-color);
+      color: white;
+    }
+  }
+
+  .mobile-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: center;
   }
 }

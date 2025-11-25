@@ -1,0 +1,24 @@
+<div 
+  class="avatar-card" 
+  [class.selected]="selected" 
+  (click)="handleClick()"
+  [title]="'Seleccionar a ' + name">
+  
+  <!-- Contenedor de Imagen -->
+  <div class="image-wrapper">
+    <img [src]="photoUrl" [alt]="name" loading="lazy">
+    
+    <!-- Capa oscura al seleccionar -->
+    <div class="overlay" *ngIf="selected"></div>
+    
+    <!-- Icono de Check -->
+    <div class="check-icon" *ngIf="selected">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Nombre -->
+  <span class="name">{{ name }}</span>
+</div>

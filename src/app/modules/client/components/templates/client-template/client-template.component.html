@@ -1,0 +1,28 @@
+<!--
+  LAYOUT PRINCIPAL DEL CLIENTE
+  Define la estructura visual base para todas las pantallas privadas del usuario autenticado.
+  Mantiene la consistencia de la navegación y el pie de página en todo el módulo.
+-->
+
+<!--
+  Barra de Navegación (Navbar):
+  - [user]: Se inyecta el usuario actual para cambiar el estado visual del menú
+    (muestra "Hola, [Nombre]", "Mis Reservas" y botón "Salir" en lugar de "Iniciar Sesión").
+  - (onLogout): Captura el evento de cierre de sesión para ejecutar la lógica en el controlador.
+-->
+<app-navbar 
+  [user]="currentUser" 
+  (onLogout)="handleLogout()">
+</app-navbar>
+
+<!--
+  Área de Contenido Principal:
+  Contenedor donde Angular renderiza dinámicamente las vistas hijas configuradas en el enrutador
+  (ej. ClientHome, ClientReservations) sin recargar la página completa.
+-->
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Pie de página global de la aplicación -->
+<app-footer></app-footer>

@@ -1,0 +1,127 @@
+<div class="booking-container">
+  
+  <!-- HEADER -->
+  <header class="wizard-header">
+    <div class="header-left">
+      <button class="nav-btn" *ngIf="currentStep > 1" (click)="prevStep()" title="Volver">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    </div>
+    
+    <span class="step-indicator">Paso {{ currentStep }} de {{ totalSteps }}</span>
+    
+    <div class="header-right">
+      <button class="close-btn" (click)="initiateCancel()" title="Cancelar reserva">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- PROGRESO -->
+  <div class="progress-bar-container">
+    <div class="progress-fill" [style.width.%]="(currentStep / totalSteps) * 100"></div>
+  </div>
+
+  <!-- LAYOUT GRID -->
+  <div class="booking-layout">
+    
+    <!-- COLUMNA IZQUIERDA -->
+    <main class="content-column" [class.full-width]="currentStep === totalSteps">
+      
+      <!-- PASO 1: BARBERO -->
+      <div *ngIf="currentStep === 1" class="step-content fade-in">
+        <h2>Elige a tu profesional</h2>
+        <p class="step-description">Selecciona el barbero de tu preferencia para este servicio.</p>
+        
+        <app-select-barber
+          *ngIf="selectedServiceId"
+          [serviceId]="selectedServiceId"
+          [preSelectedBarberId]="selectedBarberId"
+          (onBarberSelect)="handleBarberSelection($event)">
+        </app-select-barber>
+      </div>
+
+      <!-- PASO 2: FECHA Y HORA -->
+      <div *ngIf="currentStep === 2" class="step-content fade-in">
+        <h2>Selecciona fecha y hora</h2>
+        <p class="step-description">Consulta la disponibilidad y elige el mejor horario.</p>
+        
+        <app-horizontal-date-selector
+          *ngIf="selectedBarber"
+          [barber]="selectedBarber"
+          [selectedDate]="selectedDate"
+          (onDateSelect)="handleDateSelection($event)">
+        </app-horizontal-date-selector>
+
+        <app-time-slot-grid
+          *ngIf="selectedBarber && selectedService"
+          [barber]="selectedBarber"
+          [date]="selectedDate"
+          [serviceDuration]="selectedService.duration"
+          [existingReservations]="barberReservations"
+          [selectedSlot]="selectedTimeSlot"
+          (onSlotSelect)="handleTimeSlotSelection($event)">
+        </app-time-slot-grid>
+      </div>
+
+      <!-- PASO 3: CONFIRMACIÓN -->
+      <div *ngIf="currentStep === 3" class="step-content fade-in">
+        <h2>Confirma tu reserva</h2>
+        <p class="step-description">Revisa los detalles antes de finalizar.</p>
+        
+        <app-booking-confirmation
+          *ngIf="selectedService && selectedBarber && selectedDate && selectedTimeSlot"
+          [service]="selectedService"
+          [barber]="selectedBarber"
+          [date]="selectedDate"
+          [timeSlot]="selectedTimeSlot"
+          [loading]="loading"
+          (onConfirm)="saveReservation()">
+        </app-booking-confirmation>
+      </div>
+
+    </main>
+
+    <!-- COLUMNA DERECHA -->
+    <aside class="sidebar-column" *ngIf="currentStep < totalSteps">
+      <app-booking-summary-card
+        [service]="selectedService"
+        [barber]="selectedBarber"
+        [date]="selectedDate"
+        [timeSlot]="selectedTimeSlot"
+        [buttonLabel]="actionButtonLabel"
+        [isDisabled]="isNextButtonDisabled"
+        (onAction)="handleSummaryAction()">
+      </app-booking-summary-card>
+    </aside>
+
+  </div>
+
+  <!-- MODAL DE CANCELAR -->
+  <app-modal-alert
+    *ngIf="showCancelModal"
+    title="¿Cancelar proceso?"
+    message="Si sales ahora, perderás el progreso de tu reserva."
+    confirmLabel="Sí, salir"
+    cancelLabel="Continuar reservando"
+    (onConfirm)="confirmCancel()"
+    (onCancel)="showCancelModal = false">
+  </app-modal-alert>
+
+  <!-- NUEVO: MODAL DE ÉXITO -->
+  <app-modal-alert
+    *ngIf="showSuccessModal"
+    title="¡Reserva Confirmada!"
+    message="Tu cita ha sido agendada exitosamente. Te esperamos en el local."
+    confirmLabel="Ver mis reservas"
+    cancelLabel="Cerrar"
+    (onConfirm)="finishBooking()"
+    (onCancel)="confirmCancel()">
+  </app-modal-alert>
+
+</div>

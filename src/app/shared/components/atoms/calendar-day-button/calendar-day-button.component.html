@@ -1,0 +1,24 @@
+<!--
+  BOTÓN DE DÍA DE CALENDARIO (ÁTOMO)
+  Representa un día individual dentro del selector de fechas.
+  Se utiliza un elemento <button> nativo para garantizar la accesibilidad por teclado,
+  el manejo correcto del foco y la gestión del estado deshabilitado.
+-->
+<button 
+  class="day-btn" 
+  [class.selected]="selected"        
+  [class.disabled-state]="disabled"  
+  [disabled]="disabled"              
+  (click)="handleClick()"
+  [title]="disabled ? 'No disponible' : 'Seleccionar fecha'"> 
+  
+  <!-- Nombre abreviado del día de la semana (ej. LUN) -->
+  <span class="day-name">{{ dayName }}</span>
+  
+  <!-- Número del día del mes (ej. 22) -->
+  <span class="day-number">{{ dayNumber }}</span>
+
+  <!-- Nombre abreviado del mes (ej. NOV) para contexto en cambios de mes -->
+  <span class="month-name">{{ monthName }}</span>
+
+</button>

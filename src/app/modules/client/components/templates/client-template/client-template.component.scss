@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que la plantilla ocupe al menos toda la altura de la pantalla */
+}
+
+.main-content {
+  flex: 1; /* Hace que el contenido principal crezca para ocupar todo el espacio disponible entre el navbar y el footer */
+  width: 100%;
+}

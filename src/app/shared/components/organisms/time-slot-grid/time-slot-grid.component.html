@@ -1,0 +1,66 @@
+<div class="grid-container">
+  
+  <!-- MENSAJE INICIAL -->
+  <div *ngIf="!date" class="info-message">
+    <p>Selecciona una fecha arriba para ver los horarios.</p>
+  </div>
+
+  <!-- CONTENIDO CUANDO HAY FECHA -->
+  <ng-container *ngIf="date">
+    
+    <!-- Caso A: Hay disponibilidad total en el día -->
+    <ng-container *ngIf="availableSlots.length > 0; else noSlotsTotal">
+      
+      <!-- PESTAÑAS DE FILTRO -->
+      <div class="filter-tabs">
+        <button 
+          class="tab-btn" 
+          [class.active]="currentFilter === 'morning'"
+          (click)="setFilter('morning')">
+          Mañana
+          <span class="count-badge">{{ morningSlots.length }}</span>
+        </button>
+        
+        <button 
+          class="tab-btn" 
+          [class.active]="currentFilter === 'afternoon'"
+          (click)="setFilter('afternoon')">
+          Tarde
+          <span class="count-badge">{{ afternoonSlots.length }}</span>
+        </button>
+      </div>
+
+      <!-- GRILLA DE HORARIOS -->
+      <div class="slots-grid" *ngIf="filteredSlots.length > 0; else noSlotsInFilter">
+        <app-time-slot-button
+          *ngFor="let slot of filteredSlots"
+          [timeLabel]="slot.label"
+          [selected]="isSelected(slot)"
+          (onClick)="selectSlot(slot)">
+        </app-time-slot-button>
+      </div>
+
+      <!-- Mensaje vacío específico para el filtro (ej: Mañana ocupada) -->
+      <ng-template #noSlotsInFilter>
+        <div class="filter-empty-state">
+          <p>No hay horarios disponibles en la {{ currentFilter === 'morning' ? 'mañana' : 'tarde' }}.</p>
+        </div>
+      </ng-template>
+
+    </ng-container>
+
+    <!-- Caso B: No hay cupos en TODO el día -->
+    <ng-template #noSlotsTotal>
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p>No hay horarios disponibles para esta fecha. Por favor selecciona otro día.</p>
+      </div>
+    </ng-template>
+
+  </ng-container>
+
+</div>

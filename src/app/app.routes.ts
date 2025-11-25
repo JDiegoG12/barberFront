@@ -4,25 +4,26 @@ export const routes: Routes = [
   // --- RUTA DEL PANEL DE ADMINISTRADOR ---
   // Cuando un usuario navegue a '/admin', se cargará perezosamente el AdminLayoutComponent.
   // Este layout contendrá un <router-outlet> para las páginas internas del administrador.
- /*
-    --- RUTAS FUTURAS ---
-    Cuando construyamos las secciones de admin, barbero y cliente,
-    descomentaremos y configuraremos estas rutas. Por ahora, las
-    dejamos aquí como referencia para no causar errores.
-
-    {
-      path: 'admin',
-      loadComponent: () => import('./modules/admin/components/pages/admin-dashboard/admin-dashboard.component').then(c => c.AdminDashboardComponent),
-    },
-    {
-      path: 'barbero',
-      loadComponent: () => import('./modules/barber/components/pages/barber-agenda/barber-agenda.component').then(c => c.BarberAgendaComponent),
-    },
-    {
-      path: 'cliente',
-      loadComponent: () => import('./modules/client/components/pages/client-reservations/client-reservations.component').then(c => c.ClientReservationsComponent),
-    },
-  */
+  /*
+     --- RUTAS FUTURAS ---
+     Cuando construyamos las secciones de admin, barbero y cliente,
+     descomentaremos y configuraremos estas rutas. Por ahora, las
+     dejamos aquí como referencia para no causar errores.
+ 
+     {
+       path: 'admin',
+       loadComponent: () => import('./modules/admin/components/pages/admin-dashboard/admin-dashboard.component').then(c => c.AdminDashboardComponent),
+     },
+     {
+       path: 'barbero',
+       loadComponent: () => import('./modules/barber/components/pages/barber-agenda/barber-agenda.component').then(c => c.BarberAgendaComponent),
+     },
+     
+   */
+  {
+    path: 'client',
+    loadChildren: () => import('./modules/client/client.routes').then(m => m.clientRoutes)
+  },
 
   // --- RUTA PÚBLICA (PÁGINA DE INICIO) ---
   // Esta es la ruta por defecto (ej. http://localhost:4200/).

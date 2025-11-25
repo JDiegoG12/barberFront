@@ -1,22 +1,49 @@
+<!--
+  VISTA PÚBLICA PRINCIPAL (HOME)
+  Utiliza la plantilla pública base que incluye el Navbar y Footer estándar para usuarios no autenticados.
+-->
 <app-public-template>
+  
+  <!-- Sección Hero: Banner principal con imagen de fondo y llamada a la acción inicial -->
   <app-hero-section></app-hero-section>
-  <!-- Contenedor principal del Layout Grid -->
+  
+  <!-- 
+    Contenedor principal del Layout Grid 
+    Define la estructura responsiva de la página:
+    - Escritorio: Grid de 12 columnas (8 para contenido, 4 para barra lateral).
+    - Móvil: Flujo vertical (Flex column).
+  -->
   <div class="home-layout">
     
-    <!-- COLUMNA IZQUIERDA -->
+    <!-- COLUMNA IZQUIERDA: Contenido Principal -->
     <div class="content-column">
+      
+      <!-- 
+        Lista de Servicios:
+        - [selectedService]: Recibe el servicio seleccionado para resaltar la tarjeta correspondiente.
+        - (onServiceSelect): Captura la selección del usuario para actualizar el estado en el componente padre.
+      -->
       <app-services-list 
         id="seccion-servicios"
         [selectedService]="selectedService"
         (onServiceSelect)="toggleService($event)">
       </app-services-list>
       
+      <!-- Catálogo de Barberos (Equipo de trabajo) -->
       <app-barbers-list id="seccion-barberos"></app-barbers-list>
+      
+      <!-- Información de contacto, ubicación y mapa -->
       <app-info-section id="seccion-contacto"></app-info-section>
     </div>
 
-    <!-- COLUMNA DERECHA -->
+    <!-- COLUMNA DERECHA: Barra Lateral (Sticky) -->
     <div class="sidebar-column">
+      <!-- 
+        Tarjeta de Resumen del Negocio:
+        Muestra el servicio seleccionado y el botón de reservar.
+        En escritorio se mantiene fija al hacer scroll (Sticky).
+        En móvil se transforma en una barra inferior fija.
+      -->
       <app-business-summary-card
         [selectedService]="selectedService"
         (onReserveClick)="handleReservationAttempt()">
@@ -25,8 +52,12 @@
 
   </div>
 
-  <!-- MODAL DE ALERTA PARA INVITADOS -->
-  <!-- Se muestra encima de todo gracias al z-index del componente -->
+  <!-- 
+    MODAL DE ALERTA PARA INVITADOS 
+    Se activa cuando un usuario no autenticado intenta iniciar una reserva.
+    Actúa como barrera de entrada (Gatekeeper) redirigiendo al Login o Registro.
+    Tiene un z-index alto para superponerse a cualquier otro elemento de la interfaz.
+  -->
   <app-modal-alert
     *ngIf="showGuestModal"
     title="Inicia sesión para reservar"
