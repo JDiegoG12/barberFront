@@ -48,7 +48,7 @@ export interface DaySchedule {
  */
 export interface Barber {
   /** Identificador único del barbero. */
-  id: number;
+  id: string;
 
   /** Nombre de pila. */
   name: string;

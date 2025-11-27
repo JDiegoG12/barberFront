@@ -27,7 +27,7 @@ const STANDARD_SCHEDULE = [
 // --- BARBEROS (5 Barberos para variedad) ---
 export const MOCK_BARBERS: Barber[] = [
   {
-    id: 1,
+    id: "1",
     name: 'Carlos',
     lastName: 'Rojas',
     photoUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
@@ -38,7 +38,7 @@ export const MOCK_BARBERS: Barber[] = [
     schedule: STANDARD_SCHEDULE
   },
   {
-    id: 2,
+    id: "2",
     name: 'Miguel',
     lastName: 'Pérez',
     photoUrl: 'https://randomuser.me/api/portraits/men/45.jpg',
@@ -49,7 +49,7 @@ export const MOCK_BARBERS: Barber[] = [
     schedule: STANDARD_SCHEDULE
   },
   {
-    id: 3,
+    id: "3",
     name: 'Andrés',
     lastName: 'Gómez',
     photoUrl: 'https://randomuser.me/api/portraits/men/12.jpg',
@@ -60,7 +60,7 @@ export const MOCK_BARBERS: Barber[] = [
     schedule: STANDARD_SCHEDULE
   },
   {
-    id: 4,
+    id: "4",
     name: 'David',
     lastName: 'Vela',
     photoUrl: 'https://randomuser.me/api/portraits/men/22.jpg',
@@ -71,7 +71,7 @@ export const MOCK_BARBERS: Barber[] = [
     schedule: STANDARD_SCHEDULE
   },
   {
-    id: 5,
+    id: "5",
     name: 'Sofía',
     lastName: 'Méndez',
     photoUrl: 'https://randomuser.me/api/portraits/women/44.jpg',
@@ -114,7 +114,7 @@ export const MOCK_SERVICES: Service[] = [
 
 // --- USUARIO ---
 export const MOCK_CLIENT_USER: User = {
-  id: 1,
+  id: "1",
   firstName: 'Juan',
   lastName: 'Pérez',
   email: 'juan.perez@example.com',
@@ -130,21 +130,21 @@ const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
 // --- RESERVAS ---
 export const MOCK_RESERVATIONS: Reservation[] = [
   {
-    id: 1001, clientId: 1, barberId: 1, serviceId: 101, 
+    id: 1001, clientId: "1", barberId: "1", serviceId: 101, 
     start: new Date(yesterday.setHours(10, 0, 0)), end: new Date(yesterday.setHours(10, 30, 0)), 
     price: 25000, status: 'Finalizada',
-    barber: MOCK_BARBERS.find(b => b.id === 1), service: MOCK_SERVICES.find(s => s.id === 101)
+    barber: MOCK_BARBERS.find(b => b.id === "1"), service: MOCK_SERVICES.find(s => s.id === 101)
   },
   {
-    id: 1002, clientId: 1, barberId: 2, serviceId: 103, 
+    id: 1002, clientId: "1", barberId: "2", serviceId: 103, 
     start: new Date(tomorrow.setHours(14, 0, 0)), end: new Date(tomorrow.setHours(15, 30, 0)), 
     price: 80000, status: 'En espera',
-    barber: MOCK_BARBERS.find(b => b.id === 2), service: MOCK_SERVICES.find(s => s.id === 103)
+    barber: MOCK_BARBERS.find(b => b.id === "2"), service: MOCK_SERVICES.find(s => s.id === 103)
   },
   {
-    id: 1003, clientId: 1, barberId: 1, serviceId: 102, 
+    id: 1003, clientId: "1", barberId: "1", serviceId: 102, 
     start: new Date(today.setHours(18, 0, 0)), end: new Date(today.setHours(18, 20, 0)), 
     price: 15000, status: 'Cancelada',
-    barber: MOCK_BARBERS.find(b => b.id === 1), service: MOCK_SERVICES.find(s => s.id === 102)
+    barber: MOCK_BARBERS.find(b => b.id === "1"), service: MOCK_SERVICES.find(s => s.id === 102)
   }
 ];

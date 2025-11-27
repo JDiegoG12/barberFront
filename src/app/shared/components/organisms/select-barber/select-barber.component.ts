@@ -32,7 +32,7 @@ export class SelectBarberComponent implements OnInit {
    * ID del barbero previamente seleccionado (si existe).
    * Útil para mantener el estado visual de selección si el usuario navega atrás en el Wizard.
    */
-  @Input() preSelectedBarberId: number | null = null;
+  @Input() preSelectedBarberId: string | null = null;
 
   /**
    * Evento que se emite cuando el usuario elige a un barbero de la lista.

@@ -12,7 +12,7 @@ export type UserRole = 'ADMIN' | 'BARBER' | 'CLIENT';
  */
 export interface User {
   /** Identificador único del usuario en la base de datos. */
-  id: number;
+  id: string;
 
   /** Primer nombre del usuario. */
   firstName: string;

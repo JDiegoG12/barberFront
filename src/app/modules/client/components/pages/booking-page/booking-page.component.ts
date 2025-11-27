@@ -69,7 +69,7 @@ export class BookingPageComponent implements OnInit {
   public selectedServiceId: number | null = null;
   public selectedService: Service | null = null; 
 
-  public selectedBarberId: number | null = null;
+  public selectedBarberId: string | null = null;
   public selectedBarber: Barber | null = null;
   
   /** Reservas existentes del barbero seleccionado, necesarias para calcular disponibilidad. */
@@ -85,7 +85,7 @@ export class BookingPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const serviceId = Number(params['serviceId']);
-      const barberId = Number(params['barberId']); // Leemos barberId opcional para reprogramación
+      const barberId = String(params['barberId']); // Leemos barberId opcional para reprogramación
 
       if (serviceId) {
         this.selectedServiceId = serviceId;
@@ -119,7 +119,7 @@ export class BookingPageComponent implements OnInit {
    * Carga los detalles completos del barbero desde la API.
    * Necesario para obtener su horario laboral (schedule).
    */
-  private loadBarberDetails(id: number): void {
+  private loadBarberDetails(id: string): void {
     this.barberService.getBarberById(id).subscribe(barber => {
       if (barber) {
         this.selectedBarber = barber;
@@ -133,7 +133,7 @@ export class BookingPageComponent implements OnInit {
    * Carga las reservas existentes del barbero seleccionado.
    * Se utiliza para filtrar los huecos ocupados en el selector de horas.
    */
-  private loadBarberReservations(barberId: number): void {
+  private loadBarberReservations(barberId: string): void {
     this.reservationService.getReservationsByBarberId(barberId).subscribe(reservations => {
       this.barberReservations = reservations;
     });

@@ -6,7 +6,7 @@
   <!-- === CONTENIDO VISIBLE EN CABECERA MÓVIL === -->
   <div class="mobile-header-content">
     <!-- Caso Invitado: Botón pequeño de entrar -->
-    <button *ngIf="!user" class="btn-login-mobile-header" routerLink="/login">
+    <button *ngIf="!user" class="btn-login-mobile-header" (click)="handleLogin()">
       Iniciar Sesión
     </button>
     
@@ -60,7 +60,7 @@
   <!-- ACCIONES DESKTOP  -->
   <div class="navbar-actions-desktop">
     <app-theme-toggle></app-theme-toggle>
-    <button *ngIf="!user" class="btn-login">Iniciar Sesión</button>
+    <button *ngIf="!user" class="btn-login" (click)="handleLogin()">Iniciar Sesión</button>
     <div *ngIf="user" class="user-menu-desktop">
       <span class="greeting">Hola, {{ user.firstName }}</span>
       <button class="btn-logout-icon" (click)="handleLogout()" title="Cerrar Sesión">

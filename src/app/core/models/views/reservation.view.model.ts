@@ -21,10 +21,10 @@ export interface Reservation {
   id: number;
 
   /** ID del usuario (cliente) que realizó la reserva. */
-  clientId: number;
+  clientId: string;
 
   /** ID del barbero seleccionado para prestar el servicio. */
-  barberId: number;
+  barberId: string;
 
   /** ID del servicio contratado. */
   serviceId: number;

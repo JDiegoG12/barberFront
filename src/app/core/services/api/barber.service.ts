@@ -36,7 +36,7 @@ export class BarberService {
    * @param id - El identificador numérico del barbero a buscar.
    * @returns Un Observable que emite el objeto `Barber` si es encontrado, o `undefined` si no existe.
    */
-  getBarberById(id: number): Observable<Barber | undefined> {
+  getBarberById(id: string): Observable<Barber | undefined> {
     return of(MOCK_BARBERS).pipe(
       map(barbers => barbers.find(b => b.id === id))
     );

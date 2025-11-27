@@ -29,6 +29,11 @@ export class NavbarComponent {
   @Input() user: User | null = null; 
 
   /**
+   * Evento que se emite cuando el usuario hace clic en la acción de "Iniciar Sesión".
+   * El componente padre "app.component" debe manejar la lógica de redirección al flujo de login.
+   */
+  @Output() onLogin = new EventEmitter<void>();
+  /**
    * Evento que se emite cuando el usuario hace clic en la acción de "Cerrar Sesión".
    * El componente padre debe manejar la lógica de limpieza de sesión y redirección.
    */
@@ -54,6 +59,14 @@ export class NavbarComponent {
    */
   handleLogout(): void {
     this.onLogout.emit();
+    this.isMenuOpen = false;
+  }
+  /**
+   * Ejecuta el flujo de inicio de sesión.
+   * Emite el evento `onLogin` y asegura que el menú móvil se cierre para restablecer la UI.
+   */
+  handleLogin(): void {
+    this.onLogin.emit();
     this.isMenuOpen = false;
   }
 }

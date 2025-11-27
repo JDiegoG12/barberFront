@@ -24,7 +24,7 @@ export class ReservationService {
    * @param clientId - El identificador único del cliente.
    * @returns Un Observable que emite un array de objetos `Reservation`.
    */
-  getReservationsByClientId(clientId: number): Observable<Reservation[]> {
+  getReservationsByClientId(clientId: string): Observable<Reservation[]> {
     return of(MOCK_RESERVATIONS).pipe(
       map(reservations => 
         reservations
@@ -42,7 +42,7 @@ export class ReservationService {
    * @param barberId - El identificador único del barbero.
    * @returns Un Observable que emite un array de objetos `Reservation`.
    */
-  getReservationsByBarberId(barberId: number): Observable<Reservation[]> {
+  getReservationsByBarberId(barberId: string): Observable<Reservation[]> {
     return of(MOCK_RESERVATIONS).pipe(
       map(reservations => reservations.filter(r => r.barberId === barberId))
     );
