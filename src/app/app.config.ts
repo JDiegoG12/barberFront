@@ -11,22 +11,18 @@ function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://localhost:8080', // URL de Keycloak
-        realm: 'barbershop',          // Realm
-        clientId: 'frontend-client'   // Cliente
+        url: 'http://localhost:8080',
+        realm: 'barbershop',
+        clientId: 'frontend-client'
       },
       initOptions: {
         onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-        checkLoginIframe: false
+        checkLoginIframe: false,
+        // AGREGA ESTO: Fuerza el uso del estándar moderno (evita conflictos de hash/query)
+        flow: 'standard' 
       },
-      // Habilita Bearer interceptor para agregar el token a las peticiones HTTP automáticamente
       enableBearerInterceptor: true,
       bearerPrefix: 'Bearer'
-    }).catch(error => {
-      console.error('Keycloak initialization failed', error);
-      // Retornamos true para que la aplicación inicie aunque falle Keycloak
-      return true;
     });
 }
 
