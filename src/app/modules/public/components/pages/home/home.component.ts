@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 // Importamos la plantilla y los organismos
@@ -11,6 +11,7 @@ import { ModalAlertComponent } from '../../../../../shared/components/molecules/
 import { HeroSectionComponent } from '../../../../../shared/components/organisms/hero-section/hero-section.component';
 // Modelos
 import { Service } from '../../../../../core/models/views/service.view.model';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 /**
  * Componente de página principal (Landing Page) para la vista pública de la aplicación.
@@ -35,7 +36,9 @@ import { Service } from '../../../../../core/models/views/service.view.model';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private authService = inject(AuthService);
+
   /**
    * Almacena el servicio que el usuario ha seleccionado de la lista pública.
    * Utilizado para mostrar el resumen en la tarjeta lateral y validar la intención de reserva.
@@ -49,6 +52,13 @@ export class HomeComponent {
   public showGuestModal: boolean = false;
 
   constructor(private router: Router) {}
+
+  async ngOnInit(): Promise<void> {
+    const user = await this.authService.getUserProfile();
+    if (user) {
+      this.authService.navigateToDashboard(user.role);
+    }
+  }
 
   /**
    * Gestiona la lógica de selección y deselección de servicios.

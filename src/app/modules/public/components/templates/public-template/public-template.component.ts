@@ -23,6 +23,9 @@ export class PublicTemplateComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.currentUser = await this.authService.getUserProfile();
+    if (this.currentUser) {
+      this.authService.navigateToDashboard(this.currentUser.role);
+    }
   }
 
   login(): void {

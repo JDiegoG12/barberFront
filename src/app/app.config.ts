@@ -1,12 +1,11 @@
-import { ApplicationConfig, APP_INITIALIZER, importProvidersFrom } from '@angular/core';
-// 1. Importamos 'withInMemoryScrolling' desde el router
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 
 import { routes } from './app.routes';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
-// Función para inicializar Keycloak
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
@@ -16,34 +15,28 @@ function initializeKeycloak(keycloak: KeycloakService) {
         clientId: 'frontend-client'
       },
       initOptions: {
-        onLoad: 'check-sso',
-        checkLoginIframe: false,
-        // AGREGA ESTO: Fuerza el uso del estándar moderno (evita conflictos de hash/query)
-        flow: 'standard' 
+        onLoad: 'check-sso', // 'login-required' , 'check-sso'
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
       },
-      enableBearerInterceptor: true,
-      bearerPrefix: 'Bearer'
+      enableBearerInterceptor: true
     });
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // 2. Añadimos la configuración de scroll como un segundo argumento
-    provideRouter(
-      routes,
-      withInMemoryScrolling({
-        // Habilita que el router se desplace a un ancla si está presente en la URL
-        anchorScrolling: 'enabled',
-        // Opcional: Cuando navegues hacia atrás/adelante, restaura la posición de scroll anterior
-        scrollPositionRestoration: 'enabled'
-      })
-    ),
-    importProvidersFrom(KeycloakAngularModule),
+    provideRouter(routes),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService]
+    },
+    KeycloakService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakBearerInterceptor,
+      multi: true
     }
   ]
 };

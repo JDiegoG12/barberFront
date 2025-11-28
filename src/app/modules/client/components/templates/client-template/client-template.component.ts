@@ -5,6 +5,8 @@ import { FooterComponent } from '../../../../../shared/components/organisms/foot
 // Importamos el mock para simular sesión iniciada
 import { MOCK_CLIENT_USER } from '../../../../../core/mocks/mock-data';
 import { User } from '../../../../../core/models/views/user.view.model';
+import { inject } from '@angular/core';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 /**
  * Componente de plantilla (Layout) para la sección privada del cliente.
@@ -19,21 +21,24 @@ import { User } from '../../../../../core/models/views/user.view.model';
   styleUrl: './client-template.component.scss'
 })
 export class ClientTemplateComponent {
+  private authService = inject(AuthService);
+
   /**
    * Usuario actualmente autenticado en el sistema.
    * Se inicializa con datos simulados (Mock) para propósitos de desarrollo y visualización
    * de la interfaz de usuario logueado. En producción, esto vendría de un AuthService.
    */
-  public currentUser: User = MOCK_CLIENT_USER;
+  public currentUser: User | null = null;
 
+  async ngOnInit(): Promise<void> {
+    this.currentUser = await this.authService.getUserProfile();
+  }
   /**
    * Maneja el evento de cierre de sesión disparado desde el Navbar.
    * Se encarga de limpiar el estado de la sesión (simulado) y redirigir al usuario
    * a la página de inicio pública.
    */
   handleLogout(): void {
-    console.log('Cerrando sesión...');
-    // Aquí iría la lógica de borrar token y redirigir a home
-    window.location.href = '/'; 
+    this.authService.logout();
   }
 }
