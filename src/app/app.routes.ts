@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ClientGuard, BarberGuard, AdminGuard } from './auth.guard';
 
 export const routes: Routes = [
   // --- RUTA DEL PANEL DE ADMINISTRADOR ---
@@ -22,7 +23,9 @@ export const routes: Routes = [
    */
   {
     path: 'client',
-    loadChildren: () => import('./modules/client/client.routes').then(m => m.clientRoutes)
+    loadChildren: () => import('./modules/client/client.routes').then(m => m.clientRoutes),
+    canActivate: [ClientGuard],
+    canLoad: [ClientGuard]
   },
 
   // --- RUTA PÚBLICA (PÁGINA DE INICIO) ---
