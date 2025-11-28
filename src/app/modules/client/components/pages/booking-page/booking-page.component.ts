@@ -85,7 +85,7 @@ export class BookingPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const serviceId = Number(params['serviceId']);
-      const barberId = String(params['barberId']); // Leemos barberId opcional para reprogramación
+      const barberId = (params['barberId']); // Leemos barberId opcional para reprogramación
 
       if (serviceId) {
         this.selectedServiceId = serviceId;

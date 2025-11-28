@@ -86,26 +86,25 @@ export const MOCK_BARBERS: Barber[] = [
 // --- SERVICIOS (Expandido para probar carrusel) ---
 export const MOCK_SERVICES: Service[] = [
   // CATEGORÍA 2: CORTES DE CABELLO
-  { id: 101, name: 'Corte Clásico', description: 'Tijera y máquina.', price: 25000, duration: 30, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1, 2, 4] },
-  { id: 105, name: 'Corte Fade', description: 'Degradado moderno.', price: 30000, duration: 45, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [2, 4] },
-  { id: 201, name: 'Corte Niño', description: 'Para menores de 10 años.', price: 20000, duration: 30, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1, 4] },
-  { id: 203, name: 'Rapado Total', description: 'Máquina al cero o uno.', price: 15000, duration: 15, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [2, 4] },
-  { id: 205, name: 'Diseño Freestyle', description: 'Líneas y figuras.', price: 45000, duration: 60, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [2] },
-
+  { id: 101, name: 'Corte Clásico', description: 'Tijera y máquina.', price: 25000, duration: 30, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1", "2", "4"] },
+  { id: 105, name: 'Corte Fade', description: 'Degradado moderno.', price: 30000, duration: 45, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["2", "4"] },
+  { id: 201, name: 'Corte Niño', description: 'Para menores de 10 años.', price: 20000, duration: 30, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1", "4"] },
+  { id: 203, name: 'Rapado Total', description: 'Máquina al cero o uno.', price: 15000, duration: 15, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["2", "4"] },
+  { id: 205, name: 'Diseño Freestyle', description: 'Líneas y figuras.', price: 45000, duration: 60, categoryId: 2, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["2"] },
   // CATEGORÍA 3: CUIDADO FACIAL
-  { id: 102, name: 'Arreglo Barba', description: 'Perfilado y toalla caliente.', price: 15000, duration: 20, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1, 3] },
-  { id: 106, name: 'Cejas', description: 'Limpieza con navaja.', price: 10000, duration: 10, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1, 2, 3, 5] },
-  { id: 202, name: 'Barba Express', description: 'Solo máquina.', price: 8000, duration: 10, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1, 3, 4] },
-  { id: 206, name: 'Exfoliación Facial', description: 'Limpieza profunda.', price: 30000, duration: 20, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [3, 5] },
+  { id: 102, name: 'Arreglo Barba', description: 'Perfilado y toalla caliente.', price: 15000, duration: 20, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1", "3"] },
+  { id: 106, name: 'Cejas', description: 'Limpieza con navaja.', price: 10000, duration: 10, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1", "2", "3", "5"] },
+  { id: 202, name: 'Barba Express', description: 'Solo máquina.', price: 8000, duration: 10, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1", "3", "4"] },
+  { id: 206, name: 'Exfoliación Facial', description: 'Limpieza profunda.', price: 30000, duration: 20, categoryId: 3, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["3", "5"] },
 
   // CATEGORÍA 1: COMBOS
-  { id: 107, name: 'Combo Completo', description: 'Corte + Barba + Cejas.', price: 45000, duration: 60, categoryId: 1, availabilityStatus: 'No Disponible', systemStatus: 'Activo', barberIds: [1, 3] },
-  { id: 207, name: 'Combo Padre e Hijo', description: 'Dos cortes clásicos.', price: 40000, duration: 60, categoryId: 1, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1, 4] },
-  { id: 208, name: 'Día de Novio', description: 'Servicio premium pre-boda.', price: 120000, duration: 120, categoryId: 1, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [1] },
+  { id: 107, name: 'Combo Completo', description: 'Corte + Barba + Cejas.', price: 45000, duration: 60, categoryId: 1, availabilityStatus: 'No Disponible', systemStatus: 'Activo', barberIds: ["1", "3"] },
+  { id: 207, name: 'Combo Padre e Hijo', description: 'Dos cortes clásicos.', price: 40000, duration: 60, categoryId: 1, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1", "4"] },
+  { id: 208, name: 'Día de Novio', description: 'Servicio premium pre-boda.', price: 120000, duration: 120, categoryId: 1, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["1"] },
 
   // CATEGORÍA 5: OTROS
-  { id: 103, name: 'Tinte Fantasía', description: 'Colores vibrantes.', price: 80000, duration: 90, categoryId: 5, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [2, 5] },
-  { id: 204, name: 'Canas (Camuflaje)', description: 'Tinte natural.', price: 60000, duration: 45, categoryId: 5, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: [2, 5] },
+  { id: 103, name: 'Tinte Fantasía', description: 'Colores vibrantes.', price: 80000, duration: 90, categoryId: 5, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["2", "5"] },
+  { id: 204, name: 'Canas (Camuflaje)', description: 'Tinte natural.', price: 60000, duration: 45, categoryId: 5, availabilityStatus: 'Disponible', systemStatus: 'Activo', barberIds: ["2", "5"] },
 
   // CATEGORÍA 4: TRATAMIENTOS (Prueba No Disponible)
   { id: 104, name: 'Hidratación Profunda', description: 'Tratamiento intensivo.', price: 50000, duration: 45, categoryId: 4, availabilityStatus: 'No Disponible', systemStatus: 'Activo', barberIds: [] },

@@ -42,7 +42,7 @@ export interface Service {
    * Lista de identificadores de los barberos calificados para realizar este servicio.
    * Se utiliza para filtrar qué profesionales mostrar al seleccionar este servicio.
    */
-  barberIds: number[];
+  barberIds: String[];
 
   /** Estado de disponibilidad actual para reservas desde la UI. */
   availabilityStatus: ServiceAvailabilityStatus;
