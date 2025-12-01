@@ -3,44 +3,116 @@
   
   <div class="categories-wrapper" *ngIf="groupedServices$ | async as groups">
     
-    <!-- 1. CATEGORÍAS INICIALES (Siempre visibles) -->
-    <!-- Usamos slice pipe: desde 0 hasta el límite -->
+    <!-- ==========================================
+         1. CATEGORÍAS INICIALES (Siempre visibles)
+         ========================================== -->
     <div 
       *ngFor="let group of groups | slice:0:INITIAL_LIMIT" 
       class="category-block fade-in">
       
       <h3 class="category-title">{{ group.category.name }}</h3>
-      <div class="services-carousel">
-        <div class="carousel-item" *ngFor="let service of group.services">
-          <app-service-card 
-            [service]="service"
-            [isSelected]="selectedService?.id === service.id"
-            (toggleSelection)="handleSelection(service)">
-          </app-service-card>
+      
+      <!-- CONTENEDOR RELATIVO PARA FLECHAS -->
+      <div class="carousel-container">
+
+        <!-- Flecha Izquierda -->
+        <button 
+          class="nav-btn prev-btn"
+          [class.hidden]="!arrowState[group.category.id]?.canScrollLeft"
+          (click)="scroll(group.category.id, -1)"
+          aria-label="Anterior">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Carrusel -->
+        <!-- #carouselRef: Para ViewChildren -->
+        <!-- attr.data-id: Para identificar la categoría en el TS -->
+        <!-- scroll: Para actualizar flechas en tiempo real -->
+        <div class="services-carousel" 
+             #carouselRef
+             [attr.data-id]="group.category.id"
+             (scroll)="checkScroll(group.category.id, $any($event.target))">
+          
+          <div class="carousel-item" *ngFor="let service of group.services">
+            <app-service-card 
+              [service]="service"
+              [isSelected]="selectedService?.id === service.id"
+              (toggleSelection)="handleSelection(service)">
+            </app-service-card>
+          </div>
         </div>
+
+        <!-- Flecha Derecha -->
+        <button 
+          class="nav-btn next-btn"
+          [class.hidden]="!arrowState[group.category.id]?.canScrollRight"
+          (click)="scroll(group.category.id, 1)"
+          aria-label="Siguiente">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
       </div>
     </div>
 
-    <!-- 2. CATEGORÍAS RESTANTES (Animación de Acordeón) -->
+    <!-- ==========================================
+         2. CATEGORÍAS RESTANTES (Acordeón)
+         ========================================== -->
     <div class="expandable-wrapper" [class.is-open]="showAll">
       <div class="expandable-inner">
-        <!-- Contenedor interno para aplicar el gap y padding sin romper la animación -->
         <div class="extra-categories-list">
+          
           <div 
             *ngFor="let group of groups | slice:INITIAL_LIMIT" 
             class="category-block">
             
             <h3 class="category-title">{{ group.category.name }}</h3>
-            <div class="services-carousel">
-              <div class="carousel-item" *ngFor="let service of group.services">
-                <app-service-card 
-                  [service]="service"
-                  [isSelected]="selectedService?.id === service.id"
-                  (toggleSelection)="handleSelection(service)">
-                </app-service-card>
+            
+            <!-- CONTENEDOR RELATIVO PARA FLECHAS (Repetimos estructura) -->
+            <div class="carousel-container">
+
+              <!-- Flecha Izquierda -->
+              <button 
+                class="nav-btn prev-btn"
+                [class.hidden]="!arrowState[group.category.id]?.canScrollLeft"
+                (click)="scroll(group.category.id, -1)"
+                aria-label="Anterior">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+
+              <div class="services-carousel" 
+                   #carouselRef
+                   [attr.data-id]="group.category.id"
+                   (scroll)="checkScroll(group.category.id, $any($event.target))">
+                
+                <div class="carousel-item" *ngFor="let service of group.services">
+                  <app-service-card 
+                    [service]="service"
+                    [isSelected]="selectedService?.id === service.id"
+                    (toggleSelection)="handleSelection(service)">
+                  </app-service-card>
+                </div>
               </div>
+
+              <!-- Flecha Derecha -->
+              <button 
+                class="nav-btn next-btn"
+                [class.hidden]="!arrowState[group.category.id]?.canScrollRight"
+                (click)="scroll(group.category.id, 1)"
+                aria-label="Siguiente">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+
             </div>
           </div>
+
         </div>
       </div>
     </div>
