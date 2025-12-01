@@ -1,0 +1,16 @@
+<app-navbar 
+  [user]="currentUser" 
+  (onLogout)="handleLogout()">
+</app-navbar>
+
+<!--
+  Área de Contenido Principal:
+  Contenedor donde Angular renderiza dinámicamente las vistas hijas configuradas en el enrutador
+  (ej. ClientHome, ClientReservations) sin recargar la página completa.
+-->
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Pie de página global de la aplicación -->
+<app-footer></app-footer>

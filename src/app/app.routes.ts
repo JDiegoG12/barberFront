@@ -10,17 +10,20 @@ export const routes: Routes = [
      Cuando construyamos las secciones de admin, barbero y cliente,
      descomentaremos y configuraremos estas rutas. Por ahora, las
      dejamos aquí como referencia para no causar errores.
- 
-     {
-       path: 'admin',
-       loadComponent: () => import('./modules/admin/components/pages/admin-dashboard/admin-dashboard.component').then(c => c.AdminDashboardComponent),
-     },
      {
        path: 'barbero',
        loadComponent: () => import('./modules/barber/components/pages/barber-agenda/barber-agenda.component').then(c => c.BarberAgendaComponent),
      },
-     
-   */
+        */
+
+  // --- RUTA DEL PANEL DE ADMINISTRADOR ---
+  {
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.routes').then(c => c.adminRoutes),
+    canActivate: [AdminGuard],
+    canLoad: [AdminGuard]
+  },
+  // --- RUTA DEL PANEL DE CLIENTE ---
   {
     path: 'client',
     loadChildren: () => import('./modules/client/client.routes').then(m => m.clientRoutes),

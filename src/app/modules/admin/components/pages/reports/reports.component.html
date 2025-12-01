@@ -1,0 +1,42 @@
+<div class="reports-container">
+  <div class="header">
+    <h1>Reportes y Métricas</h1>
+    <div class="date-badge">Mes Actual: {{ currentMonthYear }}</div>
+  </div>
+
+  <div class="chart-card full-width">
+    <h2>Rendimiento: Horas Trabajadas vs Totales (%)</h2>
+    <div class="chart-wrapper">
+      <canvas baseChart
+              [data]="performanceChartData"
+              [options]="performanceChartOptions"
+              [type]="'bar'">
+      </canvas>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card half-width">
+      <h2>Cancelaciones por Semana</h2>
+      <div class="chart-wrapper">
+        <canvas baseChart
+                [data]="cancellationsChartData"
+                [options]="cancellationsChartOptions"
+                [type]="'line'">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="chart-card half-width">
+      <h2>Servicios Más Solicitados</h2>
+      <div class="chart-wrapper">
+        <canvas baseChart
+                [data]="servicesChartData"
+                [options]="servicesChartOptions"
+                [type]="'bar'">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
+

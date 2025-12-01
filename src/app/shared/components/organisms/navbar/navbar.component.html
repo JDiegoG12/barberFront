@@ -11,8 +11,13 @@
     </button>
     
     <!-- Caso Cliente: Saludo -->
-    <span *ngIf="user" class="greeting-mobile-header">
-      Hola, {{ user.firstName }}
+    <span *ngIf="user?.role === 'CLIENT'" class="greeting-mobile-header">
+      Hola, {{ user?.firstName }}
+    </span>
+
+    <!-- Caso Admin: Saludo cordial -->
+    <span *ngIf="user?.role === 'ADMIN'" class="greeting-mobile-header">
+      Bienvenido, Admin {{ user?.firstName }}
     </span>
   </div>
 
@@ -27,17 +32,35 @@
   <!-- MENÚ DESPLEGABLE -->
   <ul class="navbar-links" [class.is-open]="isMenuOpen">
     
-    <!-- Enlaces comunes -->
-    <li><a [routerLink]="user ? '/client' : '/'" (click)="isMenuOpen = false">Inicio</a></li>
-    <li><a [routerLink]="user ? '/client' : '/'" fragment="seccion-servicios" (click)="isMenuOpen = false">Servicios</a></li>
-    <li><a [routerLink]="user ? '/client' : '/'" fragment="seccion-barberos" (click)="isMenuOpen = false">Barberos</a></li>
-    <li><a [routerLink]="user ? '/client' : '/'" fragment="seccion-contacto" (click)="isMenuOpen = false">Contacto</a></li>
+    <!-- Enlaces Cliente -->
+    <li *ngIf="user?.role !== 'ADMIN' && user?.role !== 'BARBER'">
+      <a [routerLink]="user ? '/client' : '/'" (click)="isMenuOpen = false">Inicio</a>
+    </li>
+    <li *ngIf="user?.role !== 'ADMIN' && user?.role !== 'BARBER'">
+      <a [routerLink]="user ? '/client' : '/'" fragment="seccion-servicios" (click)="isMenuOpen = false">Servicios</a>
+    </li>
+    <li *ngIf="user?.role !== 'ADMIN' && user?.role !== 'BARBER'">
+      <a [routerLink]="user ? '/client' : '/'" fragment="seccion-barberos" (click)="isMenuOpen = false">Barberos</a>
+    </li>
+    <li *ngIf="user?.role !== 'ADMIN' && user?.role !== 'BARBER'">
+      <a [routerLink]="user ? '/client' : '/'" fragment="seccion-contacto" (click)="isMenuOpen = false">Contacto</a>
+    </li>
 
     <!-- Enlace Cliente -->
-    <li *ngIf="user">
+    <li *ngIf="user?.role === 'CLIENT'">
       <a routerLink="/client/reservations" (click)="isMenuOpen = false" class="nav-highlight">Mis Reservas</a>
     </li>
 
+    <!-- Enlace Administrador -->
+    <li *ngIf="user?.role === 'ADMIN'">
+      <a routerLink="/admin/barbers" (click)="isMenuOpen = false" class="nav-highlight">Barberos</a>
+    </li>
+    <li *ngIf="user?.role === 'ADMIN'">
+      <a routerLink="/admin/services" (click)="isMenuOpen = false" class="nav-highlight">Servicios</a>
+    </li>
+    <li *ngIf="user?.role === 'ADMIN'">
+      <a routerLink="/admin/reports" (click)="isMenuOpen = false" class="nav-highlight">Reportes</a>
+    </li>
     <!-- Acciones Móviles (Dentro del menú) -->
     <li class="navbar-actions-mobile">
       
@@ -61,8 +84,18 @@
   <div class="navbar-actions-desktop">
     <app-theme-toggle></app-theme-toggle>
     <button *ngIf="!user" class="btn-login" (click)="handleLogin()">Iniciar Sesión</button>
-    <div *ngIf="user" class="user-menu-desktop">
-      <span class="greeting">Hola, {{ user.firstName }}</span>
+    <div *ngIf="user?.role === 'CLIENT'" class="user-menu-desktop">
+      <span class="greeting">Hola, {{ user?.firstName }}</span>
+      <button class="btn-logout-icon" (click)="handleLogout()" title="Cerrar Sesión">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="user?.role === 'ADMIN'" class="user-menu-desktop">
+      <span class="greeting-admin">Bienvenido,<br> <strong>Admin {{ user?.firstName }}</strong></span>
       <button class="btn-logout-icon" (click)="handleLogout()" title="Cerrar Sesión">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
