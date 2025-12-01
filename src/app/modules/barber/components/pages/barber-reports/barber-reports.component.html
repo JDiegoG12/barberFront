@@ -1,1 +1,81 @@
-<p>barber-reports works!</p>
+<div class="reports-container">
+  <div class="header">
+    <h1>Panel de Productividad</h1>
+    <p>Resumen de rendimiento y tiempos estimados de atención.</p>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <!-- Citas Totales -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span>Citas Totales</span>
+        <div class="icon-box blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
+      </div>
+      <div class="kpi-value">{{ kpis.citasTotales }}</div>
+      <div class="kpi-footer">
+        <span class="trend positive" *ngIf="kpis.citasTotalesVariacion > 0">+{{ kpis.citasTotalesVariacion }}% vs mes anterior</span>
+        <span class="trend negative" *ngIf="kpis.citasTotalesVariacion < 0">{{ kpis.citasTotalesVariacion }}% vs mes anterior</span>
+        <span class="trend neutral" *ngIf="kpis.citasTotalesVariacion === 0">Sin variación</span>
+      </div>
+    </div>
+
+    <!-- Tiempo Promedio -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span>Tiempo Promedio</span>
+        <div class="icon-box yellow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+      </div>
+      <div class="kpi-value">{{ kpis.tiempoPromedio }}m</div>
+      <div class="kpi-footer">
+        <span class="subtext">Por cliente</span>
+      </div>
+    </div>
+
+    <!-- Productividad -->
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span>Productividad</span>
+        <div class="icon-box purple">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+        </div>
+      </div>
+      <div class="kpi-value">{{ kpis.productividad }}%</div>
+      <div class="kpi-footer">
+        <span class="subtext highlight">Tiempo efectivo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="charts-row">
+    <!-- Servicios Realizados -->
+    <div class="chart-card">
+      <h2>Servicios Realizados (Semana Actual)</h2>
+      <div class="chart-wrapper">
+        <canvas baseChart
+                [data]="servicesChartData"
+                [options]="servicesChartOptions"
+                [type]="'line'">
+        </canvas>
+      </div>
+    </div>
+
+    <!-- Estimación vs Realidad -->
+    <div class="chart-card">
+      <h2>Estimación de Tiempo vs Realidad</h2>
+      <p class="chart-subtitle">Análisis de duración por tipo de servicio (minutos)</p>
+      <div class="chart-wrapper">
+        <canvas baseChart
+                [data]="timeVsRealChartData"
+                [options]="timeVsRealChartOptions"
+                [type]="'bar'">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

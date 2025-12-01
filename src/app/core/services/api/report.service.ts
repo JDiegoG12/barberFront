@@ -18,11 +18,30 @@ export interface PerformanceReportItem {
   ocupacionPorcentaje: number;
 }
 
+export interface BarberKpiReport {
+  citasTotales: number;
+  citasTotalesVariacion: number;
+  tiempoPromedio: number;
+  productividad: number;
+}
+
+export interface BarberWeeklyServicesReport {
+  dia: string;
+  cantidad: number;
+}
+
+export interface BarberTimeVsRealReport {
+  servicio: string;
+  tiempoEstimado: number;
+  tiempoReal: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
   private baseUrl = 'http://localhost:8081/reportes/admin';
+  private barberUrl = 'http://localhost:8081/reportes/barbero';
 
   constructor(private http: HttpClient) { }
 
@@ -39,5 +58,17 @@ export class ReportService {
 
   getPerformanceReport(): Observable<PerformanceReportItem[]> {
     return this.http.get<PerformanceReportItem[]>(`${this.baseUrl}/rendimiento`);
+  }
+
+  getBarberKpis(barberId: number): Observable<BarberKpiReport> {
+    return this.http.get<BarberKpiReport>(`${this.barberUrl}/${barberId}/kpis`);
+  }
+
+  getBarberWeeklyServices(barberId: number): Observable<BarberWeeklyServicesReport[]> {
+    return this.http.get<BarberWeeklyServicesReport[]>(`${this.barberUrl}/${barberId}/servicios-semanales`);
+  }
+
+  getBarberTimeVsReal(barberId: number): Observable<BarberTimeVsRealReport[]> {
+    return this.http.get<BarberTimeVsRealReport[]>(`${this.barberUrl}/${barberId}/tiempo-estimado-vs-real`);
   }
 }
