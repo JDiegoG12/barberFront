@@ -91,7 +91,6 @@ export class HomeComponent implements OnInit {
    */
   redirectToLogin(): void {
     this.showGuestModal = false;
-    //console.log('Redirigiendo al login...');
-    // this.router.navigate(['/login']); // Descomentar cuando exista la ruta
+    this.authService.login();
   }
 }

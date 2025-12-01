@@ -6,8 +6,6 @@
 .categories-wrapper {
   display: flex;
   flex-direction: column;
-  /* Quitamos el gap global para manejarlo dentro de la animación */
-  /* gap: 3rem; */ 
   margin-top: 2rem;
 }
 
@@ -15,7 +13,6 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* Añadimos el margen aquí para separar los bloques */
   margin-bottom: 3rem; 
 }
 
@@ -27,35 +24,14 @@
   padding-left: 4px;
 }
 
-/* --- ANIMACIÓN DE ACORDEÓN SUAVE --- */
-.expandable-wrapper {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows 0.5s ease-out, opacity 0.5s ease-out;
-  
-  /* IMPORTANTE: Esto oculta el contenido vertical sobrante, 
-     pero NO debe afectar el horizontal de los hijos si se configura bien */
-  overflow-y: hidden; /* Solo ocultamos overflow vertical */
-  overflow-x: visible; /* Permitimos que el horizontal fluya si es necesario, aunque el carrusel lo maneja */
-
-  &.is-open {
-    grid-template-rows: 1fr;
-    opacity: 1;
-  }
-}
-
-.expandable-inner {
-  min-height: 0;
-  /* CORRECCIÓN: Asegurar ancho completo para que los carruseles tengan espacio */
-  width: 100%; 
-  min-width: 0; 
-}
-
-.extra-categories-list {
-  display: flex;
-  flex-direction: column;
+/* ===============================================
+   CONTENEDOR DE CARRUSEL (Posicionamiento Relativo)
+   =============================================== */
+.carousel-container {
+  position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 /* --- CARRUSEL HORIZONTAL --- */
@@ -63,9 +39,8 @@
   display: flex;
   gap: 1.5rem;
   
-  /* CORRECCIÓN: Asegurar que el overflow-x funcione */
   overflow-x: auto; 
-  width: 100%; /* Ocupar todo el ancho disponible */
+  width: 100%; 
   
   padding-top: 1rem;
   padding-bottom: 1.5rem;
@@ -91,6 +66,108 @@
   scroll-snap-align: start;
 }
 
+/* ===============================================
+   ESTILOS DE LAS FLECHAS DE NAVEGACIÓN
+   =============================================== */
+.nav-btn {
+  /* Posicionamiento */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10; /* Encima de las tarjetas */
+  
+  /* Estética */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  color: var(--primary-color);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  
+  /* Transiciones suaves para visibilidad */
+  transition: all 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+  
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--surface-color);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+}
+
+/* Clase para ocultar inteligentemente */
+.nav-btn.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-50%) scale(0.8);
+}
+
+.prev-btn {
+  left: -20px; 
+}
+
+.next-btn {
+  right: -10px;
+}
+
+/* ===============================================
+   ANIMACIÓN DE ACORDEÓN SUAVE (CORREGIDO)
+   =============================================== */
+.expandable-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.5s ease-out, opacity 0.5s ease-out;
+  
+  /* IMPORTANTE: Cambiamos a 'hidden' para evitar la barra de scroll gris fea */
+  overflow: hidden; 
+
+  &.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+.expandable-inner {
+  min-height: 0;
+  width: 100%; 
+  min-width: 0;
+  
+  /* SOLUCIÓN MAGICA: 
+     Añadimos padding lateral (25px) al contenedor interno.
+     Como tus flechas están en position absolute -20px, 
+     este padding crea un "margen de seguridad" dentro de la caja visible.
+     Así las flechas quedan DENTRO del área visible y no se cortan.
+  */
+  padding: 1rem 1.5rem; 
+  
+  /* Asegura que el padding no sume al ancho total y rompa el layout */
+  box-sizing: border-box; 
+}
+
+/* Ajuste opcional para que la lista extra no tenga márgenes dobles con el padding nuevo */
+.extra-categories-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 /* --- ANIMACIONES DE ENTRADA --- */
 .fade-in {
   animation: fadeIn 0.5s ease-out;
@@ -105,7 +182,6 @@
 .view-more-container {
   display: flex;
   justify-content: center;
-  /* Ajustamos márgenes para que no quede pegado */
   margin-top: -1rem; 
   padding-bottom: 2rem;
 }
@@ -132,7 +208,7 @@
   }
 
   svg {
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Rebote suave */
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
   }
 
   svg.rotated {
@@ -140,8 +216,16 @@
   }
 }
 
-/* AJUSTES MÓVILES */
+/* =================================================
+   RESPONSIVE (Móviles y Tablets pequeñas)
+   ================================================= */
 @media (max-width: 768px) {
+  
+  /* Ocultar flechas en móvil */
+  .nav-btn {
+    display: none !important;
+  }
+
   .services-carousel {
     gap: 1rem;
     padding-left: 1rem;
@@ -150,7 +234,10 @@
 
   .carousel-item {
     min-width: unset;
-    width: 85vw;
+    width: 85vw; /* Tarjetas grandes en móvil para mejor swipe */
     max-width: 300px;
   }
+  
+  .prev-btn { left: 0; }
+  .next-btn { right: 0; }
 }

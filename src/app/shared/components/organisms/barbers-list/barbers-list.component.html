@@ -3,17 +3,44 @@
     
     <app-section-title title="Nuestro Equipo" subtitle="Profesionales a tu servicio"></app-section-title>
     
-    <div class="barbers-carousel">
-      <!-- Iteramos los barberos -->
-      @for (barber of barbers$ | async; track barber.id) {
-        <div class="carousel-item">
-          <app-barber-card [barber]="barber"></app-barber-card>
-        </div>
-      } @empty {
-        <div class="empty-state">
-          <p>No hay barberos disponibles en este momento.</p>
-        </div>
-      }
+    <div class="carousel-container">
+      
+      <!-- Flecha Izquierda -->
+      <!-- [class.hidden] aplica la clase si la variable es false -->
+      <button 
+        class="nav-btn prev-btn" 
+        [class.hidden]="!canScrollLeft"
+        (click)="scrollLeft()" 
+        aria-label="Anterior">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <!-- AÑADIDO (scroll)="checkScroll()" aquí abajo -->
+      <div class="barbers-carousel" #carouselContainer (scroll)="checkScroll()">
+        @for (barber of barbers$ | async; track barber.id) {
+          <div class="carousel-item">
+            <app-barber-card [barber]="barber"></app-barber-card>
+          </div>
+        } @empty {
+          <div class="empty-state">
+            <p>No hay barberos disponibles en este momento.</p>
+          </div>
+        }
+      </div>
+
+      <!-- Flecha Derecha -->
+      <button 
+        class="nav-btn next-btn" 
+        [class.hidden]="!canScrollRight"
+        (click)="scrollRight()" 
+        aria-label="Siguiente">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+      
     </div>
 
   </div>

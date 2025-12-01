@@ -1,6 +1,17 @@
-import { Component, OnInit, inject, Input, Output, EventEmitter } from '@angular/core';
+import { 
+  Component, 
+  OnInit, 
+  inject, 
+  Input, 
+  Output, 
+  EventEmitter, 
+  ViewChildren, 
+  QueryList, 
+  ElementRef, 
+  AfterViewInit 
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, combineLatest, map, tap } from 'rxjs';
 
 // Componentes
 import { ServiceCardComponent } from '../../molecules/service-card/service-card.component';
@@ -11,24 +22,19 @@ import { ServiceService } from '../../../../core/services/api/service.service';
 import { Service } from '../../../../core/models/views/service.view.model';
 import { Category } from '../../../../core/models/views/category.view.model';
 
-/**
- * Interfaz auxiliar utilizada internamente para estructurar los datos en la vista.
- * Agrupa una categoría con su lista correspondiente de servicios filtrados.
- */
 interface CategoryGroup {
   category: Category;
   services: Service[];
 }
 
 /**
- * Componente organismo encargado de mostrar el catálogo completo de servicios.
- *
- * Funcionalidades principales:
- * 1. Recupera categorías y servicios de forma simultánea.
- * 2. Agrupa los servicios por su categoría correspondiente.
- * 3. Ordena los servicios priorizando aquellos que están 'Disponibles'.
- * 4. Gestiona la visualización progresiva ("Ver más") para no saturar la pantalla inicial.
+ * Estado de las flechas de navegación para una categoría específica.
  */
+interface ArrowState {
+  canScrollLeft: boolean;
+  canScrollRight: boolean;
+}
+
 @Component({
   selector: 'app-services-list',
   standalone: true,
@@ -36,45 +42,29 @@ interface CategoryGroup {
   templateUrl: './services-list.component.html',
   styleUrl: './services-list.component.scss'
 })
-export class ServicesListComponent implements OnInit {
-  /** Servicio de acceso a datos de servicios y categorías. */
+export class ServicesListComponent implements OnInit, AfterViewInit {
   private serviceService = inject(ServiceService);
 
-  /**
-   * Flujo de datos observable que contiene las categorías procesadas y sus servicios.
-   * Se suscribe directamente en la plantilla mediante el pipe `async`.
-   */
   public groupedServices$!: Observable<CategoryGroup[]>;
 
-  /**
-   * Servicio actualmente seleccionado por el usuario.
-   * Se utiliza para marcar visualmente la tarjeta correspondiente como activa.
-   */
   @Input() selectedService: Service | null = null;
-
-  /**
-   * Evento que se emite cuando el usuario selecciona un servicio de la lista.
-   */
   @Output() onServiceSelect = new EventEmitter<Service>();
 
-  // --- LÓGICA DE PAGINACIÓN SIMPLE ---
-  
-  /**
-   * Estado que controla si se muestran todas las categorías o solo las iniciales.
-   * - `false`: Muestra solo hasta `INITIAL_LIMIT`.
-   * - `true`: Muestra todas las categorías disponibles.
-   */
   public showAll: boolean = false;
-
-  /**
-   * Número de categorías a mostrar inicialmente antes de requerir la acción "Ver más".
-   */
   public readonly INITIAL_LIMIT: number = 3;
 
   /**
-   * Inicializa el componente combinando los flujos de Categorías y Servicios.
-   * Realiza el filtrado, agrupación y ordenamiento en el cliente.
+   * Referencia a TODOS los carruseles renderizados en el DOM.
+   * Angular los agrupará en una lista iterable.
    */
+  @ViewChildren('carouselRef') carousels!: QueryList<ElementRef>;
+
+  /**
+   * Diccionario para controlar la visibilidad de flechas por categoría.
+   * Clave: Category ID (number) -> Valor: ArrowState
+   */
+  public arrowState: { [key: number]: ArrowState | undefined } = {};
+
   ngOnInit(): void {
     this.groupedServices$ = combineLatest([
       this.serviceService.getCategories(),
@@ -82,11 +72,8 @@ export class ServicesListComponent implements OnInit {
     ]).pipe(
       map(([categories, services]) => {
         return categories.map(category => {
-          // 1. Filtrar servicios que pertenecen a esta categoría
           const categoryServices = services.filter(s => s.categoryId === category.id);
           
-          // 2. Ordenar: Servicios 'Disponibles' aparecen primero para mejorar la UX/Conversión.
-          // La función de comparación devuelve -1 si 'a' es disponible y 'b' no, colocándolo antes.
           categoryServices.sort((a, b) => {
             const aAvailable = a.availabilityStatus === 'Disponible';
             const bAvailable = b.availabilityStatus === 'Disponible';
@@ -94,29 +81,98 @@ export class ServicesListComponent implements OnInit {
             return aAvailable ? -1 : 1;
           });
 
+          // Inicializamos el estado de las flechas para esta categoría
+          // Por defecto: Izquierda oculta, Derecha visible (se corregirá en el checkScroll)
+          this.arrowState[category.id] = { canScrollLeft: false, canScrollRight: true };
+
           return {
             category: category,
             services: categoryServices
           };
-        })
-        // Filtramos categorías que no tengan servicios asociados para evitar secciones vacías
-        .filter(group => group.services.length > 0);
-      })
+        }).filter(group => group.services.length > 0);
+      }),
+      // Una vez cargados los datos, esperamos un ciclo para verificar flechas
+      tap(() => setTimeout(() => this.checkAllScrolls(), 200))
     );
   }
 
-  /**
-   * Maneja la selección de un servicio propagando el evento al componente padre.
-   * @param service - El servicio seleccionado.
-   */
+  ngAfterViewInit(): void {
+    // Nos suscribimos a cambios en la lista de carruseles (por si se expande el "Ver más")
+    this.carousels.changes.subscribe(() => {
+      this.checkAllScrolls();
+    });
+  }
+
   handleSelection(service: Service): void {
     this.onServiceSelect.emit(service);
   }
 
-  /**
-   * Alterna la visibilidad de las categorías adicionales (Acordeón "Ver más").
-   */
   toggleViewMore(): void {
     this.showAll = !this.showAll;
+    // Al expandir, damos tiempo a la animación CSS antes de calcular
+    setTimeout(() => this.checkAllScrolls(), 600); 
+  }
+
+  // ==========================================
+  // LÓGICA DE CARROUSEL INTELIGENTE
+  // ==========================================
+
+  /**
+   * Mueve el scroll de una categoría específica.
+   * @param categoryId ID de la categoría (para buscar el elemento).
+   * @param direction -1 para izquierda, 1 para derecha.
+   */
+  scroll(categoryId: number, direction: number): void {
+    // Buscamos el elemento nativo del carrusel correspondiente
+    // Nota: Usamos dataset.id en el HTML para vincularlo
+    const carouselEl = this.getCarouselElementById(categoryId);
+    
+    if (carouselEl) {
+      const scrollAmount = 300; // Ancho aproximado de una tarjeta + gap
+      carouselEl.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+      // El evento (scroll) del HTML actualizará el estado
+    }
+  }
+
+  /**
+   * Verifica el estado del scroll para UNA categoría específica.
+   * Se llama desde el evento (scroll) en el HTML.
+   */
+  checkScroll(categoryId: number, element: HTMLElement): void {
+    const tolerance = 10;
+    const canLeft = element.scrollLeft > tolerance;
+    const maxScroll = element.scrollWidth - element.clientWidth;
+    const canRight = element.scrollLeft < (maxScroll - tolerance);
+
+    // Actualizamos el objeto de estado para esa categoría
+    // Usamos spread operator para forzar detección de cambios si fuera necesario
+    this.arrowState[categoryId] = {
+      canScrollLeft: canLeft,
+      canScrollRight: canRight
+    };
+  }
+
+  /**
+   * Itera sobre todos los carruseles visibles y actualiza sus flechas.
+   */
+  private checkAllScrolls(): void {
+    this.carousels.forEach(item => {
+      const el = item.nativeElement as HTMLElement;
+      // Obtenemos el ID de categoría que guardaremos en un atributo data-id
+      const catId = Number(el.getAttribute('data-id'));
+      if (catId) {
+        this.checkScroll(catId, el);
+      }
+    });
+  }
+
+  /**
+   * Helper para encontrar el elemento DOM de un carrusel dado un ID de categoría.
+   */
+  private getCarouselElementById(categoryId: number): HTMLElement | undefined {
+    return this.carousels.find(item => {
+      const el = item.nativeElement as HTMLElement;
+      return Number(el.getAttribute('data-id')) === categoryId;
+    })?.nativeElement;
   }
 }
