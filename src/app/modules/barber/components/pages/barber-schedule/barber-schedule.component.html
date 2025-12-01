@@ -1,0 +1,109 @@
+<div class="schedule-layout">
+  <div class="content-column">
+    
+    <!-- HEADER & SELECTOR FECHA -->
+    <app-horizontal-date-selector
+      *ngIf="barber"
+      [barber]="barber"
+      [selectedDate]="selectedDate"
+      (onDateSelect)="handleDateClick($event)">
+    </app-horizontal-date-selector>
+
+    <app-section-title [title]="'Reservas del día'"></app-section-title>
+
+    <div class="reservations-container">
+      
+      <!-- LOADING -->
+      <div *ngIf="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Consultando agenda...</p>
+      </div>
+      
+      <!-- EMPTY STATE -->
+      <div *ngIf="!loading && reservations.length === 0" class="empty-state">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <h3>Sin actividades</h3>
+        <p>No hay reservas programadas para este día.</p>
+      </div>
+
+      <!-- LISTA DE TARJETAS -->
+      <div *ngIf="!loading && reservations.length > 0" class="cards-list">
+        <div class="reservation-list-item" *ngFor="let res of reservations">
+          
+          <div class="item-header">
+            <div class="client-section">
+              <div class="avatar-placeholder">
+                {{ res.clientName.charAt(0) }}
+              </div>
+              <div class="info">
+                <h4 class="client-name">{{ res.clientName }}</h4>
+                <span class="service-name">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="6" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                  </svg>
+                  {{ res.serviceName }}
+                </span>
+              </div>
+            </div>
+
+            <div class="time-section">
+              <span class="status-badge" [ngClass]="getStatusClass(res.status)">
+                {{ res.status }}
+              </span>
+              <span class="time">{{ res.start | date:'shortTime' }}</span>
+              <span class="duration">{{ res.durationMinutes | duration }}</span>
+            </div>
+          </div>
+          
+          <div class="item-actions">
+            <button 
+              class="btn-status waiting" 
+              [class.active]="res.status === 'En espera'"
+              [disabled]="res.status === 'En espera'"
+              (click)="initiateStatusChange(res, 'En espera')">
+              <span class="dot"></span> En espera
+            </button>
+            <button 
+              class="btn-status process" 
+              [class.active]="res.status === 'En proceso'"
+              [disabled]="res.status === 'En proceso'"
+              (click)="initiateStatusChange(res, 'En proceso')">
+              <span class="dot"></span> En proceso
+            </button>
+            <button 
+              class="btn-status finished" 
+              [class.active]="res.status === 'Finalizada'"
+              [disabled]="res.status === 'Finalizada'"
+              (click)="initiateStatusChange(res, 'Finalizada')">
+              <span class="dot"></span> Finalizada
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL DE CONFIRMACIÓN
+     ========================================== -->
+<app-modal-alert
+  *ngIf="showConfirmModal"
+  title="Confirmar Cambio de Estado"
+  [message]="'¿Estás seguro de cambiar el estado de la reserva de ' + selectedReservation?.clientName + ' a \'' + pendingStatus + '\'?'"
+  confirmLabel="Sí, cambiar estado"
+  cancelLabel="Cancelar"
+  (onConfirm)="confirmStatusChange()"
+  (onCancel)="closeModal()">
+</app-modal-alert>

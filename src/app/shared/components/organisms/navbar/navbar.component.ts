@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ThemeToggleComponent } from '../../atoms/theme-toggle/theme-toggle.component';
 import { User } from '../../../../core/models/views/user.view.model';
@@ -14,6 +14,7 @@ import { User } from '../../../../core/models/views/user.view.model';
   standalone: true,
   imports: [
     RouterLink,
+    RouterLinkActive,
     CommonModule,
     ThemeToggleComponent
   ],

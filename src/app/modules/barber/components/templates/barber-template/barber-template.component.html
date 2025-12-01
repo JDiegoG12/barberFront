@@ -1,0 +1,19 @@
+<!--
+  LAYOUT PRINCIPAL DEL BARBERO
+  Define la estructura visual base para todas las pantallas privadas del barbero.
+  Mantiene la consistencia de la navegación y el pie de página en todo el módulo.
+-->
+
+<!-- Barra de Navegación del Barbero -->
+<app-navbar
+  [user]="currentUser"
+  (onLogout)="handleLogout()">
+</app-navbar>
+
+<!-- Área de Contenido Principal -->
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Pie de página global de la aplicación -->
+<app-footer></app-footer>

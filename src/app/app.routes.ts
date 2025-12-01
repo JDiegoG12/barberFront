@@ -30,6 +30,14 @@ export const routes: Routes = [
     canActivate: [ClientGuard],
     canLoad: [ClientGuard]
   },
+  // --- RUTA DEL PANEL DE BARBERO ---
+  {
+  path: 'barber',
+  loadChildren: () => import('./modules/barber/barber.routes').then(m => m.barberRoutes),
+  canActivate: [BarberGuard],
+  canLoad: [BarberGuard]
+  },
+  
 
   // --- RUTA PÚBLICA (PÁGINA DE INICIO) ---
   // Esta es la ruta por defecto (ej. http://localhost:4200/).

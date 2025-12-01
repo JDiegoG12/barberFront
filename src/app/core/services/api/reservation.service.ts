@@ -49,6 +49,32 @@ export class ReservationService {
   }
 
   /**
+   * Recupera las reservas de un barbero para una fecha específica.
+   * Filtra las reservas que ocurren en el día seleccionado.
+   *
+   * @param barberId - El identificador único del barbero.
+   * @param date - La fecha para filtrar las reservas.
+   * @returns Un Observable que emite un array de objetos `Reservation`.
+   */
+  getReservationsByDate(barberId: string, date: Date): Observable<Reservation[]> {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    return of(MOCK_RESERVATIONS).pipe(
+      map(reservations => 
+        reservations.filter(r => 
+          r.barberId === barberId &&
+          r.start >= startOfDay &&
+          r.start <= endOfDay
+        )
+      )
+    );
+  }
+
+  /**
    * Simula el proceso de creación y persistencia de una nueva reserva.
    * En un entorno de producción, este método enviaría una petición POST al backend.
    * Aquí se encarga de generar un ID temporal, asignar el estado inicial y retornar

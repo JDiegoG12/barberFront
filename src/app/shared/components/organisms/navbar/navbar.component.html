@@ -15,6 +15,11 @@
       Hola, {{ user?.firstName }}
     </span>
 
+    <!--Caso Barbero: Saludo-->
+    <span *ngIf="user?.role === 'BARBER'" class="greeting-mobile-header">
+      Hola, {{ user?.firstName }}
+    </span>
+
     <!-- Caso Admin: Saludo cordial -->
     <span *ngIf="user?.role === 'ADMIN'" class="greeting-mobile-header">
       Bienvenido, Admin {{ user?.firstName }}
@@ -30,11 +35,12 @@
   </button>
 
   <!-- MENÚ DESPLEGABLE -->
+   
   <ul class="navbar-links" [class.is-open]="isMenuOpen">
     
     <!-- Enlaces Cliente -->
     <li *ngIf="user?.role !== 'ADMIN' && user?.role !== 'BARBER'">
-      <a [routerLink]="user ? '/client' : '/'" (click)="isMenuOpen = false">Inicio</a>
+      <a [routerLink]="user ? '/client' : '/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="isMenuOpen = false">Inicio</a>
     </li>
     <li *ngIf="user?.role !== 'ADMIN' && user?.role !== 'BARBER'">
       <a [routerLink]="user ? '/client' : '/'" fragment="seccion-servicios" (click)="isMenuOpen = false">Servicios</a>
@@ -48,19 +54,28 @@
 
     <!-- Enlace Cliente -->
     <li *ngIf="user?.role === 'CLIENT'">
-      <a routerLink="/client/reservations" (click)="isMenuOpen = false" class="nav-highlight">Mis Reservas</a>
+      <a routerLink="/client/reservations" routerLinkActive="active" (click)="isMenuOpen = false" class="nav-highlight">Mis Reservas</a>
     </li>
 
     <!-- Enlace Administrador -->
     <li *ngIf="user?.role === 'ADMIN'">
-      <a routerLink="/admin/barbers" (click)="isMenuOpen = false" class="nav-highlight">Barberos</a>
+      <a routerLink="/admin/barbers" routerLinkActive="active" (click)="isMenuOpen = false" class="nav-highlight">Barberos</a>
     </li>
     <li *ngIf="user?.role === 'ADMIN'">
-      <a routerLink="/admin/services" (click)="isMenuOpen = false" class="nav-highlight">Servicios</a>
+      <a routerLink="/admin/services" routerLinkActive="active" (click)="isMenuOpen = false" class="nav-highlight">Servicios</a>
     </li>
     <li *ngIf="user?.role === 'ADMIN'">
-      <a routerLink="/admin/reports" (click)="isMenuOpen = false" class="nav-highlight">Reportes</a>
+      <a routerLink="/admin/reports" routerLinkActive="active" (click)="isMenuOpen = false" class="nav-highlight">Reportes</a>
     </li>
+
+    <!--Enlace Barbero-->
+    <li *ngIf="user?.role === 'BARBER'">
+      <a routerLink="/barber" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="isMenuOpen = false" class="nav-highlight">Gestión de Agenda</a>
+    </li>
+    <li *ngIf="user?.role === 'BARBER'">
+      <a routerLink="/barber/reports" routerLinkActive="active" (click)="isMenuOpen = false" class="nav-highlight">Reportes</a>
+    </li>
+    
     <!-- Acciones Móviles (Dentro del menú) -->
     <li class="navbar-actions-mobile">
       
@@ -84,7 +99,7 @@
   <div class="navbar-actions-desktop">
     <app-theme-toggle></app-theme-toggle>
     <button *ngIf="!user" class="btn-login" (click)="handleLogin()">Iniciar Sesión</button>
-    <div *ngIf="user?.role === 'CLIENT'" class="user-menu-desktop">
+    <div *ngIf="user?.role === 'CLIENT' || user?.role === 'BARBER'" class="user-menu-desktop">
       <span class="greeting">Hola, {{ user?.firstName }}</span>
       <button class="btn-logout-icon" (click)="handleLogout()" title="Cerrar Sesión">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

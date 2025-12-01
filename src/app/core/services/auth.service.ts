@@ -83,7 +83,7 @@ export class AuthService {
         this.router.navigate(['/admin']);
         break;
       case 'BARBER':
-        this.router.navigate(['/barbero']);
+        this.router.navigate(['/barber']);
         break;
       case 'CLIENT':
         this.router.navigate(['/client']);
