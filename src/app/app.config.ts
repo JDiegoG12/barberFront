@@ -1,6 +1,7 @@
 import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
+import { environment } from '../environments/environment';
 
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -10,7 +11,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://localhost:8080',
+        url: `http://${environment.iphost}:8080`,
         realm: 'barbershop',
         clientId: 'frontend-client'
       },
