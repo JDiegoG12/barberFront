@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 export interface ServiceReportItem {
   servicio: string;
@@ -40,8 +41,8 @@ export interface BarberTimeVsRealReport {
   providedIn: 'root'
 })
 export class ReportService {
-  private baseUrl = 'http://localhost:8081/reportes/admin';
-  private barberUrl = 'http://localhost:8081/reportes/barbero';
+  private baseUrl = `${environment.apiUrl}/reportes/admin`;
+  private barberUrl = `${environment.apiUrl}/reportes/barbero`;
 
   constructor(private http: HttpClient) { }
 
