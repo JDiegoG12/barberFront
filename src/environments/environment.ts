@@ -2,6 +2,8 @@
 export const environment = {
   production: false,
   //URL base de la API Gateway
-  apiUrl: 'http://192.168.20.31:8081',
-  iphost: '192.168.20.31'
+  apiUrl: 'http://localhost:8081',
+
+  barberServiceUrl: 'http://localhost:8082',
+  iphost: 'localhost'
 };

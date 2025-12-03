@@ -1,6 +1,7 @@
 <nav class="navbar-container">
   <div class="navbar-brand">
-    <a [routerLink]="user ? '/client' : '/'">Barbería</a>
+    <a [routerLink]="user ? '/client' : '/'"></a>
+    <img src="assets/logo.png" alt="Barber IA" class="brand-logo" />
   </div>
 
   <!-- === CONTENIDO VISIBLE EN CABECERA MÓVIL === -->
@@ -22,7 +23,7 @@
 
     <!-- Caso Admin: Saludo cordial -->
     <span *ngIf="user?.role === 'ADMIN'" class="greeting-mobile-header">
-      Bienvenido, Admin {{ user?.firstName }}
+      Hola,  {{ user?.firstName }}
     </span>
   </div>
 
@@ -110,7 +111,7 @@
       </button>
     </div>
     <div *ngIf="user?.role === 'ADMIN'" class="user-menu-desktop">
-      <span class="greeting-admin">Bienvenido,<br> <strong>Admin {{ user?.firstName }}</strong></span>
+      <span class="greeting-admin">Hola,  {{ user?.firstName }}</span>
       <button class="btn-logout-icon" (click)="handleLogout()" title="Cerrar Sesión">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
