@@ -10,7 +10,8 @@ import { PrimaryButtonComponent } from '../../../../../shared/components/atoms/p
 // Servicios y Modelos
 import { ReservationService } from '../../../../../core/services/api/reservation.service';
 import { Reservation } from '../../../../../core/models/views/reservation.view.model';
-import { MOCK_CLIENT_USER } from '../../../../../core/mocks/mock-data';
+import { User } from '../../../../../core/models/views/user.view.model';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 /**
  * Componente de página principal para la gestión de reservas del cliente.
@@ -47,7 +48,11 @@ export class ClientReservationsComponent implements OnInit {
   /** Almacena temporalmente la reserva que se intenta cancelar. */
   public reservationToCancel: Reservation | null = null;
 
-  ngOnInit(): void {
+  authService = inject(AuthService);
+  currentUser: User | null = null;
+
+  async ngOnInit(): Promise<void> {
+    this.currentUser = await this.authService.getUserProfile();
     this.loadReservations();
   }
 
@@ -57,8 +62,14 @@ export class ClientReservationsComponent implements OnInit {
    * basándose en el estado de cada reserva.
    */
   loadReservations(): void {
+    if (!this.currentUser) {
+      console.error('No hay usuario autenticado');
+      this.loading = false;
+      return;
+    }
+
     this.loading = true;
-    this.reservationService.getReservationsByClientId(MOCK_CLIENT_USER.id).subscribe({
+    this.reservationService.getReservationsByClientId(this.currentUser.id).subscribe({
       next: (data) => {
         this.upcomingReservations = data.filter(r => ['En espera', 'En proceso'].includes(r.status));
         this.historyReservations = data.filter(r => !['En espera', 'En proceso'].includes(r.status));
@@ -94,16 +105,29 @@ export class ClientReservationsComponent implements OnInit {
   /**
    * Ejecuta la cancelación definitiva de la reserva seleccionada.
    * Actualiza el estado de la reserva a 'Cancelada' y mueve el ítem de la lista
-   * de próximas a la lista de historial localmente (simulación de actualización en tiempo real).
+   * de próximas a la lista de historial.
    */
   confirmCancel(): void {
-    if (this.reservationToCancel) {
-      console.log('Cancelando reserva:', this.reservationToCancel.id);
-      this.reservationToCancel.status = 'Cancelada'; // Simulación local
-      
-      this.upcomingReservations = this.upcomingReservations.filter(r => r.id !== this.reservationToCancel!.id);
-      this.historyReservations.unshift(this.reservationToCancel);
-      
+    if (this.reservationToCancel && this.currentUser) {
+      this.reservationService.cancelReservation(this.reservationToCancel.id, this.currentUser.id).subscribe({
+        next: (updatedReservation) => {
+          console.log('✅ Reserva cancelada exitosamente:', updatedReservation.id);
+          
+          // Actualizar las listas localmente
+          this.upcomingReservations = this.upcomingReservations.filter(r => r.id !== this.reservationToCancel!.id);
+          this.historyReservations.unshift(updatedReservation);
+          
+          this.showCancelModal = false;
+          this.reservationToCancel = null;
+        },
+        error: (err) => {
+          console.error('❌ Error al cancelar la reserva:', err);
+          alert('No se pudo cancelar la reserva. Por favor, intente nuevamente.');
+          this.showCancelModal = false;
+          this.reservationToCancel = null;
+        }
+      });
+    } else {
       this.showCancelModal = false;
       this.reservationToCancel = null;
     }
@@ -111,15 +135,15 @@ export class ClientReservationsComponent implements OnInit {
 
   /**
    * Redirige al flujo de reprogramación de citas.
-   * Navega al Wizard enviando el `serviceId` y el `barberId`, lo cual bloquea
-   * la selección de barbero y lleva al usuario directamente a elegir una nueva fecha/hora.
+   * Navega al Wizard enviando el `reservationId`, `serviceId` y el `barberId`,
+   * lo cual bloquea la selección de barbero y lleva al usuario directamente a elegir una nueva fecha/hora.
    *
    * @param reservation - La reserva que se desea reprogramar.
    */
   handleReschedule(reservation: Reservation): void {
-    // CORRECCIÓN: Enviamos también el barberId para bloquear el cambio de profesional
     this.router.navigate(['/client/book'], { 
       queryParams: { 
+        reservationId: reservation.id,
         serviceId: reservation.serviceId,
         barberId: reservation.barberId 
       } 

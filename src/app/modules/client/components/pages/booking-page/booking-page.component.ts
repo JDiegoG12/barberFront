@@ -20,7 +20,7 @@ import { Barber } from '../../../../../core/models/views/barber.view.model';
 import { Service } from '../../../../../core/models/views/service.view.model';
 import { Reservation } from '../../../../../core/models/views/reservation.view.model';
 import { TimeSlot } from '../../../../../core/services/domain/availability.service';
-import { MOCK_CLIENT_USER } from '../../../../../core/mocks/mock-data';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 /**
  * Componente principal del Wizard de Reserva.
@@ -49,6 +49,7 @@ export class BookingPageComponent implements OnInit {
   private serviceService = inject(ServiceService);
   private reservationService = inject(ReservationService);
   private barberService = inject(BarberService);
+  private authService = inject(AuthService);
 
   /** Paso actual del Wizard (1, 2 o 3). */
   public currentStep: number = 1;
@@ -63,7 +64,13 @@ export class BookingPageComponent implements OnInit {
    * Bandera que indica si el usuario está en modo reprogramación.
    * Si es true, bloquea el regreso al paso 1 (Barbero) ya que solo se permite cambiar fecha/hora.
    */
-  public isRescheduling: boolean = false; 
+  public isRescheduling: boolean = false;
+  
+  /**
+   * ID de la reserva que se está reprogramando.
+   * Si es null, significa que se está creando una nueva reserva.
+   */
+  public reservationToRescheduleId: number | null = null; 
 
   // Estado de la Reserva
   public selectedServiceId: number | null = null;
@@ -85,15 +92,17 @@ export class BookingPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const serviceId = Number(params['serviceId']);
-      const barberId = (params['barberId']); // Leemos barberId opcional para reprogramación
+      const barberId = params['barberId'];
+      const reservationId = params['reservationId'] ? Number(params['reservationId']) : null;
 
       if (serviceId) {
         this.selectedServiceId = serviceId;
         this.loadServiceDetails(serviceId);
 
         // LÓGICA DE REPROGRAMACIÓN
-        if (barberId) {
+        if (barberId && reservationId) {
           this.isRescheduling = true;
+          this.reservationToRescheduleId = reservationId;
           this.selectedBarberId = barberId;
           this.currentStep = 2; // Saltamos directamente al paso de fecha
           this.loadBarberDetails(barberId); // Cargamos datos del barbero
@@ -160,35 +169,65 @@ export class BookingPageComponent implements OnInit {
 
   /**
    * Envía la solicitud final de reserva al servicio.
-   * Construye el objeto Reservation, maneja el estado de carga y muestra el modal de éxito.
+   * Si está en modo reprogramación, llama a rescheduleReservation.
+   * Si no, crea una nueva reserva.
    */
   saveReservation(): void {
     if (!this.selectedService || !this.selectedBarber || !this.selectedTimeSlot) return;
 
     this.loading = true;
 
-    const newReservation: Partial<Reservation> = {
-      clientId: MOCK_CLIENT_USER.id,
-      barberId: this.selectedBarber.id,
-      serviceId: this.selectedService.id,
-      start: this.selectedTimeSlot.start,
-      end: this.selectedTimeSlot.end,
-      price: this.selectedService.price,
-    };
+    const currentUserId = this.authService.getUserId();
+    if (!currentUserId) {
+      alert('No se pudo obtener el ID del usuario. Por favor, inicia sesión nuevamente.');
+      this.loading = false;
+      return;
+    }
 
-    this.reservationService.createReservation(newReservation).subscribe({
-      next: (res) => {
-        setTimeout(() => {
+    // Si estamos reprogramando, usamos el método de reprogramación
+    if (this.isRescheduling && this.reservationToRescheduleId) {
+      this.reservationService.rescheduleReservation(
+        this.reservationToRescheduleId,
+        currentUserId,
+        this.selectedTimeSlot.start
+      ).subscribe({
+        next: (res) => {
+          setTimeout(() => {
+            this.loading = false;
+            this.showSuccessModal = true;
+          }, 1500);
+        },
+        error: (err) => {
+          console.error(err);
           this.loading = false;
-          this.showSuccessModal = true; 
-        }, 1500);
-      },
-      error: (err) => {
-        console.error(err);
-        this.loading = false;
-        alert('Hubo un error al crear la reserva.');
-      }
-    });
+          alert('Hubo un error al reprogramar la reserva.');
+        }
+      });
+    } else {
+      // Creación de nueva reserva
+      const newReservation: Partial<Reservation> = {
+        clientId: currentUserId,
+        barberId: this.selectedBarber.id,
+        serviceId: this.selectedService.id,
+        start: this.selectedTimeSlot.start,
+        end: this.selectedTimeSlot.end,
+        price: this.selectedService.price,
+      };
+
+      this.reservationService.createReservation(newReservation).subscribe({
+        next: (res) => {
+          setTimeout(() => {
+            this.loading = false;
+            this.showSuccessModal = true;
+          }, 1500);
+        },
+        error: (err) => {
+          console.error(err);
+          this.loading = false;
+          alert('Hubo un error al crear la reserva.');
+        }
+      });
+    }
   }
 
   /**

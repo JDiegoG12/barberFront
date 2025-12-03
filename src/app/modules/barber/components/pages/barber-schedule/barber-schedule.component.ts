@@ -1,16 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { forkJoin, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ReservationService } from '../../../../../core/services/api/reservation.service';
 import { AuthService } from '../../../../../core/services/auth.service';
+import { BarberService } from '../../../../../core/services/api/barber.service';
 import { Reservation, ReservationStatus } from '../../../../../core/models/views/reservation.view.model';
 import { HorizontalDateSelectorComponent } from '../../../../../shared/components/molecules/horizontal-date-selector/horizontal-date-selector.component';
 import { SectionTitleComponent } from '../../../../../shared/components/atoms/section-title/section-title.component';
 import { ModalAlertComponent } from '../../../../../shared/components/molecules/modal-alert/modal-alert.component';
 import { DurationPipe } from '../../../../../shared/pipes/duration.pipe';
 import { Barber } from '../../../../../core/models/views/barber.view.model';
-import { MOCK_BARBERS, MOCK_CLIENT_USER } from '../../../../../core/mocks/mock-data';
 
 // Interfaz local
 interface ReservationView extends Reservation {
@@ -36,6 +38,7 @@ interface ReservationView extends Reservation {
 export class BarberScheduleComponent implements OnInit {
   
   private reservationService = inject(ReservationService);
+  private barberService = inject(BarberService);
   public authService = inject(AuthService);
 
   // Estado
@@ -53,24 +56,20 @@ export class BarberScheduleComponent implements OnInit {
     const user = await this.authService.getUserProfile();
     
     if (user && user.role === 'BARBER') {
-      const barberFromMock = MOCK_BARBERS.find(b => b.id === user.id);
-      
-      if (barberFromMock) {
-        this.barber = barberFromMock;
-      } else {
-        this.barber = {
-          id: user.id,
-          name: user.firstName,
-          lastName: user.lastName,
-          photoUrl: '',
-          bio: '',
-          serviceIds: [],
-          availabilityStatus: 'Disponible',
-          systemStatus: 'Activo',
-          schedule: []
-        };
-      }
-      this.loadReservations(this.selectedDate);
+      // Obtener la información del barbero desde el backend
+      this.barberService.getBarberById(user.id).subscribe({
+        next: (barber) => {
+          if (barber) {
+            this.barber = barber;
+            this.loadReservations(this.selectedDate);
+          } else {
+            console.error('No se encontró información del barbero en el backend');
+          }
+        },
+        error: (error) => {
+          console.error('Error al cargar información del barbero:', error);
+        }
+      });
     }
   }
 
@@ -85,15 +84,40 @@ export class BarberScheduleComponent implements OnInit {
     this.loading = true;
     this.reservationService.getReservationsByDate(this.barber.id, date).subscribe({
       next: (data) => {
-        this.reservations = data.map(r => ({
-          ...r,
-          start: new Date(r.start),
-          end: new Date(r.end),
-          durationMinutes: Math.round((new Date(r.end).getTime() - new Date(r.start).getTime()) / 60000),
-          clientName: `${MOCK_CLIENT_USER.firstName} ${MOCK_CLIENT_USER.lastName}`,
-          serviceName: r.service?.name || 'Servicio'
-        })).sort((a, b) => a.start.getTime() - b.start.getTime());
-        this.loading = false;
+        // Obtener IDs únicos de clientes
+        const clientIds = [...new Set(data.map(r => r.clientId))];
+        
+        // Obtener información de todos los clientes
+        this.authService.getUsersByIds(clientIds).subscribe({
+          next: (usersMap) => {
+            this.reservations = data.map(r => {
+              const client = usersMap.get(r.clientId);
+              return {
+                ...r,
+                start: new Date(r.start),
+                end: new Date(r.end),
+                durationMinutes: Math.round((new Date(r.end).getTime() - new Date(r.start).getTime()) / 60000),
+                clientName: client 
+                  ? `${client.firstName} ${client.lastName}`.trim() || client.username
+                  : `Cliente ${r.clientId.substring(0, 8)}...`,
+                serviceName: r.service?.name || 'Servicio'
+              };
+            }).sort((a, b) => a.start.getTime() - b.start.getTime());
+            this.loading = false;
+          },
+          error: () => {
+            // Si falla la obtención de usuarios, mostrar con IDs
+            this.reservations = data.map(r => ({
+              ...r,
+              start: new Date(r.start),
+              end: new Date(r.end),
+              durationMinutes: Math.round((new Date(r.end).getTime() - new Date(r.start).getTime()) / 60000),
+              clientName: `Cliente ${r.clientId.substring(0, 8)}...`,
+              serviceName: r.service?.name || 'Servicio'
+            })).sort((a, b) => a.start.getTime() - b.start.getTime());
+            this.loading = false;
+          }
+        });
       },
       error: () => this.loading = false
     });
@@ -129,10 +153,14 @@ export class BarberScheduleComponent implements OnInit {
       if (index !== -1) {
         this.reservations[index].status = this.pendingStatus;
       }
-      
-      // TODO: Llamar al servicio para persistir
-      // this.reservationService.updateStatus(this.selectedReservation.id, this.pendingStatus).subscribe(...)
-      console.log(`✅ Estado actualizado a: ${this.pendingStatus}`);
+      this.reservationService.updateStatus(this.selectedReservation.id, this.pendingStatus).subscribe({
+        next: () => {
+          console.log(`✅ Estado actualizado a: ${this.pendingStatus}`);
+        },
+        error: (error) => {
+          console.error('Error al actualizar el estado de la reserva:', error);
+        }
+      });
     }
     this.closeModal();
   }

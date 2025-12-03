@@ -29,6 +29,7 @@ import { ServiceResponseDTO } from '../../models/dto/service.dto';
   providedIn: 'root'
 })
 export class BarberService {
+  private readonly apiUrl = `${environment.apiUrl}/barberos`;
 
   // Rutas base construidas según la configuración del Gateway
   private readonly publicBaseUrl = `${environment.apiUrl}/barberos/public`;
