@@ -40,7 +40,7 @@ export class AuthService {
         const tokenData = token as any;
 
         return {
-          id: token.sub!, // 'sub' es el ID único del usuario
+          id: tokenData.preferred_username, // 'sub' es el ID único del usuario
           firstName: tokenData.given_name || tokenData.name || '', 
           lastName: tokenData.family_name || '',
           email: tokenData.email || '',

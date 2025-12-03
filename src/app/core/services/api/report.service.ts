@@ -37,6 +37,13 @@ export interface BarberTimeVsRealReport {
   tiempoReal: number;
 }
 
+export interface BarberMetrics {
+  barberoId: string;
+  mes: number;
+  ocupacion: number;
+  serviciosCompletados: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -45,6 +52,14 @@ export class ReportService {
   private barberUrl = `${environment.apiUrl}/reportes/barbero`;
 
   constructor(private http: HttpClient) { }
+
+  getBarberMetrics(barberId: string, month?: number, year?: number): Observable<BarberMetrics> {
+    let params = new HttpParams();
+    if (month) params = params.set('mes', month);
+    if (year) params = params.set('anio', year);
+    
+    return this.http.get<BarberMetrics>(`${this.barberUrl}/${barberId}`, { params });
+  }
 
   getServicesReport(month: number, year: number): Observable<ServiceReportItem[]> {
     const params = new HttpParams()
