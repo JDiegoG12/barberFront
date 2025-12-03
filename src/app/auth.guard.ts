@@ -9,7 +9,7 @@ export const ClientGuard: CanActivateFn = (route, state) => {
     const keycloakService = inject(KeycloakService);
     const router = inject(Router);
 
-    const isLoggedIn = keycloakService.isUserInRole('CLIENT');
+    const isLoggedIn = keycloakService.isUserInRole('CLIENT') && keycloakService.isUserInRole('ADMIN') === false && keycloakService.isUserInRole('BARBER') === false;
     if (!isLoggedIn) {
         router.navigate(['/']);
         return false;
