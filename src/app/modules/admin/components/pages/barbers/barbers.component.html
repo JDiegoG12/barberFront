@@ -1,1 +1,133 @@
-<p>barbers works!</p>
+<div class="page-container">
+  
+  <header class="page-header">
+    <div class="header-text">
+      <h1 class="title">Gestión de Barberos</h1>
+      <p class="subtitle">Administra la información, disponibilidad y servicios de los profesionales.</p>
+    </div>
+    <div class="header-actions">
+      <app-primary-button 
+        label="+ Nuevo Barbero" 
+        (onClick)="openCreateModal()">
+      </app-primary-button>
+    </div>
+  </header>
+
+  <section class="filters-bar">
+    <div class="search-group">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input 
+        type="text" 
+        class="form-input" 
+        placeholder="Buscar barbero por nombre o apellido..." 
+        [(ngModel)]="searchTerm" 
+        (input)="applyFilters()">
+    </div>
+    
+    <div class="filter-group">
+      <select class="form-select" [(ngModel)]="selectedAvailability" (change)="applyFilters()">
+        <option value="all">Disponibilidad (Todas)</option>
+        <option value="Disponible">Disponible</option>
+        <option value="No Disponible">No Disponible</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <select class="form-select" [(ngModel)]="selectedSystemStatus" (change)="applyFilters()">
+        <option value="all">Estado del Sistema (Todos)</option>
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
+    </div>
+  </section>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando barberos...</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredBarbers.length > 0" class="barbers-grid fade-in">
+    <app-admin-barber-card 
+      *ngFor="let barber of filteredBarbers"
+      [barber]="barber"
+      (onEdit)="handleEdit($event)"
+      (onAssign)="handleAssignServices($event)"
+      (onDelete)="handleDelete($event)">
+    </app-admin-barber-card>
+  </div>
+
+  <div *ngIf="!isLoading && filteredBarbers.length === 0" class="empty-state fade-in">
+    <div class="empty-icon">✂️</div>
+    <h3>No se encontraron barberos</h3>
+    <p>Intenta ajustar los filtros o registra un nuevo profesional.</p>
+  </div>
+
+</div>
+
+<app-modal 
+  [isVisible]="isCreateModalOpen" 
+  title="Registrar Nuevo Barbero"
+  (onClose)="requestCancelCreate()">
+  
+  <app-barber-form
+    *ngIf="isCreateModalOpen" 
+    (onSave)="handleCreateBarber($any($event))"
+    (onCancel)="requestCancelCreate()">
+  </app-barber-form>
+
+</app-modal>
+
+<app-modal 
+  [isVisible]="isEditModalOpen" 
+  title="Editar Barbero"
+  (onClose)="requestCancelEdit()">
+  
+  <app-barber-form
+    *ngIf="isEditModalOpen && barberToEdit" 
+    [barberToEdit]="barberToEdit" 
+    (onSave)="handleUpdateBarber($any($event))"
+    (onCancel)="requestCancelEdit()">
+  </app-barber-form>
+
+</app-modal>
+
+<app-modal
+  [isVisible]="isAssignModalOpen"
+  [title]="'Asignar Servicios a: ' + (barberToAssign?.name || '')"
+  (onClose)="isAssignModalOpen = false">
+  
+  <app-barber-service-assignment
+    *ngIf="isAssignModalOpen && barberToAssign"
+    [barberId]="barberToAssign.id"
+    [currentServiceIds]="barberToAssign.serviceIds"
+    (onSave)="handleSaveAssignment(barberToAssign)"
+    (onCancel)="isAssignModalOpen = false">
+  </app-barber-service-assignment>
+
+</app-modal> 
+
+<app-modal
+  [isVisible]="isScheduleModalOpen"
+  [title]="'Configurar Horario de: ' + (newlyCreatedBarber?.name || 'Nuevo Barbero')"
+  (onClose)="closeScheduleModal()">
+  
+  <app-barber-schedule-assignment
+    *ngIf="isScheduleModalOpen && newlyCreatedBarber"
+    [barberId]="newlyCreatedBarber.id"
+    (onSave)="handleSaveSchedule($event)"
+    (onCancel)="closeScheduleModal()">
+  </app-barber-schedule-assignment>
+
+</app-modal>
+
+<app-modal-alert
+  *ngIf="alertConfig.isOpen"
+  [title]="alertConfig.title"
+  [message]="alertConfig.message"
+  [type]="alertConfig.type"
+  [isConfirmation]="alertConfig.isConfirmation"
+  [confirmLabel]="alertConfig.confirmLabel"
+  [cancelLabel]="alertConfig.cancelLabel"
+  (onConfirm)="handleAlertConfirm()"
+  (onCancel)="closeAlert()">
+</app-modal-alert>

@@ -1,0 +1,98 @@
+<form [formGroup]="form" class="form-container" (ngSubmit)="submit()">
+  
+  <div class="form-row">
+    
+    <app-input-text
+      label="Nombre"
+      placeholder="Nombre de pila"
+      formControlName="name"
+      [required]="true"
+      [error]="getErrorMessage('name')">
+    </app-input-text>
+
+    <app-input-text
+      label="Apellido"
+      placeholder="Apellido"
+      formControlName="lastName"
+      [required]="true"
+      [error]="getErrorMessage('lastName')">
+    </app-input-text>
+
+  </div>
+
+  <div class="form-row">
+    
+    <app-input-text
+      label="Email"
+      type="email"
+      placeholder="ejemplo@barber.com"
+      formControlName="email"
+      [required]="true"
+      [error]="getErrorMessage('email')">
+    </app-input-text>
+
+    <app-input-text
+      label="Teléfono"
+      placeholder="Opcional"
+      formControlName="phone">
+    </app-input-text>
+    
+  </div>
+  
+  <app-input-text
+    label="Contraseña"
+    type="password"
+    placeholder="Mínimo 6 caracteres"
+    formControlName="password"
+    [required]="!isEditMode"
+    [error]="getErrorMessage('password')">
+  </app-input-text>
+  <small *ngIf="isEditMode" class="text-muted-custom">Deja vacío para no cambiar la contraseña.</small>
+
+  <div class="form-group-custom">
+    <label for="image">Foto de Perfil</label>
+    <input 
+      type="file" 
+      class="form-control-file" 
+      id="image" 
+      name="image"
+      (change)="onFileSelected($event)">
+    <small class="text-muted-custom">{{ imageFile ? imageFile.name : (isEditMode ? 'Selecciona un nuevo archivo o deja el actual.' : 'Máx. 2MB, formato JPG/PNG') }}</small>
+  </div>
+  
+  <div class="form-row" *ngIf="isEditMode">
+      <app-input-select
+        label="Disponibilidad Operativa"
+        placeholder="Selecciona"
+        [options]="availabilityOptions"
+        formControlName="availabilityStatus"
+        [required]="true">
+      </app-input-select>
+      
+      <app-input-select
+        label="Estado del Contrato (Sistema)"
+        placeholder="Selecciona"
+        [options]="systemStatusOptions"
+        formControlName="systemStatus"
+        [required]="true">
+      </app-input-select>
+  </div>
+  
+  <app-input-textarea
+    label="Descripción / Bio"
+    placeholder="Una breve descripción profesional..."
+    formControlName="description"
+    [rows]="3">
+  </app-input-textarea>
+
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary-custom" (click)="onCancel.emit()">Cancelar</button>
+    <button 
+      type="submit" 
+      class="btn btn-primary-custom" 
+      [disabled]="form.invalid || isSubmitting">
+      <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      {{ isEditMode ? 'Actualizar Barbero' : 'Registrar Barbero' }}
+    </button>
+  </div>
+</form>

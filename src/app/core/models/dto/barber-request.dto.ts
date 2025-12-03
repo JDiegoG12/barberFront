@@ -16,13 +16,33 @@ export interface CreateBarberRequestDTO {
 }
 
 /**
+ * Estados de disponibilidad del barbero.
+ * Definimos valores por defecto para tipado; ajusta los valores según tu dominio.
+ */
+export enum BarberAvailabilityStatus {
+  AVAILABLE = 'AVAILABLE',
+  UNAVAILABLE = 'UNAVAILABLE'
+}
+
+/**
+ * Estados del sistema para el barbero.
+ * Definimos valores por defecto para tipado; ajusta los valores según tu dominio.
+ */
+export enum BarberSystemStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
+
+/**
  * DTO para la actualización de un barbero existente.
  * (Usado en PUT /admin/barbers/{id})
  * Utilizamos Partial<> porque todos los campos son opcionales en el controlador de Spring
  * (excepto los que se envían por RequestPart).
  */
 export interface UpdateBarberRequestDTO extends Partial<CreateBarberRequestDTO> {
-  // Aquí puedes añadir campos específicos de actualización si difieren.
+    // En actualización, el password podría ser opcional. 
+    availabilityStatus?: BarberAvailabilityStatus;
+    systemStatus?: BarberSystemStatus;
 }
 
 /**
@@ -32,4 +52,16 @@ export interface UpdateBarberRequestDTO extends Partial<CreateBarberRequestDTO> 
 export interface AssignServicesToBarberRequestDTO {
   /** Lista de IDs numéricos de los servicios a asignar. */
   serviceIds: number[];
+}
+
+// --- DTO para Horario Laboral (WorkShift) ---
+// Debe coincidir con el WorkShiftDTO de Java.
+export type DayOfWeekString = 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY';
+
+export interface WorkShiftRequestDTO {
+    id?: number; // Opcional en creación
+    dayOfWeek: DayOfWeekString;
+    startTime: string; // Formato "HH:mm" (LocalTime)
+    endTime: string; // Formato "HH:mm" (LocalTime)
+    barberId: string; // El ID del barbero al que se asigna
 }
