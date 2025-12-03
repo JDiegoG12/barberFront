@@ -1,0 +1,47 @@
+<div class="schedule-assignment-container">
+  
+  <p class="instruction">
+    Define el horario laboral semanal del barbero. Agrega uno o más turnos por día.
+  </p>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando servicios...</p>
+  </div>
+
+  <form [formGroup]="scheduleForm" *ngIf="!isLoading" class="schedule-form">
+    <div *ngFor="let day of daysOfWeek">
+      <div class="day-group" [formGroupName]="day.name">
+        <div class="day-header">
+          <label class="day-name">{{ day.label }}</label>
+          <button type="button" class="btn-clear" (click)="clearShifts(day.name)">Limpiar</button>
+        </div>
+
+        <div formArrayName="shifts" class="shifts-list">
+          <div *ngFor="let shiftCtrl of getShifts(day.name).controls; let i = index" [formGroupName]="i" class="shift-row">
+            <input type="time" class="form-control time-input" formControlName="startTime" required>
+            <span> - </span>
+            <input type="time" class="form-control time-input" formControlName="endTime" required>
+            <button type="button" class="btn-remove" (click)="removeShift(day.name, i)" title="Eliminar turno">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+            </button>
+          </div>
+
+          <button type="button" class="btn-add-shift" (click)="addShift(day.name)">
+            + Agregar Turno
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="actions">
+    <button class="btn-cancel" (click)="onCancel.emit()">Cancelar</button>
+    <app-primary-button 
+      label="Guardar Horario" 
+      [disabled]="scheduleForm.invalid"
+      (onClick)="saveSchedule()">
+    </app-primary-button>
+  </div>
+
+</div>

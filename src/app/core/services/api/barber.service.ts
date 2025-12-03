@@ -14,7 +14,8 @@ import { Service } from '../../models/views/service.view.model'; // Para el mét
 import { 
   CreateBarberRequestDTO, 
   UpdateBarberRequestDTO,
-  AssignServicesToBarberRequestDTO 
+  AssignServicesToBarberRequestDTO,
+  WorkShiftRequestDTO
 } from '../../models/dto/barber-request.dto';
 import { BarberResponseDTO } from '../../models/dto/barber.dto';
 import { ServiceResponseDTO } from '../../models/dto/service.dto';
@@ -109,13 +110,35 @@ export class BarberService {
    * @param image Archivo de imagen (opcional).
    * @returns Observable con el barbero creado.
    */
-  createBarber(request: CreateBarberRequestDTO, image?: File): Observable<Barber> {
-    const url = `${this.adminBaseUrl}/barbers`;
-    const formData: FormData = this.buildBarberFormData(request, image);
+  createBarber(request: CreateBarberRequestDTO | FormData): Observable<Barber> {
+    const url = `${this.adminBaseUrl}/barbers`; 
+    
+    // El tipo de contenido (Content-Type) se determina automáticamente:
+    // 1. Si es FormData: Angular no establece 'Content-Type', permitiendo que el navegador lo haga (multipart/form-data)
+    // 2. Si es JSON: Angular establece 'Content-Type': 'application/json'
+    return this.http.post<Barber>(url, request);
+}
 
-    return this.http.post<BarberResponseDTO>(url, formData).pipe(
-      map(dto => this.mapToBarber(dto))
-    );
+  /**
+   * Guarda o actualiza un lote de turnos de trabajo para un barbero.
+   * Se utiliza para establecer el horario semanal completo.
+   * @param barberId El ID del barbero.
+   * @param shifts Lista de turnos de trabajo con el barberId incluido.
+   * @returns Un Observable que emite la lista de WorkShiftDTO creados/actualizados.
+   */
+  saveBarberSchedule(shifts: WorkShiftRequestDTO[]): Observable<WorkShiftRequestDTO[]> {
+    // ASUMIMOS este endpoint de LOTE (batch) en el backend para eficiencia.
+    const url = `${this.adminBaseUrl}/workshifts/batch`; 
+    return this.http.post<WorkShiftRequestDTO[]>(url, shifts);
+  }
+
+  /**
+   * Obtiene el horario de trabajo de un barbero.
+   * @param barberId El ID del barbero.
+   */
+  getBarberSchedule(barberId: string): Observable<WorkShiftRequestDTO[]> {
+    const url = `${this.adminBaseUrl}/workshifts/${barberId}/horarios`; 
+    return this.http.get<WorkShiftRequestDTO[]>(url);
   }
 
   /**
@@ -283,6 +306,8 @@ export class BarberService {
 
     return formData;
   }
+
+  
 
   
 }

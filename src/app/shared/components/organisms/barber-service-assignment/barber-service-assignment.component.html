@@ -1,0 +1,49 @@
+<div class="assignment-container">
+  
+  <div class="header-info">
+    <p class="instruction">
+      Selecciona los servicios que el barbero está capacitado para realizar.
+    </p>
+    <div class="counter">
+      {{ selectedServiceIds.size }} seleccionado(s)
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando servicios...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="selection-grid">
+    
+    @for (service of allServices; track service.id) {
+      <div 
+        class="selection-card" 
+        [class.selected]="selectedServiceIds.has(service.id)"
+        (click)="toggleSelection(service.id)">
+        <div class="card-content">
+          <span class="service-name">{{ service.name }}</span>
+          <span class="service-details">{{ service.price | currency:'COP':'symbol-narrow':'1.0-0' }} | {{ service.duration }} min</span>
+        </div>
+        <div class="checkmark">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-message">
+        No se encontraron servicios activos en el sistema.
+      </div>
+    }
+
+  </div>
+
+  <div class="actions">
+    <button class="btn-cancel" (click)="onCancel.emit()" [disabled]="isSubmitting">Cancelar</button>
+    
+    <app-primary-button 
+      label="Guardar Asignación" 
+      (onClick)="saveAssignment()" 
+      [disabled]="isSubmitting">
+    </app-primary-button>
+  </div>
+</div>
