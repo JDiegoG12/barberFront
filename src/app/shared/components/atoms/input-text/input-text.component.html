@@ -1,0 +1,30 @@
+<div class="input-wrapper" [class.has-error]="!!error" [class.disabled]="isDisabled">
+  
+  <!-- LABEL (Opcional) -->
+  <label *ngIf="label" class="input-label">
+    {{ label }}
+    <span *ngIf="required" class="required-mark">*</span>
+  </label>
+
+  <!-- INPUT NATIVO -->
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="isDisabled"
+    (input)="handleInput($event)"
+    (blur)="onTouched()"
+    class="native-input"
+  />
+
+  <!-- MENSAJE DE ERROR (Con animación) -->
+  <div class="error-container" *ngIf="error">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <span>{{ error }}</span>
+  </div>
+
+</div>

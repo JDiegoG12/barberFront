@@ -1,0 +1,46 @@
+<div class="input-wrapper" [class.has-error]="!!error" [class.disabled]="isDisabled">
+  
+  <label *ngIf="label" class="input-label">
+    {{ label }}
+    <span *ngIf="required" class="required-mark">*</span>
+  </label>
+
+  <div class="select-container">
+    <!-- Vinculamos value y detectamos cambios -->
+    <select
+      [value]="value"
+      [disabled]="isDisabled"
+      (change)="handleChange($event)"
+      (blur)="onTouched()"
+      class="native-select"
+      [class.placeholder-selected]="value === ''"> <!-- Comparamos con string vacío -->
+      
+      <!-- CORRECCIÓN AQUÍ: Usamos value="" para el placeholder -->
+      <option value="" disabled selected>{{ placeholder }}</option>
+      
+      <!-- Opciones dinámicas -->
+      <option 
+        *ngFor="let opt of options" 
+        [value]="opt.value"
+        [selected]="opt.value === value">
+        {{ opt.label }}
+      </option>
+    </select>
+
+    <div class="custom-arrow">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+  </div>
+
+  <div class="error-container" *ngIf="error">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <span>{{ error }}</span>
+  </div>
+
+</div>

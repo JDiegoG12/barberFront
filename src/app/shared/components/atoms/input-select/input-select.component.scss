@@ -1,0 +1,115 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.input-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-left: 2px;
+  
+  .required-mark {
+    color: var(--error-color);
+    margin-left: 4px;
+  }
+}
+
+.select-container {
+  position: relative;
+  width: 100%;
+}
+
+.native-select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem; /* Padding derecho extra para la flecha */
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  background-color: var(--surface-color);
+  
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  
+  outline: none;
+  cursor: pointer;
+  
+  /* Ocultar flecha nativa en todos los navegadores */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Color gris para el placeholder */
+  &.placeholder-selected {
+    color: var(--text-muted-color);
+    opacity: 0.8;
+  }
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb, 175, 143, 111), 0.15);
+    background-color: var(--background-color);
+  }
+
+  &:disabled {
+    background-color: rgba(0,0,0,0.05);
+    color: var(--text-muted-color);
+    cursor: not-allowed;
+    border-color: transparent;
+  }
+}
+
+/* Flecha SVG Personalizada */
+.custom-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Click pasa a través hacia el select */
+  color: var(--text-muted-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+/* Rotar flecha cuando el select tiene foco (Efecto opcional bonito) */
+.native-select:focus + .custom-arrow {
+  color: var(--primary-color);
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* --- ESTADO DE ERROR --- */
+.input-wrapper.has-error {
+  .input-label { color: var(--error-color); }
+
+  .native-select {
+    border-color: var(--error-color);
+    background-color: rgba(var(--error-color-rgb, 244, 67, 54), 0.02);
+    
+    &:focus {
+      box-shadow: 0 0 0 4px rgba(var(--error-color-rgb, 244, 67, 54), 0.1);
+    }
+  }
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--error-color);
+  font-size: 0.8rem;
+  padding-left: 4px;
+  animation: slideDown 0.2s ease-out;
+  
+  svg { stroke-width: 2.5; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

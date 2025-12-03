@@ -1,24 +1,63 @@
-<!-- Capa de fondo (Backdrop) -->
-<!-- Al hacer click afuera (en el fondo oscuro), se cancela/cierra -->
 <div class="modal-overlay" (click)="onCancel.emit()">
   
-  <!-- La caja del mensaje -->
   <div class="modal-card" (click)="stopPropagation($event)">
-    <h3 class="modal-title">{{ title }}</h3>
     
-    <p class="modal-message">
-      {{ message }}
-    </p>
+    <!-- HEADER ICONO: Cambia según el tipo -->
+    <div class="icon-header" [ngClass]="type">
+      
+      <!-- SUCCESS (Check) -->
+      <div class="icon-circle" *ngIf="type === 'success'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
 
+      <!-- ERROR (X) -->
+      <div class="icon-circle" *ngIf="type === 'error'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+
+      <!-- WARNING (Exclamación) -->
+      <div class="icon-circle" *ngIf="type === 'warning'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="19"></line>
+          <line x1="12" y1="5" x2="12" y2="15"></line>
+        </svg>
+      </div>
+
+      <!-- INFO (i) -->
+      <div class="icon-circle" *ngIf="type === 'info'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="modal-content">
+      <h3 class="modal-title">{{ title }}</h3>
+      <p class="modal-message">{{ message }}</p>
+    </div>
+
+    <!-- ACCIONES -->
     <div class="modal-actions">
-      <!-- Botón Secundario (Texto simple para cancelar) -->
-      <button class="btn-text" (click)="onCancel.emit()">
+      <!-- Botón Cancelar (Solo si es confirmación) -->
+      <button 
+        *ngIf="isConfirmation" 
+        class="btn-text" 
+        (click)="onCancel.emit()">
         {{ cancelLabel }}
       </button>
 
-      <!-- Botón Primario (Tu componente átomo) -->
+      <!-- Botón Primario -->
       <app-primary-button 
         [label]="confirmLabel" 
+        [fullWidth]="false"
         (onClick)="onConfirm.emit()">
       </app-primary-button>
     </div>

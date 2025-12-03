@@ -1,0 +1,47 @@
+<div class="assignment-container">
+  
+  <div class="header-info">
+    <p class="instruction">
+      Selecciona los barberos capacitados para realizar este servicio.
+    </p>
+    <div class="counter">
+      {{ selectedBarberIds.size }} seleccionado(s)
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando equipo...</p>
+  </div>
+
+  <!-- Grid de Selección -->
+  <div *ngIf="!isLoading" class="barbers-grid">
+    
+    @for (barber of allBarbers; track barber.id) {
+      <app-avatar-selection-card
+        [name]="barber.name + ' ' + barber.lastName"
+        [photoUrl]="barber.photoUrl"
+        [selected]="selectedBarberIds.has(barber.id)"
+        (onClick)="toggleSelection(barber.id)">
+      </app-avatar-selection-card>
+    } @empty {
+      <div class="empty-message">
+        No se encontraron barberos activos en el sistema.
+      </div>
+    }
+
+  </div>
+
+  <!-- Footer de Acciones -->
+  <div class="actions">
+    <button class="btn-cancel" (click)="onCancel.emit()">Cancelar</button>
+    
+    <app-primary-button 
+      label="Guardar Asignación" 
+      [disabled]="isLoading"
+      (onClick)="submit()">
+    </app-primary-button>
+  </div>
+
+</div>

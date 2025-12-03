@@ -1,67 +1,104 @@
-/* El fondo oscuro que cubre TODA la pantalla */
+/* --- FONDO --- */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2000; /* Encima de todo */
-  
-  /* Centrado perfecto */
+  z-index: 2000;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  
-  /* Animación de entrada del fondo (Fade + Blur) */
-  animation: backdropEnter 0.4s ease-out forwards;
+  animation: backdropEnter 0.3s ease-out forwards;
 }
 
-/* La tarjeta pequeña centrada */
+/* --- TARJETA --- */
 .modal-card {
   background-color: var(--surface-color);
   border-radius: 16px;
-  padding: 24px;
+  padding: 32px 24px 24px 24px; /* Más padding arriba para el icono */
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   border: 1px solid var(--border-color);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centramos todo */
+  text-align: center;
+  position: relative;
   
-  /* Sombra suave y profunda */
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-  
-  /* Animación de entrada de la tarjeta (Pop elástico) */
-  /* cubic-bezier crea el efecto de rebote al final */
-  animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: cardPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+/* --- ICONO HEADER --- */
+.icon-header {
+  margin-bottom: 1.5rem;
+  
+  .icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: iconPop 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+  }
+
+  /* Variantes de Color */
+  &.success .icon-circle {
+    background-color: rgba(var(--success-color-rgb, 76, 175, 80), 0.1);
+    color: var(--success-color);
+  }
+  &.error .icon-circle {
+    background-color: rgba(var(--error-color-rgb, 244, 67, 54), 0.1);
+    color: var(--error-color);
+  }
+  &.warning .icon-circle {
+    /* Amarillo (hardcodeado o variable si tienes) */
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #FFC107;
+  }
+  &.info .icon-circle {
+    background-color: rgba(var(--primary-color-rgb, 175, 143, 111), 0.1);
+    color: var(--primary-color);
+  }
+}
+
+/* --- TEXTOS --- */
 .modal-title {
-  margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 1.25rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.35rem;
   color: var(--text-color);
   font-weight: 700;
 }
 
 .modal-message {
   color: var(--text-muted-color);
-  margin-bottom: 24px;
-  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
   font-size: 0.95rem;
 }
 
+/* --- ACCIONES --- */
 .modal-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 1rem;
+  width: 100%;
+
+  /* Si solo hay un botón, que ocupe ancho razonable */
+  app-primary-button {
+    min-width: 120px;
+  }
 }
 
-/* Botón de texto (Cancelar) */
 .btn-text {
   background: none;
   border: none;
   color: var(--text-muted-color);
-  font-weight: 600;
+  font-weight: 500;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
   padding: 10px 16px;
@@ -74,72 +111,30 @@
   }
 }
 
-/* --- DEFINICIÓN DE ANIMACIONES --- */
-
+/* --- ANIMACIONES --- */
 @keyframes backdropEnter {
-  0% {
-    background-color: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-  }
-  100% {
-    /* Oscuro con desenfoque para enfocar la atención */
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px); 
-  }
+  from { background-color: rgba(0,0,0,0); backdrop-filter: blur(0); }
+  to { background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
 }
 
 @keyframes cardPopIn {
-  0% {
-    opacity: 0;
-    /* Empieza un poco más pequeño y desplazado abajo */
-    transform: scale(0.9) translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    /* Termina en su tamaño real y posición original */
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.8) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Ajuste Móvil */
-@media (max-width: 768px) {
-  .modal-card {
-    padding: 20px;
-    width: 90%;
-    max-width: 320px; /* Limitamos el ancho para que no se estire en tablets pequeñas */
-  }
-  
+@keyframes iconPop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* --- MOBILE --- */
+@media (max-width: 480px) {
   .modal-actions {
-    /* Cambiamos a fila para que estén lado a lado */
-    flex-direction: row; 
-    width: 100%;
-    gap: 12px;
-    justify-content: space-between;
-  }
-  
-  /* Ajustamos el contenedor del botón primario */
-  app-primary-button {
-    flex: 1; /* Ocupa el 50% del espacio disponible */
-    min-width: 0; /* Permite que el flexbox encoja el contenido si es necesario */
-    
-    /* Usamos ::ng-deep para afectar al estilo del botón átomo SOLO dentro de este modal móvil */
-    ::ng-deep .btn-primary {
+    flex-direction: column-reverse; /* Cancelar abajo, Aceptar arriba */
+    gap: 0.75rem;
+
+    app-primary-button, .btn-text {
       width: 100%;
-      padding: 10px 4px; /* Reducimos el relleno vertical y horizontal */
-      font-size: 0.75rem; /* Fuente más pequeña */
-      height: 40px; /* Altura fija más compacta */
-      white-space: nowrap; /* Evita saltos de línea */
     }
-  }
-  
-  /* Ajustamos el botón de texto (Cancelar) */
-  .btn-text {
-    flex: 1; /* Ocupa el otro 50% */
-    padding: 10px 4px;
-    font-size: 0.85rem; /* Fuente más pequeña */
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }

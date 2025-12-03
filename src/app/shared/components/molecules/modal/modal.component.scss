@@ -1,0 +1,115 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente oscuro */
+  z-index: 1000; /* Siempre encima de todo */
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Estado inicial oculto */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(2px); /* Efecto difuminado elegante en el fondo */
+
+  /* Estado Visible */
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    
+    /* Cuando se muestra, animamos el contenedor hijo */
+    .modal-container {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+.modal-container {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  
+  width: 90%;
+  max-width: 500px; /* Ancho máximo en escritorio */
+  max-height: 90vh; /* Evita que se salga de la pantalla verticalmente */
+  
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Para respetar los bordes redondeados */
+
+  /* Estado inicial de la animación (antes de abrir) */
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(var(--primary-color), 0.05); /* Tinte sutil */
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted-color);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: var(--background-color);
+    color: var(--error-color); /* Rojo al hacer hover en cerrar */
+    transform: rotate(90deg); /* Pequeña animación rotatoria */
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto; /* Scroll interno si el contenido es muy largo */
+  
+  /* Scrollbar bonita para navegadores Webkit */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
+  }
+}
+
+/* RESPONSIVE: En móviles muy pequeños, pegamos un poco más los bordes */
+@media (max-width: 480px) {
+  .modal-container {
+    width: 95%;
+  }
+  .modal-header {
+    padding: 0.75rem 1rem;
+  }
+  .modal-body {
+    padding: 1rem;
+  }
+}

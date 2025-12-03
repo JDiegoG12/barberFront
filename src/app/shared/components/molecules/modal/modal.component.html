@@ -1,0 +1,27 @@
+<!-- La clase 'show' controla la visibilidad -->
+<div class="modal-overlay" [class.show]="isVisible" (click)="close()">
+  
+  <!-- Contenedor principal del modal -->
+  <!-- (click)="$event.stopPropagation()" evita que al hacer clic DENTRO del modal, este se cierre -->
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    
+    <!-- HEADER: Título y Botón Cerrar -->
+    <div class="modal-header">
+      <h3 class="modal-title">{{ title }}</h3>
+      
+      <button class="close-btn" (click)="close()" title="Cerrar">
+        <!-- Icono SVG de 'X' -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- BODY: Aquí se proyectará el contenido dinámico (Formularios, texto, etc.) -->
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+
+  </div>
+</div>

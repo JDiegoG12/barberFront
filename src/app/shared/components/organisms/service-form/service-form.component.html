@@ -1,0 +1,81 @@
+<form [formGroup]="form" class="form-container" (ngSubmit)="submit()">
+  
+  <!-- NOMBRE -->
+  <app-input-text
+    label="Nombre del Servicio"
+    placeholder="Ej: Corte Clásico"
+    formControlName="name"
+    [required]="true"
+    [error]="getErrorMessage('name')">
+  </app-input-text>
+
+  <!-- FILA: CATEGORÍA Y ESTADO (Estado solo aparece al editar) -->
+  <div class="form-row">
+    
+    <!-- CATEGORÍA -->
+    <app-input-select
+      label="Categoría"
+      placeholder="Selecciona una categoría"
+      [options]="categoryOptions"
+      formControlName="categoryId"
+      [required]="true"
+      [error]="getErrorMessage('categoryId')">
+    </app-input-select>
+
+    <!-- ESTADO (Solo visible en Edición) -->
+    <app-input-select
+      *ngIf="serviceToEdit"
+      label="Disponibilidad"
+      placeholder="Selecciona estado"
+      [options]="availabilityOptions"
+      formControlName="availabilityStatus"
+      [required]="true"
+      [error]="getErrorMessage('availabilityStatus')">
+    </app-input-select>
+
+  </div>
+
+  <!-- FILA DOBLE: PRECIO Y DURACIÓN -->
+  <div class="form-row">
+    
+    <app-input-text
+      label="Precio (COP)"
+      type="number"
+      placeholder="Ej: 25000"
+      formControlName="price"
+      [required]="true"
+      [error]="getErrorMessage('price')">
+    </app-input-text>
+
+    <app-input-text
+      label="Duración (min)"
+      type="number"
+      placeholder="Ej: 30"
+      formControlName="duration"
+      [required]="true"
+      [error]="getErrorMessage('duration')">
+    </app-input-text>
+
+  </div>
+
+  <!-- DESCRIPCIÓN -->
+  <app-input-textarea
+    label="Descripción"
+    placeholder="Describe brevemente el servicio..."
+    formControlName="description"
+    [rows]="4"
+    [required]="true"
+    [error]="getErrorMessage('description')">
+  </app-input-textarea>
+
+  <!-- ACCIONES -->
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="onCancel.emit()">Cancelar</button>
+    
+    <app-primary-button 
+      [label]="serviceToEdit ? 'Actualizar Servicio' : 'Guardar Servicio'"
+      [fullWidth]="false">
+    </app-primary-button>
+  </div>
+
+</form>

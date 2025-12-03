@@ -1,1 +1,120 @@
-<p>services works!</p>
+<div class="page-container">
+  
+  <!-- CABECERA -->
+  <header class="page-header">
+    <div class="header-text">
+      
+      <h1 class="title">Gestión de Servicios</h1>
+      <p class="subtitle">Administra el catálogo de servicios de la barbería</p>
+    </div>
+    <div class="header-actions">
+      <app-primary-button 
+        label="+ Nuevo Servicio" 
+        (onClick)="openCreateModal()">
+      </app-primary-button>
+    </div>
+  </header>
+
+  <!-- BARRA DE HERRAMIENTAS / FILTROS -->
+  <section class="filters-bar">
+    <div class="search-group">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" class="form-input" placeholder="Buscar servicio por nombre..." [(ngModel)]="searchTerm" (input)="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <select class="form-select" [(ngModel)]="selectedCategoryId" (change)="applyFilters()">
+        <option value="all">Todas las Categorías</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <select class="form-select" [(ngModel)]="selectedAvailability" (change)="applyFilters()">
+        <option value="all">Todos los Estados</option>
+        <option value="Disponible">Disponible</option>
+        <option value="No Disponible">No Disponible</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando servicios...</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredServices.length > 0" class="services-grid fade-in">
+    <app-admin-service-card 
+      *ngFor="let service of filteredServices"
+      [service]="service"
+      (onEdit)="handleEdit($event)"
+      (onAssign)="handleAssign($event)"
+      (onDelete)="handleDelete($event)">
+    </app-admin-service-card>
+  </div>
+
+  <div *ngIf="!isLoading && filteredServices.length === 0" class="empty-state fade-in">
+    <div class="empty-icon">📂</div>
+    <h3>No se encontraron servicios</h3>
+    <p>Intenta ajustar los filtros o crea un nuevo servicio.</p>
+  </div>
+
+</div>
+
+<!-- =========================
+     MODALES Y ALERTAS
+     ========================= -->
+<!-- Modal de CREACIÓN -->
+<app-modal 
+  [isVisible]="isCreateModalOpen" 
+  title="Registrar Nuevo Servicio"
+  (onClose)="requestCancelCreate()">
+  
+  <app-service-form
+    *ngIf="isCreateModalOpen" 
+    [categories]="categories"
+    (onSave)="handleCreateService($event)"
+    (onCancel)="requestCancelCreate()">
+  </app-service-form>
+
+</app-modal>
+
+<!-- Modal de EDICIÓN (NUEVO) -->
+<app-modal 
+  [isVisible]="isEditModalOpen" 
+  title="Editar Servicio"
+  (onClose)="requestCancelEdit()">
+  
+  <app-service-form
+    *ngIf="isEditModalOpen && serviceToEdit" 
+    [categories]="categories"
+    [serviceToEdit]="serviceToEdit" 
+    (onSave)="handleUpdateService($event)"
+    (onCancel)="requestCancelEdit()">
+  </app-service-form>
+
+</app-modal>
+<app-modal
+  [isVisible]="isAssignModalOpen"
+  [title]="'Asignar Barberos: ' + (serviceToAssign?.name || '')"
+  (onClose)="isAssignModalOpen = false">
+  
+  <!-- *ngIf asegura que el componente se destruya y recargue datos al cerrar/abrir -->
+  <app-barber-assignment
+    *ngIf="isAssignModalOpen && serviceToAssign"
+    [serviceId]="serviceToAssign.id"
+    (onSave)="handleSaveAssignment($event)"
+    (onCancel)="isAssignModalOpen = false">
+  </app-barber-assignment>
+
+<!-- Modal de Alerta Global -->
+<app-modal-alert
+  *ngIf="alertConfig.isOpen"
+  [title]="alertConfig.title"
+  [message]="alertConfig.message"
+  [type]="alertConfig.type"
+  [isConfirmation]="alertConfig.isConfirmation"
+  [confirmLabel]="alertConfig.confirmLabel"
+  [cancelLabel]="alertConfig.cancelLabel"
+  (onConfirm)="handleAlertConfirm()"
+  (onCancel)="closeAlert()">
+</app-modal-alert>

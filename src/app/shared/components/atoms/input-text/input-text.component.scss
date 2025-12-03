@@ -1,0 +1,93 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  position: relative;
+}
+
+.input-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-left: 2px;
+  transition: color 0.3s;
+
+  .required-mark {
+    color: var(--error-color);
+    margin-left: 4px;
+  }
+}
+
+.native-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  background-color: var(--surface-color); /* Usamos surface para diferenciar del fondo */
+  
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px; /* Bordes un poco más redondeados y modernos */
+  
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::placeholder {
+    color: var(--text-muted-color);
+    opacity: 0.6;
+  }
+
+  /* ESTADO: FOCUS */
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb, 175, 143, 111), 0.15); /* Anillo suave */
+    background-color: var(--background-color); /* Ligero cambio de fondo al enfocar */
+  }
+
+  /* ESTADO: DISABLED */
+  &:disabled {
+    background-color: rgba(0,0,0,0.05);
+    color: var(--text-muted-color);
+    cursor: not-allowed;
+    border-color: transparent;
+  }
+}
+
+/* --- ESTADO DE ERROR --- */
+.input-wrapper.has-error {
+  
+  .input-label {
+    color: var(--error-color);
+  }
+
+  .native-input {
+    border-color: var(--error-color);
+    background-color: rgba(var(--error-color-rgb, 244, 67, 54), 0.02);
+
+    &:focus {
+      box-shadow: 0 0 0 4px rgba(var(--error-color-rgb, 244, 67, 54), 0.1);
+    }
+  }
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--error-color);
+  font-size: 0.8rem;
+  padding-left: 4px;
+  
+  /* Animación de entrada */
+  animation: slideDown 0.2s ease-out;
+
+  svg {
+    stroke-width: 2.5;
+  }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
