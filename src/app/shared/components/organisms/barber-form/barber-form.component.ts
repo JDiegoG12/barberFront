@@ -26,7 +26,7 @@ import { CreateBarberRequestDTO, UpdateBarberRequestDTO } from '../../../../core
     InputSelectComponent
   ],
   templateUrl: './barber-form.component.html',
-  styleUrl: './barber-form.component.scss' // Asumiendo SCSS
+  styleUrls: ['./barber-form.component.scss'] // Asumiendo SCSS
 })
 export class BarberFormComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
@@ -70,28 +70,22 @@ export class BarberFormComponent implements OnInit, OnChanges {
   private initForm(): void {
     const isEditing = this.barberToEdit !== null;
     
-    this.form = this.fb.group({
-      name: [this.barberToEdit?.name || '', [Validators.required, Validators.minLength(2)]],
-      lastName: [this.barberToEdit?.lastName || '', [Validators.required, Validators.minLength(2)]],
-      email: [{ 
-        value: (this.barberToEdit as any)?.email || '', 
-        // Deshabilitamos el email en modo edición (mejor práctica, si es clave única)
-        disabled: isEditing 
-      }, [Validators.required, Validators.email]],
-      // Contraseña solo es obligatoria en modo creación
-      password: ['', isEditing ? [] : [Validators.required, Validators.minLength(6)]], 
-      phone: [(this.barberToEdit as any)?.phone || ''],
-      description: [this.barberToEdit?.bio || ''],
-      
-      // Solo para edición, si quieres que el admin pueda cambiar el estado de contrato/disponibilidad:
-      availabilityStatus: [this.barberToEdit?.availabilityStatus || 'Disponible'],
-      systemStatus: [this.barberToEdit?.systemStatus || 'Activo'],
-    });
+  this.form = this.fb.group({
+    name: [this.barberToEdit?.name || '', [Validators.required, Validators.minLength(2)]],
+    lastName: [this.barberToEdit?.lastName || '', [Validators.required, Validators.minLength(2)]],
+    email: [{ 
+      value: (this.barberToEdit as any)?.email || '', 
+      // Deshabilitamos el email en modo edición (mejor práctica, si es clave única)
+      disabled: isEditing 
+    }, [Validators.required, Validators.email]],
+    // Contraseña solo es obligatoria en modo creación
+    password: ['', isEditing ? [] : [Validators.required, Validators.minLength(6)]],
+    // Campos adicionales usados en el submit
+    phone: [(this.barberToEdit as any)?.phone || '', []],
+    description: [(this.barberToEdit as any)?.description || '', []],
+  });
   }
 
-  /**
-   * Captura el archivo de imagen seleccionado.
-   */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.imageFile = input.files?.[0];
@@ -114,7 +108,8 @@ export class BarberFormComponent implements OnInit, OnChanges {
 
   submit(): void {
     if (this.form.valid) {
-        const formValue = this.form.value;
+        // Usar getRawValue() para incluir controles deshabilitados (ej. email en edición)
+        const formValue = this.form.getRawValue();
 
         if (this.isEditMode) {
             // Lógica de edición: Aquí podrías usar JSON o FormData dependiendo de si se cambió la imagen.
