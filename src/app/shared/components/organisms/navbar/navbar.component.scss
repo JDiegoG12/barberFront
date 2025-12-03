@@ -146,9 +146,23 @@
     background-color: rgba(244, 67, 54, 0.1);
   }
 }
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
 
+.brand-logo {
+  height: 50px;   /* ajustar según diseño */
+  width: auto;
+  display: block;
+  user-select: none;
+}
 /* --- ESTILOS RESPONSIVE (MÓVIL) --- */
 @media (max-width: 768px) {
+  .brand-logo { height: 32px; }
   .navbar-container {
     padding: 0.8rem 1.5rem; /* Reducimos un poco el padding general */
   }
