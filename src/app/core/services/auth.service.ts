@@ -1,12 +1,52 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { KeycloakService, KeycloakEventType  } from 'keycloak-angular';
-import { User } from '../models/views/user.view.model';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { User, UserRole } from '../models/views/user.view.model';
 import { environment } from '../../../environments/environment';
 
+/**
+ * Clave bajo la que se persiste el usuario simulado en localStorage.
+ */
+const STORAGE_KEY = 'barber_current_user';
+
+/**
+ * Usuarios simulados que se usan al iniciar sesión con un rol concreto.
+ * Reemplazan a la autenticación real de Keycloak mientras se desarrolla el front.
+ * El `id` debe ser estable porque se usa como clientId/barberId en las peticiones.
+ */
+const MOCK_USERS: Record<UserRole, User> = {
+  ADMIN: {
+    id: 'admin-1',
+    firstName: 'Admin',
+    lastName: 'Barbería',
+    email: 'admin@barberia.local',
+    role: 'ADMIN'
+  },
+  BARBER: {
+    id: 'barber-1',
+    firstName: 'Barbero',
+    lastName: 'Demo',
+    email: 'barbero@barberia.local',
+    role: 'BARBER'
+  },
+  CLIENT: {
+    id: 'client-1',
+    firstName: 'Cliente',
+    lastName: 'Demo',
+    email: 'cliente@barberia.local',
+    role: 'CLIENT'
+  }
+};
+
+/**
+ * Servicio de autenticación simulado (sin Keycloak).
+ *
+ * Mantiene la misma API pública que la versión basada en Keycloak para no
+ * obligar a cambiar los componentes que ya lo consumen. La "sesión" se guarda
+ * en localStorage, de modo que sobrevive a recargas de página.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -15,90 +55,84 @@ export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/usuarios`;
 
-  keycloakService: KeycloakService;
+  // ==========================================
+  // ESTADO DE SESIÓN (LOCAL)
+  // ==========================================
 
-  constructor(keycloakService: KeycloakService) { 
-    this.keycloakService = keycloakService;
-    keycloakService.keycloakEvents$.subscribe({
-      next(event) {
-        if (event.type == KeycloakEventType.OnTokenExpired) {
-          keycloakService.updateToken(20);
-        }
-      }
-    });
-  }
-
-  // Obtener el perfil del usuario logueado
-  async getUserProfile(): Promise<User | null> {
+  /**
+   * Lee el usuario actual desde localStorage. Devuelve null si no hay sesión.
+   */
+  private getStoredUser(): User | null {
     try {
-      const isLoggedIn = await this.keycloakService.isLoggedIn();
-      
-      if (isLoggedIn) {
-        // CAMBIO AQUÍ: No usamos loadUserProfile(), leemos el token directamente.
-        const token = this.keycloakService.getKeycloakInstance().tokenParsed;
-        
-        if (!token) return null;
-
-        const roles = this.keycloakService.getUserRoles();
-        const role = roles.includes('ADMIN') ? 'ADMIN' : roles.includes('BARBER') ? 'BARBER' : 'CLIENT';
-        
-        // El token tiene propiedades estándar de OIDC
-        // Necesitas hacer cast a 'any' o definir una interfaz si TypeScript se queja
-        const tokenData = token as any;
-
-        return {
-          id: tokenData.preferred_username, // 'sub' es el ID único del usuario
-          firstName: tokenData.given_name || tokenData.name || '', 
-          lastName: tokenData.family_name || '',
-          email: tokenData.email || '',
-          role: role
-        };
-      }
-    } catch (error) {
-      console.error('Error getting user profile', error);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? (JSON.parse(raw) as User) : null;
+    } catch {
       return null;
     }
-    return null;
   }
 
   /**
-   * Obtiene el ID del usuario actual de forma síncrona desde el token de Keycloak.
-   * Devuelve `preferred_username` si está presente, si no usa `sub`. Retorna null si no está logueado.
+   * Inicia sesión como un rol concreto usando un usuario simulado y
+   * redirige al panel correspondiente.
+   */
+  loginAs(role: UserRole): void {
+    const user = MOCK_USERS[role];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    this.navigateToDashboard(user.role);
+  }
+
+  /**
+   * Indica si el usuario actual tiene el rol indicado. Lo usan los guards.
+   */
+  hasRole(role: UserRole): boolean {
+    return this.getStoredUser()?.role === role;
+  }
+
+  // ==========================================
+  // API PÚBLICA (compatible con la versión anterior)
+  // ==========================================
+
+  /**
+   * Obtiene el perfil del usuario logueado (o null si no hay sesión).
+   * Se mantiene como Promise para no romper a los componentes que usan `await`.
+   */
+  async getUserProfile(): Promise<User | null> {
+    return this.getStoredUser();
+  }
+
+  /**
+   * Obtiene el ID del usuario actual. Retorna null si no hay sesión.
    */
   getUserId(): string | null {
-    try {
-      const instance = this.keycloakService.getKeycloakInstance();
-      const token = instance?.tokenParsed as any;
-      if (!token) return null;
-      // preferred_username suele contener el nombre único (puede variar según la configuración)
-      return token.preferred_username || token.sub || null;
-    } catch (e) {
-      console.error('Error obteniendo userId del token', e);
-      return null;
-    }
+    return this.getStoredUser()?.id ?? null;
   }
 
-  // Método para iniciar sesión (redirecciona a Keycloak)
+  /**
+   * Redirige a la página de selección de rol (login simulado).
+   */
   login(): void {
-    this.keycloakService.login({
-      redirectUri: window.location.origin + '/client'
-    });
+    this.router.navigate(['/login']);
   }
 
-  // Método para cerrar sesión
+  /**
+   * Cierra la sesión y vuelve a la página pública.
+   */
   logout(): void {
-    this.keycloakService.logout(window.location.origin);
+    localStorage.removeItem(STORAGE_KEY);
+    this.router.navigate(['/']);
   }
-  
-  // Verificar si está logueado (útil para Guards)
+
+  /**
+   * Verifica si hay una sesión activa (útil para Guards).
+   */
   async isLoggedIn(): Promise<boolean> {
-    return await this.keycloakService.isLoggedIn();
+    return this.getStoredUser() !== null;
   }
 
   /**
    * Redirige al usuario a su panel correspondiente según su rol.
    * - ADMIN -> /admin
-   * - BARBER -> /barbero
+   * - BARBER -> /barber
    * - CLIENT -> /client
    */
   navigateToDashboard(role: string): void {
@@ -120,8 +154,8 @@ export class AuthService {
 
   /**
    * Obtiene información de múltiples usuarios por sus IDs.
-   * Útil para mostrar nombres de clientes en listados.
-   * 
+   * Sigue consultando al backend (si está disponible); si falla, degrada a un Map vacío.
+   *
    * @param userIds Lista de IDs de usuarios
    * @returns Observable con un Map donde la clave es el ID y el valor es un objeto con firstName y lastName
    */
@@ -133,7 +167,6 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/batch`, userIds).pipe(
       map(response => {
         const usersMap = new Map<string, { firstName: string, lastName: string, username: string }>();
-        // La respuesta es un objeto JSON { "id1": { firstName: "...", ... }, ... }
         if (response) {
           Object.keys(response).forEach(key => {
             const user = response[key];

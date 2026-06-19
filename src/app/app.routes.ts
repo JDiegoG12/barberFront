@@ -39,6 +39,12 @@ export const routes: Routes = [
   },
   
 
+  // --- RUTA DE LOGIN SIMULADO (selector de rol, sin Keycloak) ---
+  {
+    path: 'login',
+    loadComponent: () => import('./modules/public/components/pages/login/login.component').then(c => c.LoginComponent),
+  },
+
   // --- RUTA PÚBLICA (PÁGINA DE INICIO) ---
   // Esta es la ruta por defecto (ej. http://localhost:4200/).
   // Carga directamente nuestro HomeComponent. Como el HomeComponent ya utiliza

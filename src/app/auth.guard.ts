@@ -1,16 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from './core/services/auth.service';
 
 /**
- * Este guardia protege las rutas accesibles solo para usuarios con rol de CLIENTE.
+ * Guardia que protege las rutas accesibles solo para usuarios con rol de CLIENTE.
  */
-export const ClientGuard: CanActivateFn = (route, state) => {
-    const keycloakService = inject(KeycloakService);
+export const ClientGuard: CanActivateFn = () => {
+    const authService = inject(AuthService);
     const router = inject(Router);
 
-    const isLoggedIn = keycloakService.isUserInRole('CLIENT') && keycloakService.isUserInRole('ADMIN') === false && keycloakService.isUserInRole('BARBER') === false;
-    if (!isLoggedIn) {
+    if (!authService.hasRole('CLIENT')) {
         router.navigate(['/']);
         return false;
     }
@@ -18,14 +17,13 @@ export const ClientGuard: CanActivateFn = (route, state) => {
 };
 
 /**
- * Este guardia protege las rutas accesibles solo para usuarios con rol de ADMINISTRADOR.
+ * Guardia que protege las rutas accesibles solo para usuarios con rol de ADMINISTRADOR.
  */
-export const AdminGuard: CanActivateFn = (route, state) => {
-    const keycloakService = inject(KeycloakService);
+export const AdminGuard: CanActivateFn = () => {
+    const authService = inject(AuthService);
     const router = inject(Router);
 
-    const isLoggedIn = keycloakService.isUserInRole('ADMIN');
-    if (!isLoggedIn) {
+    if (!authService.hasRole('ADMIN')) {
         router.navigate(['/']);
         return false;
     }
@@ -33,14 +31,13 @@ export const AdminGuard: CanActivateFn = (route, state) => {
 };
 
 /**
- * Este guardia protege las rutas accesibles solo para usuarios con rol de BARBERO.
+ * Guardia que protege las rutas accesibles solo para usuarios con rol de BARBERO.
  */
-export const BarberGuard: CanActivateFn = (route, state) => {
-    const keycloakService = inject(KeycloakService);
+export const BarberGuard: CanActivateFn = () => {
+    const authService = inject(AuthService);
     const router = inject(Router);
-    
-    const isLoggedIn = keycloakService.isUserInRole('BARBER');
-    if (!isLoggedIn) {
+
+    if (!authService.hasRole('BARBER')) {
         router.navigate(['/']);
         return false;
     }
