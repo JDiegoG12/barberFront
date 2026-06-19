@@ -15,18 +15,17 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
 import { CreateBarberRequestDTO, UpdateBarberRequestDTO } from '../../../../core/models/dto/barber-request.dto'; 
 
 @Component({
-  selector: 'app-barber-form',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    PrimaryButtonComponent,
-    InputTextComponent,
-    InputTextareaComponent,
-    InputSelectComponent
-  ],
-  templateUrl: './barber-form.component.html',
-  styleUrls: ['./barber-form.component.scss'] // Asumiendo SCSS
+    selector: 'app-barber-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        PrimaryButtonComponent,
+        InputTextComponent,
+        InputTextareaComponent,
+        InputSelectComponent
+    ],
+    templateUrl: './barber-form.component.html',
+    styleUrls: ['./barber-form.component.scss'] // Asumiendo SCSS
 })
 export class BarberFormComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);

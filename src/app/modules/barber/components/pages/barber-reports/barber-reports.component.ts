@@ -5,11 +5,10 @@ import { AuthService } from '../../../../../core/services/auth.service';
 import { User } from '../../../../../core/models/views/user.view.model';
 
 @Component({
-  selector: 'app-barber-reports',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './barber-reports.component.html',
-  styleUrl: './barber-reports.component.scss'
+    selector: 'app-barber-reports',
+    imports: [CommonModule],
+    templateUrl: './barber-reports.component.html',
+    styleUrl: './barber-reports.component.scss'
 })
 export class BarberReportsComponent implements OnInit {
   private reportService = inject(ReportService);

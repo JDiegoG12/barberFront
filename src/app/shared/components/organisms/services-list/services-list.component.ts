@@ -36,11 +36,10 @@ interface ArrowState {
 }
 
 @Component({
-  selector: 'app-services-list',
-  standalone: true,
-  imports: [CommonModule, ServiceCardComponent, SectionTitleComponent],
-  templateUrl: './services-list.component.html',
-  styleUrl: './services-list.component.scss'
+    selector: 'app-services-list',
+    imports: [CommonModule, ServiceCardComponent, SectionTitleComponent],
+    templateUrl: './services-list.component.html',
+    styleUrl: './services-list.component.scss'
 })
 export class ServicesListComponent implements OnInit, AfterViewInit {
   private serviceService = inject(ServiceService);

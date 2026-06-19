@@ -14,11 +14,10 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
 import { AssignServicesToBarberRequestDTO } from '../../../../core/models/dto/barber-request.dto'; // DTO para la petición de asignación
 
 @Component({
-  selector: 'app-barber-service-assignment',
-  standalone: true,
-  imports: [CommonModule, PrimaryButtonComponent, AvatarSelectionCardComponent], // AvatarSelectionCard solo si se adapta para mostrar Servicios
-  templateUrl: './barber-service-assignment.component.html',
-  styleUrl: './barber-service-assignment.component.scss'
+    selector: 'app-barber-service-assignment',
+    imports: [CommonModule, PrimaryButtonComponent, AvatarSelectionCardComponent], // AvatarSelectionCard solo si se adapta para mostrar Servicios
+    templateUrl: './barber-service-assignment.component.html',
+    styleUrl: './barber-service-assignment.component.scss'
 })
 export class BarberServiceAssignmentComponent implements OnInit {
   private serviceService = inject(ServiceService);

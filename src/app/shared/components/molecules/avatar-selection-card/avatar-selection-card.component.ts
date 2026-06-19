@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
  * sobre los detalles textuales. Diseñado principalmente para grillas de selección en el Wizard.
  */
 @Component({
-  selector: 'app-avatar-selection-card',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './avatar-selection-card.component.html',
-  styleUrl: './avatar-selection-card.component.scss'
+    selector: 'app-avatar-selection-card',
+    imports: [CommonModule],
+    templateUrl: './avatar-selection-card.component.html',
+    styleUrl: './avatar-selection-card.component.scss'
 })
 export class AvatarSelectionCardComponent {
   /**

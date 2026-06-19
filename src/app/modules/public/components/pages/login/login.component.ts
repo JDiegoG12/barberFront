@@ -11,10 +11,9 @@ import { UserRole } from '../../../../../core/models/views/user.view.model';
  * correspondiente. Pensada únicamente para desarrollo del frontend.
  */
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-login',
+    imports: [CommonModule],
+    template: `
     <div class="login">
       <div class="login__card">
         <h1 class="login__title">Iniciar sesión</h1>
@@ -33,7 +32,7 @@ import { UserRole } from '../../../../../core/models/views/user.view.model';
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .login {
       min-height: 100vh;
       display: flex;

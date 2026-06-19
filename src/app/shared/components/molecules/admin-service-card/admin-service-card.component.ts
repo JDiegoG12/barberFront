@@ -4,11 +4,10 @@ import { Service } from '../../../../core/models/views/service.view.model';
 import { DurationPipe } from '../../../pipes/duration.pipe'; // Asegúrate de que la ruta sea correcta
 
 @Component({
-  selector: 'app-admin-service-card',
-  standalone: true,
-  imports: [CommonModule, DurationPipe],
-  templateUrl: './admin-service-card.component.html',
-  styleUrl: './admin-service-card.component.scss'
+    selector: 'app-admin-service-card',
+    imports: [CommonModule, DurationPipe],
+    templateUrl: './admin-service-card.component.html',
+    styleUrl: './admin-service-card.component.scss'
 })
 export class AdminServiceCardComponent {
   

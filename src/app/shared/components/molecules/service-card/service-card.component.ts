@@ -10,11 +10,10 @@ import { DurationPipe } from '../../../pipes/duration.pipe';
  * la interacción de selección. Integra el botón de acción y utiliza pipes para el formateo de datos.
  */
 @Component({
-  selector: 'app-service-card',
-  standalone: true,
-  imports: [CommonModule, IconButtonComponent, DurationPipe], 
-  templateUrl: './service-card.component.html',
-  styleUrl: './service-card.component.scss'
+    selector: 'app-service-card',
+    imports: [CommonModule, IconButtonComponent, DurationPipe],
+    templateUrl: './service-card.component.html',
+    styleUrl: './service-card.component.scss'
 })
 export class ServiceCardComponent {
   /**

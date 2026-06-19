@@ -13,11 +13,10 @@ import { AuthService } from '../../../../../core/services/auth.service';
  * proporcionando elementos comunes como la Barra de Navegación (configurada para usuario) y el Pie de página.
  */
 @Component({
-  selector: 'app-client-template',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent],
-  templateUrl: './client-template.component.html',
-  styleUrl: './client-template.component.scss'
+    selector: 'app-client-template',
+    imports: [RouterOutlet, NavbarComponent, FooterComponent],
+    templateUrl: './client-template.component.html',
+    styleUrl: './client-template.component.scss'
 })
 export class ClientTemplateComponent {
   private authService = inject(AuthService);

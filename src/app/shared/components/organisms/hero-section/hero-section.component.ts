@@ -8,11 +8,10 @@ import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-butto
  * de alto impacto y un llamado a la acción (CTA) claro.
  */
 @Component({
-  selector: 'app-hero-section',
-  standalone: true,
-  imports: [CommonModule, PrimaryButtonComponent],
-  templateUrl: './hero-section.component.html',
-  styleUrl: './hero-section.component.scss'
+    selector: 'app-hero-section',
+    imports: [CommonModule, PrimaryButtonComponent],
+    templateUrl: './hero-section.component.html',
+    styleUrl: './hero-section.component.scss'
 })
 export class HeroSectionComponent {
 

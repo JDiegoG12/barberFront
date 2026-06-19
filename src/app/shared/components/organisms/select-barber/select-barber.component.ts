@@ -12,11 +12,10 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
  * y muestra solo aquellos que están habilitados y capacitados para realizarlo.
  */
 @Component({
-  selector: 'app-select-barber',
-  standalone: true,
-  imports: [CommonModule, AvatarSelectionCardComponent], 
-  templateUrl: './select-barber.component.html',
-  styleUrl: './select-barber.component.scss'
+    selector: 'app-select-barber',
+    imports: [CommonModule, AvatarSelectionCardComponent],
+    templateUrl: './select-barber.component.html',
+    styleUrl: './select-barber.component.scss'
 })
 export class SelectBarberComponent implements OnInit {
   /** Servicio para obtener el listado de barberos. */

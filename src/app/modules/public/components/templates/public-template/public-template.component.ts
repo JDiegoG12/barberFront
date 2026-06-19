@@ -10,12 +10,11 @@ import { User } from '../../../../../core/models/views/user.view.model';
  * garantizando la presencia constante de la Barra de Navegación y el Pie de página.
  */
 @Component({
-  selector: 'app-public-template',
-  standalone: true,
-  // Importación de organismos estructurales reutilizables
-  imports: [NavbarComponent, FooterComponent],
-  templateUrl: './public-template.component.html',
-  styleUrl: './public-template.component.scss'
+    selector: 'app-public-template',
+    // Importación de organismos estructurales reutilizables
+    imports: [NavbarComponent, FooterComponent],
+    templateUrl: './public-template.component.html',
+    styleUrl: './public-template.component.scss'
 })
 export class PublicTemplateComponent implements OnInit {
   private authService = inject(AuthService);

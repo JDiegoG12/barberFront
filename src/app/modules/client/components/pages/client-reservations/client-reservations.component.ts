@@ -20,11 +20,10 @@ import { AuthService } from '../../../../../core/services/auth.service';
  * o volver a reservar servicios pasados.
  */
 @Component({
-  selector: 'app-client-reservations',
-  standalone: true,
-  imports: [CommonModule, RouterLink, ReservationCardComponent, ModalAlertComponent, PrimaryButtonComponent],
-  templateUrl: './client-reservations.component.html',
-  styleUrl: './client-reservations.component.scss'
+    selector: 'app-client-reservations',
+    imports: [CommonModule, RouterLink, ReservationCardComponent, ModalAlertComponent, PrimaryButtonComponent],
+    templateUrl: './client-reservations.component.html',
+    styleUrl: './client-reservations.component.scss'
 })
 export class ClientReservationsComponent implements OnInit {
   private reservationService = inject(ReservationService);

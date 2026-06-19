@@ -20,22 +20,21 @@ import { CreateBarberRequestDTO, UpdateBarberRequestDTO, WorkShiftRequestDTO  } 
 import { BackendError } from '../../../../../core/models/backend-error.model';
 
 @Component({
-  selector: 'app-barbers',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    PrimaryButtonComponent,
-    SectionTitleComponent,
-    ModalComponent,
-    ModalAlertComponent,
-    BarberFormComponent,
-    BarberServiceAssignmentComponent,
-    AdminBarberCardComponent,
-    BarberScheduleAssignmentComponent
-  ],
-  templateUrl: './barbers.component.html',
-  styleUrl: './barbers.component.scss'
+    selector: 'app-barbers',
+    imports: [
+        CommonModule,
+        FormsModule,
+        PrimaryButtonComponent,
+        SectionTitleComponent,
+        ModalComponent,
+        ModalAlertComponent,
+        BarberFormComponent,
+        BarberServiceAssignmentComponent,
+        AdminBarberCardComponent,
+        BarberScheduleAssignmentComponent
+    ],
+    templateUrl: './barbers.component.html',
+    styleUrl: './barbers.component.scss'
 })
 export class BarbersComponent implements OnInit {
   private barberService = inject(BarberService);

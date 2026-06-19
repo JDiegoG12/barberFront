@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
  * como estados de deshabilitado y ancho completo.
  */
 @Component({
-  selector: 'app-primary-button',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './primary-button.component.html',
-  styleUrl: './primary-button.component.scss'
+    selector: 'app-primary-button',
+    imports: [CommonModule],
+    templateUrl: './primary-button.component.html',
+    styleUrl: './primary-button.component.scss'
 })
 export class PrimaryButtonComponent {
   /**

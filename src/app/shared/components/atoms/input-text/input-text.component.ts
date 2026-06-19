@@ -3,18 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-input-text',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './input-text.component.html',
-  styleUrl: './input-text.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputTextComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-input-text',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './input-text.component.html',
+    styleUrl: './input-text.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InputTextComponent),
+            multi: true
+        }
+    ]
 })
 export class InputTextComponent implements ControlValueAccessor {
   /** Etiqueta que se muestra encima del input */

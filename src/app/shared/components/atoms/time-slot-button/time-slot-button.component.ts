@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
  * y gestionar su estado de selección visual.
  */
 @Component({
-  selector: 'app-time-slot-button',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './time-slot-button.component.html',
-  styleUrl: './time-slot-button.component.scss'
+    selector: 'app-time-slot-button',
+    imports: [CommonModule],
+    templateUrl: './time-slot-button.component.html',
+    styleUrl: './time-slot-button.component.scss'
 })
 export class TimeSlotButtonComponent {
   /**

@@ -12,11 +12,10 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
 import { AssignBarbersRequestDTO } from '../../../../core/models/dto/service-request.dto';
 
 @Component({
-  selector: 'app-barber-assignment',
-  standalone: true,
-  imports: [CommonModule, AvatarSelectionCardComponent, PrimaryButtonComponent],
-  templateUrl: './barber-assignment.component.html',
-  styleUrl: './barber-assignment.component.scss'
+    selector: 'app-barber-assignment',
+    imports: [CommonModule, AvatarSelectionCardComponent, PrimaryButtonComponent],
+    templateUrl: './barber-assignment.component.html',
+    styleUrl: './barber-assignment.component.scss'
 })
 export class BarberAssignmentComponent implements OnInit {
   private barberService = inject(BarberService);

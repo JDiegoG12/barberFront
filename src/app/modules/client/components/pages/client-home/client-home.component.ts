@@ -18,18 +18,17 @@ import { Service } from '../../../../../core/models/views/service.view.model';
  * la selección inicial de servicios antes de proceder al flujo de reserva.
  */
 @Component({
-  selector: 'app-client-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    HeroSectionComponent,
-    ServicesListComponent,
-    BarbersListComponent,
-    InfoSectionComponent,
-    BusinessSummaryCardComponent
-  ],
-  templateUrl: './client-home.component.html',
-  styleUrl: './client-home.component.scss'
+    selector: 'app-client-home',
+    imports: [
+        CommonModule,
+        HeroSectionComponent,
+        ServicesListComponent,
+        BarbersListComponent,
+        InfoSectionComponent,
+        BusinessSummaryCardComponent
+    ],
+    templateUrl: './client-home.component.html',
+    styleUrl: './client-home.component.scss'
 })
 export class ClientHomeComponent {
   /**

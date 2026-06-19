@@ -20,21 +20,20 @@ import { CreateServiceRequestDTO, UpdateServiceRequestDTO, AssignBarbersRequestD
 import { BackendError } from '../../../../../core/models/backend-error.model';
 
 @Component({
-  selector: 'app-services',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    AdminServiceCardComponent,
-    PrimaryButtonComponent,
-    SectionTitleComponent,
-    ModalComponent,
-    ServiceFormComponent,
-    ModalAlertComponent,
-    BarberAssignmentComponent
-  ],
-  templateUrl: './services.component.html',
-  styleUrl: './services.component.scss'
+    selector: 'app-services',
+    imports: [
+        CommonModule,
+        FormsModule,
+        AdminServiceCardComponent,
+        PrimaryButtonComponent,
+        SectionTitleComponent,
+        ModalComponent,
+        ServiceFormComponent,
+        ModalAlertComponent,
+        BarberAssignmentComponent
+    ],
+    templateUrl: './services.component.html',
+    styleUrl: './services.component.scss'
 })
 export class ServicesComponent implements OnInit {
   private serviceService = inject(ServiceService);

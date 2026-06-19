@@ -9,11 +9,10 @@ import { Reservation, ReservationStatus } from '../../../../core/models/views/re
  * basándose en reglas de negocio temporales y de estado.
  */
 @Component({
-  selector: 'app-reservation-card',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './reservation-card.component.html',
-  styleUrl: './reservation-card.component.scss'
+    selector: 'app-reservation-card',
+    imports: [CommonModule],
+    templateUrl: './reservation-card.component.html',
+    styleUrl: './reservation-card.component.scss'
 })
 export class ReservationCardComponent {
   /**

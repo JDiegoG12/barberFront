@@ -11,11 +11,10 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
  * y gestiona la navegación por desplazamiento (scroll) con controles visuales (flechas).
  */
 @Component({
-  selector: 'app-horizontal-date-selector',
-  standalone: true,
-  imports: [CommonModule, CalendarDayButtonComponent],
-  templateUrl: './horizontal-date-selector.component.html',
-  styleUrl: './horizontal-date-selector.component.scss'
+    selector: 'app-horizontal-date-selector',
+    imports: [CommonModule, CalendarDayButtonComponent],
+    templateUrl: './horizontal-date-selector.component.html',
+    styleUrl: './horizontal-date-selector.component.scss'
 })
 export class HorizontalDateSelectorComponent implements OnInit, OnChanges, AfterViewInit {
   private availabilityService = inject(AvailabilityService);

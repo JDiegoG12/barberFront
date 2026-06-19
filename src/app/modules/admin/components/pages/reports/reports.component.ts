@@ -7,11 +7,10 @@ import { ReportService, ServiceReportItem, CancellationReportItem, PerformanceRe
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-reports',
-  standalone: true,
-  imports: [CommonModule, NgChartsModule],
-  templateUrl: './reports.component.html',
-  styleUrl: './reports.component.scss'
+    selector: 'app-reports',
+    imports: [CommonModule, NgChartsModule],
+    templateUrl: './reports.component.html',
+    styleUrl: './reports.component.scss'
 })
 export class ReportsComponent implements OnInit {
   currentMonthYear: string = '';

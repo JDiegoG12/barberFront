@@ -28,19 +28,18 @@ import { AuthService } from '../../../../../core/services/auth.service';
  * Gestiona el estado global de la reserva en construcción y coordina la comunicación entre los pasos.
  */
 @Component({
-  selector: 'app-booking-page',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    ModalAlertComponent, 
-    SelectBarberComponent, 
-    HorizontalDateSelectorComponent,
-    TimeSlotGridComponent,
-    BookingSummaryCardComponent,
-    BookingConfirmationComponent
-  ],
-  templateUrl: './booking-page.component.html',
-  styleUrl: './booking-page.component.scss'
+    selector: 'app-booking-page',
+    imports: [
+        CommonModule,
+        ModalAlertComponent,
+        SelectBarberComponent,
+        HorizontalDateSelectorComponent,
+        TimeSlotGridComponent,
+        BookingSummaryCardComponent,
+        BookingConfirmationComponent
+    ],
+    templateUrl: './booking-page.component.html',
+    styleUrl: './booking-page.component.scss'
 })
 export class BookingPageComponent implements OnInit {
   private route = inject(ActivatedRoute);

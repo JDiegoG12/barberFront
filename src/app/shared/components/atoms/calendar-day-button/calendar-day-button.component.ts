@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
  * y gestiona sus estados visuales (seleccionado, deshabilitado).
  */
 @Component({
-  selector: 'app-calendar-day-button',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './calendar-day-button.component.html',
-  styleUrl: './calendar-day-button.component.scss'
+    selector: 'app-calendar-day-button',
+    imports: [CommonModule],
+    templateUrl: './calendar-day-button.component.html',
+    styleUrl: './calendar-day-button.component.scss'
 })
 export class CalendarDayButtonComponent {
   /**

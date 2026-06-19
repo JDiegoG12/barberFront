@@ -22,11 +22,10 @@ type TimeFilter = 'morning' | 'afternoon';
  * 3. Gestionar la interacción de selección de un bloque de tiempo específico.
  */
 @Component({
-  selector: 'app-time-slot-grid',
-  standalone: true,
-  imports: [CommonModule, TimeSlotButtonComponent],
-  templateUrl: './time-slot-grid.component.html',
-  styleUrl: './time-slot-grid.component.scss'
+    selector: 'app-time-slot-grid',
+    imports: [CommonModule, TimeSlotButtonComponent],
+    templateUrl: './time-slot-grid.component.html',
+    styleUrl: './time-slot-grid.component.scss'
 })
 export class TimeSlotGridComponent implements OnChanges {
   /** Servicio de dominio para cálculos de tiempo y colisiones. */

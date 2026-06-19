@@ -8,12 +8,11 @@ import { SafeUrlPipe } from '../../../pipes/safe-url.pipe';
  * teléfono y horarios de atención.
  */
 @Component({
-  selector: 'app-info-section',
-  standalone: true,
-  imports: [SectionTitleComponent],
-  providers: [SafeUrlPipe],
-  templateUrl: './info-section.component.html',
-  styleUrl: './info-section.component.scss'
+    selector: 'app-info-section',
+    imports: [SectionTitleComponent],
+    providers: [SafeUrlPipe],
+    templateUrl: './info-section.component.html',
+    styleUrl: './info-section.component.scss'
 })
 export class InfoSectionComponent implements OnInit {
   

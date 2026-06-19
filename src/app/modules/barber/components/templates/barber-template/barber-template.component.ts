@@ -11,11 +11,10 @@ import { AuthService } from '../../../../../core/services/auth.service';
  * proporcionando elementos comunes como la Barra de Navegación (configurada para usuario) y el Pie de página.
  */
 @Component({
-  selector: 'app-barber-template',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent],
-  templateUrl: './barber-template.component.html',
-  styleUrl: './barber-template.component.scss'
+    selector: 'app-barber-template',
+    imports: [RouterOutlet, NavbarComponent, FooterComponent],
+    templateUrl: './barber-template.component.html',
+    styleUrl: './barber-template.component.scss'
 })
 export class BarberTemplateComponent {
   private authService = inject(AuthService);

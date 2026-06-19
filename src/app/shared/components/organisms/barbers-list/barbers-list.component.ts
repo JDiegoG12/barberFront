@@ -8,11 +8,10 @@ import { SectionTitleComponent } from '../../atoms/section-title/section-title.c
 import { BarberCardComponent } from '../../molecules/barber-card/barber-card.component';
 
 @Component({
-  selector: 'app-barbers-list',
-  standalone: true,
-  imports: [CommonModule, SectionTitleComponent, BarberCardComponent],
-  templateUrl: './barbers-list.component.html',
-  styleUrl: './barbers-list.component.scss'
+    selector: 'app-barbers-list',
+    imports: [CommonModule, SectionTitleComponent, BarberCardComponent],
+    templateUrl: './barbers-list.component.html',
+    styleUrl: './barbers-list.component.scss'
 })
 export class BarbersListComponent implements OnInit, AfterViewInit {
   private barberService = inject(BarberService);

@@ -5,11 +5,10 @@ import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-butto
 export type AlertType = 'success' | 'error' | 'warning' | 'info';
 
 @Component({
-  selector: 'app-modal-alert',
-  standalone: true,
-  imports: [CommonModule, PrimaryButtonComponent],
-  templateUrl: './modal-alert.component.html',
-  styleUrl: './modal-alert.component.scss'
+    selector: 'app-modal-alert',
+    imports: [CommonModule, PrimaryButtonComponent],
+    templateUrl: './modal-alert.component.html',
+    styleUrl: './modal-alert.component.scss'
 })
 export class ModalAlertComponent {
   @Input() title: string = '';

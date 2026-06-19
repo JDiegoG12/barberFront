@@ -8,11 +8,10 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
  * Diseñado para ser utilizado en listas o carruseles de selección de equipo.
  */
 @Component({
-  selector: 'app-barber-card',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './barber-card.component.html',
-  styleUrl: './barber-card.component.scss'
+    selector: 'app-barber-card',
+    imports: [CommonModule],
+    templateUrl: './barber-card.component.html',
+    styleUrl: './barber-card.component.scss'
 })
 export class BarberCardComponent {
   /**

@@ -12,11 +12,10 @@ import { DurationPipe } from '../../../pipes/duration.pipe'; //  PIPE
  * para iniciar el flujo de reserva cuando el usuario selecciona un servicio.
  */
 @Component({
-  selector: 'app-business-summary-card',
-  standalone: true,
-  imports: [CommonModule, PrimaryButtonComponent, DurationPipe],
-  templateUrl: './business-summary-card.component.html',
-  styleUrl: './business-summary-card.component.scss'
+    selector: 'app-business-summary-card',
+    imports: [CommonModule, PrimaryButtonComponent, DurationPipe],
+    templateUrl: './business-summary-card.component.html',
+    styleUrl: './business-summary-card.component.scss'
 })
 export class BusinessSummaryCardComponent {
   /**

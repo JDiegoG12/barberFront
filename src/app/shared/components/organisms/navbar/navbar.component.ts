@@ -10,16 +10,15 @@ import { User } from '../../../../core/models/views/user.view.model';
  * de autenticación del usuario (Invitado vs Usuario Logueado).
  */
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    CommonModule,
-    ThemeToggleComponent
-  ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+    selector: 'app-navbar',
+    imports: [
+        RouterLink,
+        RouterLinkActive,
+        CommonModule,
+        ThemeToggleComponent
+    ],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
   /**

@@ -8,18 +8,17 @@ export interface SelectOption {
 }
 
 @Component({
-  selector: 'app-input-select',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './input-select.component.html',
-  styleUrl: './input-select.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputSelectComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-input-select',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './input-select.component.html',
+    styleUrl: './input-select.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InputSelectComponent),
+            multi: true
+        }
+    ]
 })
 export class InputSelectComponent implements ControlValueAccessor {
   @Input() label: string = '';

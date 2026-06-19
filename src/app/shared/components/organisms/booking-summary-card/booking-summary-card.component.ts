@@ -18,11 +18,10 @@ import { DurationPipe } from '../../../../shared/pipes/duration.pipe'; // IMPORT
  * Se adapta visualmente como tarjeta lateral en escritorio o barra inferior en móviles.
  */
 @Component({
-  selector: 'app-booking-summary-card',
-  standalone: true,
-  imports: [CommonModule, PrimaryButtonComponent, DurationPipe],
-  templateUrl: './booking-summary-card.component.html',
-  styleUrl: './booking-summary-card.component.scss'
+    selector: 'app-booking-summary-card',
+    imports: [CommonModule, PrimaryButtonComponent, DurationPipe],
+    templateUrl: './booking-summary-card.component.html',
+    styleUrl: './booking-summary-card.component.scss'
 })
 export class BookingSummaryCardComponent {
   // Entradas de datos

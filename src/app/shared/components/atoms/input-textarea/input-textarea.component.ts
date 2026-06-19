@@ -3,18 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-input-textarea',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './input-textarea.component.html',
-  styleUrl: './input-textarea.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputTextareaComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-input-textarea',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './input-textarea.component.html',
+    styleUrl: './input-textarea.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InputTextareaComponent),
+            multi: true
+        }
+    ]
 })
 export class InputTextareaComponent implements ControlValueAccessor {
   @Input() label: string = '';

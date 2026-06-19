@@ -22,18 +22,17 @@ interface ReservationView extends Reservation {
 }
 
 @Component({
-  selector: 'app-barber-schedule',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    HorizontalDateSelectorComponent,
-    SectionTitleComponent,
-    ModalAlertComponent,
-    DurationPipe
-  ],
-  templateUrl: './barber-schedule.component.html',
-  styleUrls: ['./barber-schedule.component.scss']
+    selector: 'app-barber-schedule',
+    imports: [
+        CommonModule,
+        FormsModule,
+        HorizontalDateSelectorComponent,
+        SectionTitleComponent,
+        ModalAlertComponent,
+        DurationPipe
+    ],
+    templateUrl: './barber-schedule.component.html',
+    styleUrls: ['./barber-schedule.component.scss']
 })
 export class BarberScheduleComponent implements OnInit {
   

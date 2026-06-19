@@ -14,18 +14,17 @@ import { CreateServiceRequestDTO, UpdateServiceRequestDTO } from '../../../../co
 import { Service } from '../../../../core/models/views/service.view.model';
 
 @Component({
-  selector: 'app-service-form',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    PrimaryButtonComponent,
-    InputTextComponent,
-    InputSelectComponent,
-    InputTextareaComponent
-  ],
-  templateUrl: './service-form.component.html',
-  styleUrl: './service-form.component.scss'
+    selector: 'app-service-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        PrimaryButtonComponent,
+        InputTextComponent,
+        InputSelectComponent,
+        InputTextareaComponent
+    ],
+    templateUrl: './service-form.component.html',
+    styleUrl: './service-form.component.scss'
 })
 export class ServiceFormComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);

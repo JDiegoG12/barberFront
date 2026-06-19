@@ -4,12 +4,11 @@ import { CommonModule } from '@angular/common';
 import { Barber, BarberAvailabilityStatus, BarberSystemStatus } from '../../../../core/models/views/barber.view.model'; 
 
 @Component({
-  selector: 'app-admin-barber-card',
-  standalone: true,
-  imports: [CommonModule],
-  // Nota: Deberías crear un archivo CSS o SCSS específico para este componente
-  templateUrl: './admin-barber-card.component.html',
-  styleUrl: './admin-barber-card.component.scss' // Asumiendo que usarás SCSS
+    selector: 'app-admin-barber-card',
+    imports: [CommonModule],
+    // Nota: Deberías crear un archivo CSS o SCSS específico para este componente
+    templateUrl: './admin-barber-card.component.html',
+    styleUrl: './admin-barber-card.component.scss' // Asumiendo que usarás SCSS
 })
 export class AdminBarberCardComponent {
   

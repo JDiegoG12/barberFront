@@ -15,11 +15,10 @@ interface DayConfig {
 }
 
 @Component({
-  selector: 'app-barber-schedule-assignment',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PrimaryButtonComponent],
-  templateUrl: './barber-schedule-assignment.component.html',
-  styleUrls: ['./barber-schedule-assignment.component.scss']
+    selector: 'app-barber-schedule-assignment',
+    imports: [CommonModule, ReactiveFormsModule, PrimaryButtonComponent],
+    templateUrl: './barber-schedule-assignment.component.html',
+    styleUrls: ['./barber-schedule-assignment.component.scss']
 })
 export class BarberScheduleAssignmentComponent implements OnInit {
   private fb = inject(FormBuilder);

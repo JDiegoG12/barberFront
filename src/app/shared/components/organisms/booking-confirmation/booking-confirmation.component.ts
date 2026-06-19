@@ -16,12 +16,11 @@ import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
  * y calculando el rango de tiempo final. Permite al usuario ejecutar la acción definitiva de agendar.
  */
 @Component({
-  selector: 'app-booking-confirmation',
-  standalone: true,
-  imports: [CommonModule, PrimaryButtonComponent],
-  providers: [DurationPipe], //Proveedor para poder inyectarlo en la clase y usarlo programáticamente
-  templateUrl: './booking-confirmation.component.html',
-  styleUrl: './booking-confirmation.component.scss'
+    selector: 'app-booking-confirmation',
+    imports: [CommonModule, PrimaryButtonComponent],
+    providers: [DurationPipe], //Proveedor para poder inyectarlo en la clase y usarlo programáticamente
+    templateUrl: './booking-confirmation.component.html',
+    styleUrl: './booking-confirmation.component.scss'
 })
 export class BookingConfirmationComponent {
   /**

@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
  * Maneja estados visuales de "seleccionado" y previene la propagación de eventos de clic para no interferir con el contenedor padre.
  */
 @Component({
-  selector: 'app-icon-button',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './icon-button.component.html',
-  styleUrl: './icon-button.component.scss'
+    selector: 'app-icon-button',
+    imports: [CommonModule],
+    templateUrl: './icon-button.component.html',
+    styleUrl: './icon-button.component.scss'
 })
 export class IconButtonComponent {
   /**

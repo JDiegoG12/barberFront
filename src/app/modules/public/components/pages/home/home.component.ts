@@ -21,20 +21,19 @@ import { AuthService } from '../../../../../core/services/auth.service';
  * al flujo de reserva mediante un modal de inicio de sesión.
  */
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    PublicTemplateComponent,
-    ServicesListComponent,
-    BarbersListComponent,
-    InfoSectionComponent,
-    BusinessSummaryCardComponent,
-    ModalAlertComponent,
-    HeroSectionComponent
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [
+        CommonModule,
+        PublicTemplateComponent,
+        ServicesListComponent,
+        BarbersListComponent,
+        InfoSectionComponent,
+        BusinessSummaryCardComponent,
+        ModalAlertComponent,
+        HeroSectionComponent
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
