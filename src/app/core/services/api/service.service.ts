@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Entornos
 import { environment } from '../../../../environments/environment';
+import { MockStore } from '../../mocks/mock-store.service';
 
 // Modelos de Vista (Frontend)
 import { Service, ServiceAvailabilityStatus, ServiceSystemStatus } from '../../models/views/service.view.model';
@@ -39,6 +40,8 @@ export class ServiceService {
   private readonly publicBaseUrl = `${environment.apiUrl}/servicios/public`;
   private readonly adminBaseUrl = `${environment.apiUrl}/servicios/admin`;
 
+  private mock = inject(MockStore);
+
   constructor(private http: HttpClient) { }
 
   // ==========================================
@@ -50,6 +53,7 @@ export class ServiceService {
    * @returns Observable con lista de ViewModels de categorías.
    */
   getCategories(): Observable<Category[]> {
+    if (environment.useMock) return of(this.mock.getCategories());
     const url = `${this.publicBaseUrl}/categories`;
     return this.http.get<CategoryResponseDTO[]>(url).pipe(
       map(dtos => dtos.map(dto => this.mapToCategory(dto)))
@@ -62,6 +66,7 @@ export class ServiceService {
    * @returns Observable con la categoría creada mapeada.
    */
   createCategory(request: CreateCategoryRequestDTO): Observable<Category> {
+    if (environment.useMock) return of(this.mock.createCategory(request.name));
     const url = `${this.adminBaseUrl}/categories`;
     return this.http.post<CategoryResponseDTO>(url, request).pipe(
       map(dto => this.mapToCategory(dto))
@@ -79,6 +84,7 @@ export class ServiceService {
    * @returns Observable con la lista de servicios.
    */
   getServices(includeInactive: boolean = false): Observable<Service[]> {
+    if (environment.useMock) return of(this.mock.getServices(includeInactive));
     const url = `${this.publicBaseUrl}/services`;
     
     // Configuración de parámetros query (?includeInactive=true)
@@ -97,6 +103,10 @@ export class ServiceService {
    * @param id ID del servicio.
    */
   getServiceById(id: number): Observable<Service> {
+    if (environment.useMock) {
+      const service = this.mock.getServiceById(id);
+      return service ? of(service) : throwError(() => new Error(`Servicio ${id} no encontrado`));
+    }
     const url = `${this.publicBaseUrl}/services/${id}`;
     return this.http.get<ServiceResponseDTO>(url).pipe(
       map(dto => this.mapToService(dto))
@@ -109,6 +119,7 @@ export class ServiceService {
    * @returns Observable con lista de IDs (Strings).
    */
   getBarbersByServiceId(id: number): Observable<string[]> {
+    if (environment.useMock) return of(this.mock.getBarberIdsByService(id));
     const url = `${this.publicBaseUrl}/services/${id}/barbers`;
     return this.http.get<string[]>(url);
   }
@@ -122,6 +133,7 @@ export class ServiceService {
    * @param request DTO con los datos de creación.
    */
   createService(request: CreateServiceRequestDTO): Observable<Service> {
+    if (environment.useMock) return of(this.mock.createService(request));
     const url = `${this.adminBaseUrl}/services`;
     return this.http.post<ServiceResponseDTO>(url, request).pipe(
       map(dto => this.mapToService(dto))
@@ -134,6 +146,7 @@ export class ServiceService {
    * @param request DTO con los datos de actualización.
    */
   updateService(id: number, request: UpdateServiceRequestDTO): Observable<Service> {
+    if (environment.useMock) return of(this.mock.updateService(id, request));
     const url = `${this.adminBaseUrl}/services/${id}`;
     return this.http.put<ServiceResponseDTO>(url, request).pipe(
       map(dto => this.mapToService(dto))
@@ -146,6 +159,7 @@ export class ServiceService {
    * @param request DTO que contiene la lista de IDs de barberos.
    */
   assignBarbers(id: number, request: AssignBarbersRequestDTO): Observable<Service> {
+    if (environment.useMock) return of(this.mock.assignBarbersToService(id, request.barberIds));
     const url = `${this.adminBaseUrl}/services/${id}/barbers`;
     return this.http.put<ServiceResponseDTO>(url, request).pipe(
       map(dto => this.mapToService(dto))
@@ -157,6 +171,10 @@ export class ServiceService {
    * @param id ID del servicio a eliminar.
    */
   deleteService(id: number): Observable<void> {
+    if (environment.useMock) {
+      this.mock.deleteService(id);
+      return of(void 0);
+    }
     const url = `${this.adminBaseUrl}/services/${id}`;
     return this.http.delete<void>(url);
   }

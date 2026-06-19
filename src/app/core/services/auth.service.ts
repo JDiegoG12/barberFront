@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { User, UserRole } from '../models/views/user.view.model';
 import { environment } from '../../../environments/environment';
+import { MockStore } from '../mocks/mock-store.service';
 
 /**
  * Clave bajo la que se persiste el usuario simulado en localStorage.
@@ -53,6 +54,7 @@ const MOCK_USERS: Record<UserRole, User> = {
 export class AuthService {
   private router = inject(Router);
   private http = inject(HttpClient);
+  private mock = inject(MockStore);
   private apiUrl = `${environment.apiUrl}/usuarios`;
 
   // ==========================================
@@ -162,6 +164,10 @@ export class AuthService {
   getUsersByIds(userIds: string[]): Observable<Map<string, { firstName: string, lastName: string, username: string }>> {
     if (!userIds || userIds.length === 0) {
       return of(new Map<string, { firstName: string, lastName: string, username: string }>());
+    }
+
+    if (environment.useMock) {
+      return of(this.mock.getUserNames(userIds));
     }
 
     return this.http.post<any>(`${this.apiUrl}/batch`, userIds).pipe(

@@ -6,6 +6,7 @@ import { Reservation } from '../../models/views/reservation.view.model';
 import { environment } from '../../../../environments/environment';
 import { BarberService } from './barber.service';
 import { ServiceService } from './service.service';
+import { MockStore } from '../../mocks/mock-store.service';
 
 /**
  * Servicio encargado de la gestión de reservas (citas) en el sistema.
@@ -19,6 +20,7 @@ export class ReservationService {
   private http = inject(HttpClient);
   private barberService = inject(BarberService);
   private serviceService = inject(ServiceService);
+  private mock = inject(MockStore);
   private apiUrl = `${environment.apiUrl}/reservas`;
 
   constructor() { }
@@ -32,6 +34,7 @@ export class ReservationService {
    * @returns Un Observable que emite un array de objetos `Reservation`.
    */
   getReservationsByClientId(clientId: string): Observable<Reservation[]> {
+    if (environment.useMock) return of(this.mock.getActiveReservationsByClient(clientId));
     return this.http.get<any[]>(`${this.apiUrl}/cliente/reservations/cliente/${clientId}/active`).pipe(
       map(reservations => reservations.map(r => this.mapBackendToReservation(r))),
       switchMap(reservations => this.hydrateReservations(reservations))
@@ -47,6 +50,7 @@ export class ReservationService {
    * @returns Un Observable que emite un array de objetos `Reservation`.
    */
   getReservationsByBarberId(barberId: string): Observable<Reservation[]> {
+    if (environment.useMock) return of(this.mock.getReservationsByBarber(barberId));
     return this.http.get<any[]>(`${this.apiUrl}/barbero/reservations/barbero/${barberId}`).pipe(
       map(reservations => reservations.map(r => this.mapBackendToReservation(r))),
       switchMap(reservations => this.hydrateReservations(reservations))
@@ -62,6 +66,7 @@ export class ReservationService {
    * @returns Un Observable que emite un array de objetos `Reservation`.
    */
   getReservationsByDate(barberId: string, date: Date): Observable<Reservation[]> {
+    if (environment.useMock) return of(this.mock.getReservationsByBarberAndDate(barberId, date));
     const formattedDate = this.formatDateTimeForBackend(date);
     return this.http.get<any[]>(`${this.apiUrl}/barbero/reservations/barbero/${barberId}/day?day=${formattedDate}`).pipe(
       map(reservations => reservations.map(r => this.mapBackendToReservation(r))),
@@ -77,6 +82,7 @@ export class ReservationService {
    * @returns Un Observable que emite la `Reservation` completa y creada exitosamente.
    */
   createReservation(reservation: Partial<Reservation>): Observable<Reservation> {
+    if (environment.useMock) return of(this.mock.createReservation(reservation));
     // DTO que espera el backend
     const requestDto = {
       clientId: reservation.clientId!,
@@ -185,6 +191,7 @@ export class ReservationService {
    * @returns Observable que emite la reserva actualizada
    */
   updateStatus(reservationId: number, newStatus: 'En espera' | 'Inasistencia' | 'En proceso' | 'Finalizada' | 'Cancelada'): Observable<Reservation> {
+    if (environment.useMock) return of(this.mock.updateReservationStatus(reservationId, newStatus));
     const backendStatus = this.mapFrontendStatusToBackend(newStatus);
     return this.http.put<any>(`${this.apiUrl}/barbero/reservations/${reservationId}/estado?newStatus=${backendStatus}`, null).pipe(
       map(response => this.mapBackendToReservation(response))
@@ -200,6 +207,7 @@ export class ReservationService {
    * @returns Observable que emite la reserva cancelada
    */
   cancelReservation(reservationId: number, clientId: string): Observable<Reservation> {
+    if (environment.useMock) return of(this.mock.cancelReservation(reservationId));
     return this.http.put<any>(`${this.apiUrl}/cliente/reservations/${reservationId}/cancelar?clientId=${clientId}`, null).pipe(
       map(response => this.mapBackendToReservation(response))
     );
@@ -212,6 +220,7 @@ export class ReservationService {
    * @returns Observable que emite un array de reservas históricas
    */
   getReservationHistory(clientId: string): Observable<Reservation[]> {
+    if (environment.useMock) return of(this.mock.getHistoryByClient(clientId));
     return this.http.get<any[]>(`${this.apiUrl}/cliente/reservations/cliente/${clientId}/history`).pipe(
       map(reservations => reservations.map(r => this.mapBackendToReservation(r)))
     );
@@ -226,6 +235,7 @@ export class ReservationService {
    * @returns Observable que emite la reserva reprogramada
    */
   rescheduleReservation(reservationId: number, clientId: string, newStartTime: Date): Observable<Reservation> {
+    if (environment.useMock) return of(this.mock.rescheduleReservation(reservationId, newStartTime));
     const requestDto = {
       startTime: this.formatDateTimeForBackend(newStartTime)
     };

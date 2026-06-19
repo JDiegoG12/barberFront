@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 // Entornos
 import { environment } from '../../../../environments/environment';
+import { MockStore } from '../../mocks/mock-store.service';
 
 // Modelos de Vista (Frontend)
 import { Barber, BarberAvailabilityStatus, BarberSystemStatus } from '../../models/views/barber.view.model';
@@ -35,6 +36,8 @@ export class BarberService {
   private readonly publicBaseUrl = `${environment.apiUrl}/barberos/public`;
   private readonly adminBaseUrl = `${environment.apiUrl}/barberos/admin`;
 
+  private mock = inject(MockStore);
+
   constructor(private http: HttpClient) { }
 
   // ==========================================
@@ -47,6 +50,7 @@ export class BarberService {
    * @returns Un Observable que emite un array de objetos 'Barber'.
    */
   getAllBarbers(): Observable<Barber[]> {
+    if (environment.useMock) return of(this.mock.getAllBarbers());
     const url = `${this.adminBaseUrl}/barbers`;
     return this.http.get<BarberResponseDTO[]>(url).pipe(
       map(dtos => dtos.map(dto => this.mapToBarber(dto)))
@@ -59,6 +63,7 @@ export class BarberService {
    * Si la intención es que el frontend filtre la lista completa, se usaría getAllBarbers y luego un filtro en el pipe.
    */
   getBarbers(): Observable<Barber[]> {
+    if (environment.useMock) return of(this.mock.getActiveBarbers());
     // Si necesitas simular la ruta pública que el controlador no tiene, podrías usar getAllBarbers y filtrar.
     // Como el controlador no tiene un GET /public/barbers, asumimos que usas getAllBarbers y el backend maneja el permiso.
     // Dejo la implementación original (que se usaba para MOCK) apuntando a una ruta inexistente, o puedes usar getAllBarbers.
@@ -77,6 +82,10 @@ export class BarberService {
    * @returns Un Observable que emite el objeto 'Barber'.
    */
   getBarberById(id: string): Observable<Barber> {
+    if (environment.useMock) {
+      const barber = this.mock.getBarberById(id);
+      return barber ? of(barber) : throwError(() => new Error(`Barbero ${id} no encontrado`));
+    }
     const url = `${this.publicBaseUrl}/barbers/${id}`;
     return this.http.get<BarberResponseDTO>(url).pipe(
       map(dto => this.mapToBarber(dto))
@@ -90,6 +99,7 @@ export class BarberService {
    * @returns Observable con la lista de servicios.
    */
   listServicesByBarber(barberId: string): Observable<Service[]> {
+    if (environment.useMock) return of(this.mock.getServicesByBarber(barberId));
     const url = `${this.publicBaseUrl}/barbers/${barberId}/servicios`;
     // Nota: Necesitarás un mapper para ServiceResponseDTO si Service[] es un View Model distinto a ServiceDTO.
     // Asumiendo que existe una estructura similar en ServiceService, uso un mapper temporal si no lo tienes aquí.
@@ -112,7 +122,16 @@ export class BarberService {
    * @returns Observable con el barbero creado.
    */
   createBarber(request: CreateBarberRequestDTO | FormData): Observable<Barber> {
-    const url = `${this.adminBaseUrl}/barbers`; 
+    if (environment.useMock) {
+      const get = (key: string): string | undefined =>
+        request instanceof FormData ? (request.get(key) as string) ?? undefined : (request as any)[key];
+      return of(this.mock.createBarber({
+        name: get('name') ?? 'Nuevo',
+        lastName: get('lastName'),
+        bio: get('description')
+      }));
+    }
+    const url = `${this.adminBaseUrl}/barbers`;
     
     // El tipo de contenido (Content-Type) se determina automáticamente:
     // 1. Si es FormData: Angular no establece 'Content-Type', permitiendo que el navegador lo haga (multipart/form-data)
@@ -128,8 +147,9 @@ export class BarberService {
    * @returns Un Observable que emite la lista de WorkShiftDTO creados/actualizados.
    */
   saveBarberSchedule(shifts: WorkShiftRequestDTO[]): Observable<WorkShiftRequestDTO[]> {
+    if (environment.useMock) return of(this.mock.saveSchedule(shifts));
     // ASUMIMOS este endpoint de LOTE (batch) en el backend para eficiencia.
-    const url = `${this.adminBaseUrl}/workshifts/batch`; 
+    const url = `${this.adminBaseUrl}/workshifts/batch`;
     return this.http.post<WorkShiftRequestDTO[]>(url, shifts);
   }
 
@@ -138,7 +158,8 @@ export class BarberService {
    * @param barberId El ID del barbero.
    */
   getBarberSchedule(barberId: string): Observable<WorkShiftRequestDTO[]> {
-    const url = `${this.adminBaseUrl}/workshifts/${barberId}/horarios`; 
+    if (environment.useMock) return of(this.mock.getSchedule(barberId));
+    const url = `${this.adminBaseUrl}/workshifts/${barberId}/horarios`;
     return this.http.get<WorkShiftRequestDTO[]>(url);
   }
 
@@ -152,6 +173,13 @@ export class BarberService {
    * @returns Observable con el barbero actualizado.
    */
   updateBarber(id: string, request: UpdateBarberRequestDTO, image?: File): Observable<Barber> {
+    if (environment.useMock) {
+      return of(this.mock.updateBarber(id, {
+        name: request.name,
+        lastName: request.lastName,
+        description: request.description
+      }));
+    }
     const url = `${this.adminBaseUrl}/barbers/${id}`;
     // Usamos el mismo builder de FormData, ya que los campos coinciden.
     const formData: FormData = this.buildBarberFormData(request, image);
@@ -170,6 +198,7 @@ export class BarberService {
    * @returns Observable con el barbero actualizado (o el DTO devuelto por el backend).
    */
   deactivateContract(id: string): Observable<Barber> {
+    if (environment.useMock) return of(this.mock.deactivateBarber(id));
     const url = `${this.adminBaseUrl}/barbers/${id}`;
     // El backend devuelve el BarberDTO actualizado.
     return this.http.delete<BarberResponseDTO>(url).pipe(
@@ -185,6 +214,7 @@ export class BarberService {
    * @returns Observable con el barbero actualizado.
    */
   setAvailability(id: string, available: boolean): Observable<Barber> {
+    if (environment.useMock) return of(this.mock.setBarberAvailability(id, available));
     const url = `${this.adminBaseUrl}/barbers/${id}/availability`;
     
     let params = new HttpParams();
@@ -204,6 +234,7 @@ export class BarberService {
    * @returns Observable con la lista de servicios asignados.
    */
   assignServicesBulk(barberId: string, request: AssignServicesToBarberRequestDTO): Observable<Service[]> {
+    if (environment.useMock) return of(this.mock.assignServicesToBarber(barberId, request.serviceIds));
     const url = `${this.adminBaseUrl}/barbers/${barberId}/servicios`;
     // El backend recibe un objeto JSON con la lista de IDs de servicios.
     return this.http.post<ServiceResponseDTO[]>(url, request).pipe(
