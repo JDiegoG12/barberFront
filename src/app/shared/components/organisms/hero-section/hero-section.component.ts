@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-button.component';
 
@@ -11,6 +11,7 @@ import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-butto
     selector: 'app-hero-section',
     imports: [PrimaryButtonComponent],
     templateUrl: './hero-section.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './hero-section.component.scss'
 })
 export class HeroSectionComponent {

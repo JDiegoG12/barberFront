@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Service } from '../../../../core/models/views/service.view.model';
 import { IconButtonComponent } from '../../atoms/icon-button/icon-button.component';
@@ -13,6 +13,7 @@ import { DurationPipe } from '../../../pipes/duration.pipe';
     selector: 'app-service-card',
     imports: [CommonModule, IconButtonComponent, DurationPipe],
     templateUrl: './service-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './service-card.component.scss'
 })
 export class ServiceCardComponent {

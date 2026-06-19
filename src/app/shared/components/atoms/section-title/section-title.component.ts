@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Componente atómico encargado de renderizar los títulos de las secciones de la aplicación.
@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
     selector: 'app-section-title',
     imports: [],
     templateUrl: './section-title.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './section-title.component.scss'
 })
 export class SectionTitleComponent {

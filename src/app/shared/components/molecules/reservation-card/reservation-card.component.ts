@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Reservation, ReservationStatus } from '../../../../core/models/views/reservation.view.model';
 
@@ -12,6 +12,7 @@ import { Reservation, ReservationStatus } from '../../../../core/models/views/re
     selector: 'app-reservation-card',
     imports: [CommonModule],
     templateUrl: './reservation-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './reservation-card.component.scss'
 })
 export class ReservationCardComponent {

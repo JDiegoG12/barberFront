@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router, RouterLink } from '@angular/router';
 
@@ -23,6 +23,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
     selector: 'app-client-reservations',
     imports: [RouterLink, ReservationCardComponent, ModalAlertComponent, PrimaryButtonComponent],
     templateUrl: './client-reservations.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './client-reservations.component.scss'
 })
 export class ClientReservationsComponent implements OnInit {

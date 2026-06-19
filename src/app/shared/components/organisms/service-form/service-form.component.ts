@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
@@ -23,6 +23,7 @@ import { Service } from '../../../../core/models/views/service.view.model';
     InputTextareaComponent
 ],
     templateUrl: './service-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './service-form.component.scss'
 })
 export class ServiceFormComponent implements OnInit, OnChanges {

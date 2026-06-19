@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Barber } from '../../../../core/models/views/barber.view.model';
 
@@ -11,6 +11,7 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
     selector: 'app-barber-card',
     imports: [],
     templateUrl: './barber-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barber-card.component.scss'
 })
 export class BarberCardComponent {

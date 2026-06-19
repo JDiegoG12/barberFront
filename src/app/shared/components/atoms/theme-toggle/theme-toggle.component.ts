@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ThemeService } from '../../../../core/services/theme.service';
 
 
@@ -11,6 +11,7 @@ import { ThemeService } from '../../../../core/services/theme.service';
     selector: 'app-theme-toggle',
     imports: [],
     templateUrl: './theme-toggle.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './theme-toggle.component.scss'
 })
 export class ThemeToggleComponent {

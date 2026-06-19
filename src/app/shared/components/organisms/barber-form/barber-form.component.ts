@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, inject, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -24,6 +24,7 @@ import { CreateBarberRequestDTO, UpdateBarberRequestDTO } from '../../../../core
     InputSelectComponent
 ],
     templateUrl: './barber-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./barber-form.component.scss'] // Asumiendo SCSS
 })
 export class BarberFormComponent implements OnInit, OnChanges {

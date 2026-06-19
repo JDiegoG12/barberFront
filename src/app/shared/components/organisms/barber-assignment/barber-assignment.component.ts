@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 
 
 // Componentes
@@ -15,6 +15,7 @@ import { AssignBarbersRequestDTO } from '../../../../core/models/dto/service-req
     selector: 'app-barber-assignment',
     imports: [AvatarSelectionCardComponent, PrimaryButtonComponent],
     templateUrl: './barber-assignment.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barber-assignment.component.scss'
 })
 export class BarberAssignmentComponent implements OnInit {

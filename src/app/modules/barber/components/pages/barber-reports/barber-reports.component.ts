@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ReportService, BarberMetrics } from '../../../../../core/services/api/report.service';
 import { AuthService } from '../../../../../core/services/auth.service';
@@ -8,6 +8,7 @@ import { User } from '../../../../../core/models/views/user.view.model';
     selector: 'app-barber-reports',
     imports: [],
     templateUrl: './barber-reports.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barber-reports.component.scss'
 })
 export class BarberReportsComponent implements OnInit {

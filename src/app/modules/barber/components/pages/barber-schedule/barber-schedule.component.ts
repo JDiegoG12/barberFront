@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
@@ -32,6 +32,7 @@ interface ReservationView extends Reservation {
         DurationPipe
     ],
     templateUrl: './barber-schedule.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./barber-schedule.component.scss']
 })
 export class BarberScheduleComponent implements OnInit {

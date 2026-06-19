@@ -1,14 +1,15 @@
-import { 
-  Component, 
-  OnInit, 
-  inject, 
-  Input, 
-  Output, 
-  EventEmitter, 
-  ViewChildren, 
-  QueryList, 
-  ElementRef, 
-  AfterViewInit 
+import {
+  Component,
+  OnInit,
+  inject,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, combineLatest, map, tap } from 'rxjs';
@@ -39,6 +40,7 @@ interface ArrowState {
     selector: 'app-services-list',
     imports: [CommonModule, ServiceCardComponent, SectionTitleComponent],
     templateUrl: './services-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './services-list.component.scss'
 })
 export class ServicesListComponent implements OnInit, AfterViewInit {

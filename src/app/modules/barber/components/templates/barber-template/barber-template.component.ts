@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../../../../shared/components/organisms/navbar/navbar.component';
 import { FooterComponent } from '../../../../../shared/components/organisms/footer/footer.component';
@@ -14,6 +14,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
     selector: 'app-barber-template',
     imports: [RouterOutlet, NavbarComponent, FooterComponent],
     templateUrl: './barber-template.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barber-template.component.scss'
 })
 export class BarberTemplateComponent {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, ChangeDetectionStrategy } from '@angular/core';
 
 
 import { TimeSlotButtonComponent } from '../../atoms/time-slot-button/time-slot-button.component';
@@ -25,6 +25,7 @@ type TimeFilter = 'morning' | 'afternoon';
     selector: 'app-time-slot-grid',
     imports: [TimeSlotButtonComponent],
     templateUrl: './time-slot-grid.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './time-slot-grid.component.scss'
 })
 export class TimeSlotGridComponent implements OnChanges {

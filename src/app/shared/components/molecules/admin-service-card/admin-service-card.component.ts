@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Service } from '../../../../core/models/views/service.view.model';
 import { DurationPipe } from '../../../pipes/duration.pipe'; // Asegúrate de que la ruta sea correcta
@@ -7,6 +7,7 @@ import { DurationPipe } from '../../../pipes/duration.pipe'; // Asegúrate de qu
     selector: 'app-admin-service-card',
     imports: [CommonModule, DurationPipe],
     templateUrl: './admin-service-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './admin-service-card.component.scss'
 })
 export class AdminServiceCardComponent {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { SectionTitleComponent } from '../../atoms/section-title/section-title.component';
 import { SafeUrlPipe } from '../../../pipes/safe-url.pipe';
@@ -12,6 +12,7 @@ import { SafeUrlPipe } from '../../../pipes/safe-url.pipe';
     imports: [SectionTitleComponent],
     providers: [SafeUrlPipe],
     templateUrl: './info-section.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './info-section.component.scss'
 })
 export class InfoSectionComponent implements OnInit {

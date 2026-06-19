@@ -1,6 +1,6 @@
 // En /shared/components/organisms/barber-schedule-assignment/barber-schedule-assignment.component.ts
 
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 
@@ -18,6 +18,7 @@ interface DayConfig {
     selector: 'app-barber-schedule-assignment',
     imports: [ReactiveFormsModule, PrimaryButtonComponent],
     templateUrl: './barber-schedule-assignment.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./barber-schedule-assignment.component.scss']
 })
 export class BarberScheduleAssignmentComponent implements OnInit {

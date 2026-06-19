@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { AuthService } from '../../../../../core/services/auth.service';
 import { UserRole } from '../../../../../core/models/views/user.view.model';
@@ -33,6 +33,7 @@ import { UserRole } from '../../../../../core/models/views/user.view.model';
       </div>
     </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .login {
       min-height: 100vh;

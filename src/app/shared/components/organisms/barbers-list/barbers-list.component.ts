@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map, tap } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { BarberCardComponent } from '../../molecules/barber-card/barber-card.com
     selector: 'app-barbers-list',
     imports: [CommonModule, SectionTitleComponent, BarberCardComponent],
     templateUrl: './barbers-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barbers-list.component.scss'
 })
 export class BarbersListComponent implements OnInit, AfterViewInit {

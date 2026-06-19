@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Modelos
@@ -21,6 +21,7 @@ import { DurationPipe } from '../../../../shared/pipes/duration.pipe'; // IMPORT
     selector: 'app-booking-summary-card',
     imports: [CommonModule, PrimaryButtonComponent, DurationPipe],
     templateUrl: './booking-summary-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './booking-summary-card.component.scss'
 })
 export class BookingSummaryCardComponent {

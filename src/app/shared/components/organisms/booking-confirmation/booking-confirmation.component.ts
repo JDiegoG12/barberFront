@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Modelos
@@ -20,6 +20,7 @@ import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
     imports: [CommonModule, PrimaryButtonComponent],
     providers: [DurationPipe], //Proveedor para poder inyectarlo en la clase y usarlo programáticamente
     templateUrl: './booking-confirmation.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './booking-confirmation.component.scss'
 })
 export class BookingConfirmationComponent {

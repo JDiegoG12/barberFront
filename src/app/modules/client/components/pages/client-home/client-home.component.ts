@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router } from '@angular/router'; // 1. Importamos Router
 
@@ -27,6 +27,7 @@ import { Service } from '../../../../../core/models/views/service.view.model';
     BusinessSummaryCardComponent
 ],
     templateUrl: './client-home.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './client-home.component.scss'
 })
 export class ClientHomeComponent {

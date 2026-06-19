@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, ViewChild, ElementRef, AfterViewInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 
 
 import { CalendarDayButtonComponent } from '../../atoms/calendar-day-button/calendar-day-button.component';
@@ -14,6 +14,7 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
     selector: 'app-horizontal-date-selector',
     imports: [CalendarDayButtonComponent],
     templateUrl: './horizontal-date-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './horizontal-date-selector.component.scss'
 })
 export class HorizontalDateSelectorComponent implements OnInit, OnChanges, AfterViewInit {

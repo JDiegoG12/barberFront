@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavbarComponent } from '../../../../../shared/components/organisms/navbar/navbar.component';
 import { FooterComponent } from '../../../../../shared/components/organisms/footer/footer.component';
 import { AuthService } from '../../../../../core/services/auth.service';
@@ -14,6 +14,7 @@ import { User } from '../../../../../core/models/views/user.view.model';
     // Importación de organismos estructurales reutilizables
     imports: [NavbarComponent, FooterComponent],
     templateUrl: './public-template.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './public-template.component.scss'
 })
 export class PublicTemplateComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 
 /**
@@ -10,6 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     selector: 'app-avatar-selection-card',
     imports: [],
     templateUrl: './avatar-selection-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './avatar-selection-card.component.scss'
 })
 export class AvatarSelectionCardComponent {

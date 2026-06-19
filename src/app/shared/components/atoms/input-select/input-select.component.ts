@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -12,6 +12,7 @@ export interface SelectOption {
     imports: [ReactiveFormsModule],
     templateUrl: './input-select.component.html',
     styleUrl: './input-select.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

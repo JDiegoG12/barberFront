@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 
@@ -15,6 +15,7 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
     selector: 'app-select-barber',
     imports: [CommonModule, AvatarSelectionCardComponent],
     templateUrl: './select-barber.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './select-barber.component.scss'
 })
 export class SelectBarberComponent implements OnInit {

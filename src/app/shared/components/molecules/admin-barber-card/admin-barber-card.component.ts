@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // Importa el modelo de vista Barber que definimos anteriormente
 import { Barber, BarberAvailabilityStatus, BarberSystemStatus } from '../../../../core/models/views/barber.view.model'; 
@@ -8,6 +8,7 @@ import { Barber, BarberAvailabilityStatus, BarberSystemStatus } from '../../../.
     imports: [CommonModule],
     // Nota: Deberías crear un archivo CSS o SCSS específico para este componente
     templateUrl: './admin-barber-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './admin-barber-card.component.scss' // Asumiendo que usarás SCSS
 })
 export class AdminBarberCardComponent {

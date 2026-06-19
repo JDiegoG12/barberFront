@@ -106,7 +106,7 @@ MODAL DE CONFIRMACIÓN
 @if (showConfirmModal) {
   <app-modal-alert
     title="Confirmar Cambio de Estado"
-    [message]="'¿Estás seguro de cambiar el estado de la reserva de ' + selectedReservation?.clientName + ' a \'' + pendingStatus + '\'?'"
+    [message]="'¿Estás seguro de cambiar el estado de la reserva de ' + $safeNavigationMigration(selectedReservation?.clientName) + ' a \'' + pendingStatus + '\'?'"
     confirmLabel="Sí, cambiar estado"
     cancelLabel="Cancelar"
     (onConfirm)="confirmStatusChange()"

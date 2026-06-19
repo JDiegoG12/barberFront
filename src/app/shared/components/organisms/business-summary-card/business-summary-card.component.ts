@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Service } from '../../../../core/models/views/service.view.model';
 import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-button.component';
@@ -15,6 +15,7 @@ import { DurationPipe } from '../../../pipes/duration.pipe'; //  PIPE
     selector: 'app-business-summary-card',
     imports: [CommonModule, PrimaryButtonComponent, DurationPipe],
     templateUrl: './business-summary-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './business-summary-card.component.scss'
 })
 export class BusinessSummaryCardComponent {

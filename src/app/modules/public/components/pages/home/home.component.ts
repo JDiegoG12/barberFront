@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router } from '@angular/router';
 // Importamos la plantilla y los organismos
@@ -32,6 +32,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
     HeroSectionComponent
 ],
     templateUrl: './home.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {

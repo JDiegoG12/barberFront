@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgChartsModule } from 'ng2-charts';
 import { Chart, registerables, ChartConfiguration, ChartOptions } from 'chart.js';
@@ -10,6 +10,7 @@ Chart.register(...registerables);
     selector: 'app-reports',
     imports: [NgChartsModule],
     templateUrl: './reports.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './reports.component.scss'
 })
 export class ReportsComponent implements OnInit {

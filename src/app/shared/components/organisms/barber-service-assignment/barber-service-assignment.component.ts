@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -17,6 +17,7 @@ import { AssignServicesToBarberRequestDTO } from '../../../../core/models/dto/ba
     selector: 'app-barber-service-assignment',
     imports: [CommonModule, PrimaryButtonComponent, AvatarSelectionCardComponent], // AvatarSelectionCard solo si se adapta para mostrar Servicios
     templateUrl: './barber-service-assignment.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barber-service-assignment.component.scss'
 })
 export class BarberServiceAssignmentComponent implements OnInit {

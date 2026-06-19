@@ -52,7 +52,7 @@
       <div class="total-row">
         <span>Total a pagar</span>
         <!-- El precio ya se muestra arriba en móvil, aquí se repite para estructura desktop -->
-        <span class="total-price">{{ service?.price | currency:'COP':'symbol':'1.0-0' }}</span>
+        <span class="total-price">{{ $safeNavigationMigration(service?.price) | currency:'COP':'symbol':'1.0-0' }}</span>
       </div>
     </div>
 

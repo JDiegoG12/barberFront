@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Componente organismo que representa el pie de página global de la aplicación.
@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
     selector: 'app-footer',
     imports: [],
     templateUrl: './footer.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './footer.component.scss'
 })
 export class FooterComponent {

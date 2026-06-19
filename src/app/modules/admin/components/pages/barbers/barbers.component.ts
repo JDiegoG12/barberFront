@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -33,6 +33,7 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
     BarberScheduleAssignmentComponent
 ],
     templateUrl: './barbers.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barbers.component.scss'
 })
 export class BarbersComponent implements OnInit {

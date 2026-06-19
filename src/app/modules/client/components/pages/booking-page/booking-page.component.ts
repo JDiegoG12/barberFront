@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -38,6 +38,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
     BookingConfirmationComponent
 ],
     templateUrl: './booking-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './booking-page.component.scss'
 })
 export class BookingPageComponent implements OnInit {

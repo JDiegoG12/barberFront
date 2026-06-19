@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../../../../shared/components/organisms/navbar/navbar.component';
 import { FooterComponent } from '../../../../../shared/components/organisms/footer/footer.component';
@@ -16,6 +16,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
     selector: 'app-client-template',
     imports: [RouterOutlet, NavbarComponent, FooterComponent],
     templateUrl: './client-template.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './client-template.component.scss'
 })
 export class ClientTemplateComponent {

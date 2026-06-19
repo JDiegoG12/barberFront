@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,6 +7,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
     imports: [ReactiveFormsModule],
     templateUrl: './input-textarea.component.html',
     styleUrl: './input-textarea.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

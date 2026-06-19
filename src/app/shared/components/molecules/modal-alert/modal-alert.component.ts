@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-button.component';
 
@@ -8,6 +8,7 @@ export type AlertType = 'success' | 'error' | 'warning' | 'info';
     selector: 'app-modal-alert',
     imports: [CommonModule, PrimaryButtonComponent],
     templateUrl: './modal-alert.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './modal-alert.component.scss'
 })
 export class ModalAlertComponent {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 
 /**
@@ -10,6 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     selector: 'app-time-slot-button',
     imports: [],
     templateUrl: './time-slot-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './time-slot-button.component.scss'
 })
 export class TimeSlotButtonComponent {
