@@ -1,5 +1,5 @@
 <form [formGroup]="form" class="form-container" (ngSubmit)="submit()">
-  
+
   <!-- NOMBRE -->
   <app-input-text
     label="Nombre del Servicio"
@@ -11,7 +11,7 @@
 
   <!-- FILA: CATEGORÍA Y ESTADO (Estado solo aparece al editar) -->
   <div class="form-row">
-    
+
     <!-- CATEGORÍA -->
     <app-input-select
       label="Categoría"
@@ -23,21 +23,22 @@
     </app-input-select>
 
     <!-- ESTADO (Solo visible en Edición) -->
-    <app-input-select
-      *ngIf="serviceToEdit"
-      label="Disponibilidad"
-      placeholder="Selecciona estado"
-      [options]="availabilityOptions"
-      formControlName="availabilityStatus"
-      [required]="true"
-      [error]="getErrorMessage('availabilityStatus')">
-    </app-input-select>
+    @if (serviceToEdit) {
+      <app-input-select
+        label="Disponibilidad"
+        placeholder="Selecciona estado"
+        [options]="availabilityOptions"
+        formControlName="availabilityStatus"
+        [required]="true"
+        [error]="getErrorMessage('availabilityStatus')">
+      </app-input-select>
+    }
 
   </div>
 
   <!-- FILA DOBLE: PRECIO Y DURACIÓN -->
   <div class="form-row">
-    
+
     <app-input-text
       label="Precio (COP)"
       type="number"
@@ -71,8 +72,8 @@
   <!-- ACCIONES -->
   <div class="form-actions">
     <button type="button" class="btn-cancel" (click)="onCancel.emit()">Cancelar</button>
-    
-    <app-primary-button 
+
+    <app-primary-button
       [label]="serviceToEdit ? 'Actualizar Servicio' : 'Guardar Servicio'"
       [fullWidth]="false">
     </app-primary-button>

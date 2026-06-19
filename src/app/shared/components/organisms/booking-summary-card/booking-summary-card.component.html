@@ -1,43 +1,51 @@
 <div class="summary-card">
-  
+
   <!-- TÍTULO (Solo Desktop) -->
   <h3 class="card-title desktop-only-section">Resumen de reserva</h3>
-  
+
   <!-- CONTENIDO PRINCIPAL (Barra en Móvil / Lista en Desktop) -->
   <div class="mobile-bar-content">
-    
+
     <!-- INFO SERVICIO (Siempre visible) -->
-    <div class="service-info-group" *ngIf="service">
-      <!-- En móvil esto se alinea a la izquierda -->
-      <span class="service-name">{{ service.name }}</span>
-      <div class="service-meta">
-        <span class="duration desktop-only-text">{{ service.duration | duration }} </span>
-        <span class="price">{{ service.price | currency:'COP':'symbol':'1.0-0' }}</span>
+    @if (service) {
+      <div class="service-info-group">
+        <!-- En móvil esto se alinea a la izquierda -->
+        <span class="service-name">{{ service.name }}</span>
+        <div class="service-meta">
+          <span class="duration desktop-only-text">{{ service.duration | duration }} </span>
+          <span class="price">{{ service.price | currency:'COP':'symbol':'1.0-0' }}</span>
+        </div>
       </div>
-    </div>
+    }
 
     <!-- DETALLES ADICIONALES (Solo Desktop: Barbero y Fecha) -->
     <div class="desktop-details desktop-only-section">
-      
+
       <!-- Barbero -->
-      <div class="summary-item" *ngIf="barber">
-        <hr class="divider">
-        <span class="item-label">Profesional</span>
-        <div class="item-value flex-row">
-          <img [src]="barber.photoUrl" alt="Avatar" class="mini-avatar">
-          <span>{{ barber.name }} {{ barber.lastName }}</span>
+      @if (barber) {
+        <div class="summary-item">
+          <hr class="divider">
+          <span class="item-label">Profesional</span>
+          <div class="item-value flex-row">
+            <img [src]="barber.photoUrl" alt="Avatar" class="mini-avatar">
+            <span>{{ barber.name }} {{ barber.lastName }}</span>
+          </div>
         </div>
-      </div>
+      }
 
       <!-- Fecha y Hora -->
-      <div class="summary-item" *ngIf="date">
-        <hr class="divider">
-        <span class="item-label">Fecha y Hora</span>
-        <div class="item-value">
-          <span class="date-text capitalized">{{ formattedDate }}</span>
-          <span *ngIf="timeSlot" class="time-badge">{{ timeSlot.label }}</span>
+      @if (date) {
+        <div class="summary-item">
+          <hr class="divider">
+          <span class="item-label">Fecha y Hora</span>
+          <div class="item-value">
+            <span class="date-text capitalized">{{ formattedDate }}</span>
+            @if (timeSlot) {
+              <span class="time-badge">{{ timeSlot.label }}</span>
+            }
+          </div>
         </div>
-      </div>
+      }
 
       <!-- Total (Visualmente separado en desktop) -->
       <hr class="divider">
@@ -50,8 +58,8 @@
 
     <!-- BOTÓN DE ACCIÓN (Siempre visible, a la derecha en móvil) -->
     <div class="action-wrapper">
-      <app-primary-button 
-        [label]="buttonLabel" 
+      <app-primary-button
+        [label]="buttonLabel"
         [fullWidth]="true"
         [disabled]="isDisabled"
         (onClick)="handleClick()">

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, inject, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -17,13 +17,12 @@ import { CreateBarberRequestDTO, UpdateBarberRequestDTO } from '../../../../core
 @Component({
     selector: 'app-barber-form',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        PrimaryButtonComponent,
-        InputTextComponent,
-        InputTextareaComponent,
-        InputSelectComponent
-    ],
+    ReactiveFormsModule,
+    PrimaryButtonComponent,
+    InputTextComponent,
+    InputTextareaComponent,
+    InputSelectComponent
+],
     templateUrl: './barber-form.component.html',
     styleUrls: ['./barber-form.component.scss'] // Asumiendo SCSS
 })

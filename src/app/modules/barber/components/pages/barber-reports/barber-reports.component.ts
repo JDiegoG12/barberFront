@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReportService, BarberMetrics } from '../../../../../core/services/api/report.service';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { User } from '../../../../../core/models/views/user.view.model';
 
 @Component({
     selector: 'app-barber-reports',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './barber-reports.component.html',
     styleUrl: './barber-reports.component.scss'
 })

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Componente molecular que representa una tarjeta de selección simplificada con avatar y nombre.
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
     selector: 'app-avatar-selection-card',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './avatar-selection-card.component.html',
     styleUrl: './avatar-selection-card.component.scss'
 })

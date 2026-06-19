@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../../../../core/services/auth.service';
 import { UserRole } from '../../../../../core/models/views/user.view.model';
 
@@ -12,26 +12,27 @@ import { UserRole } from '../../../../../core/models/views/user.view.model';
  */
 @Component({
     selector: 'app-login',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <div class="login">
       <div class="login__card">
         <h1 class="login__title">Iniciar sesión</h1>
         <p class="login__subtitle">Modo desarrollo — elige un rol para entrar</p>
-
+    
         <div class="login__options">
-          <button
-            *ngFor="let opt of roles"
-            type="button"
-            class="login__btn"
-            (click)="enter(opt.role)">
-            <span class="login__btn-role">{{ opt.label }}</span>
-            <span class="login__btn-desc">{{ opt.description }}</span>
-          </button>
+          @for (opt of roles; track opt) {
+            <button
+              type="button"
+              class="login__btn"
+              (click)="enter(opt.role)">
+              <span class="login__btn-role">{{ opt.label }}</span>
+              <span class="login__btn-desc">{{ opt.description }}</span>
+            </button>
+          }
         </div>
       </div>
     </div>
-  `,
+    `,
     styles: [`
     .login {
       min-height: 100vh;

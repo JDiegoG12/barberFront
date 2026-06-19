@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
 // UI Components
@@ -30,14 +30,13 @@ import { AuthService } from '../../../../../core/services/auth.service';
 @Component({
     selector: 'app-booking-page',
     imports: [
-        CommonModule,
-        ModalAlertComponent,
-        SelectBarberComponent,
-        HorizontalDateSelectorComponent,
-        TimeSlotGridComponent,
-        BookingSummaryCardComponent,
-        BookingConfirmationComponent
-    ],
+    ModalAlertComponent,
+    SelectBarberComponent,
+    HorizontalDateSelectorComponent,
+    TimeSlotGridComponent,
+    BookingSummaryCardComponent,
+    BookingConfirmationComponent
+],
     templateUrl: './booking-page.component.html',
     styleUrl: './booking-page.component.scss'
 })

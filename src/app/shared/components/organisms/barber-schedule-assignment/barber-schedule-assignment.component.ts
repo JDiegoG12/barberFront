@@ -1,7 +1,7 @@
 // En /shared/components/organisms/barber-schedule-assignment/barber-schedule-assignment.component.ts
 
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 
 // Componentes y DTOs
@@ -16,7 +16,7 @@ interface DayConfig {
 
 @Component({
     selector: 'app-barber-schedule-assignment',
-    imports: [CommonModule, ReactiveFormsModule, PrimaryButtonComponent],
+    imports: [ReactiveFormsModule, PrimaryButtonComponent],
     templateUrl: './barber-schedule-assignment.component.html',
     styleUrls: ['./barber-schedule-assignment.component.scss']
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -22,17 +22,16 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
 @Component({
     selector: 'app-barbers',
     imports: [
-        CommonModule,
-        FormsModule,
-        PrimaryButtonComponent,
-        SectionTitleComponent,
-        ModalComponent,
-        ModalAlertComponent,
-        BarberFormComponent,
-        BarberServiceAssignmentComponent,
-        AdminBarberCardComponent,
-        BarberScheduleAssignmentComponent
-    ],
+    FormsModule,
+    PrimaryButtonComponent,
+    SectionTitleComponent,
+    ModalComponent,
+    ModalAlertComponent,
+    BarberFormComponent,
+    BarberServiceAssignmentComponent,
+    AdminBarberCardComponent,
+    BarberScheduleAssignmentComponent
+],
     templateUrl: './barbers.component.html',
     styleUrl: './barbers.component.scss'
 })

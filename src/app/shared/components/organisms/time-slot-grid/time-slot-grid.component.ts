@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { TimeSlotButtonComponent } from '../../atoms/time-slot-button/time-slot-button.component';
 import { AvailabilityService, TimeSlot } from '../../../../core/services/domain/availability.service';
@@ -23,7 +23,7 @@ type TimeFilter = 'morning' | 'afternoon';
  */
 @Component({
     selector: 'app-time-slot-grid',
-    imports: [CommonModule, TimeSlotButtonComponent],
+    imports: [TimeSlotButtonComponent],
     templateUrl: './time-slot-grid.component.html',
     styleUrl: './time-slot-grid.component.scss'
 })

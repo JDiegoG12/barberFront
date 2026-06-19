@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Barber } from '../../../../core/models/views/barber.view.model';
 
 /**
@@ -9,7 +9,7 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
  */
 @Component({
     selector: 'app-barber-card',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './barber-card.component.html',
     styleUrl: './barber-card.component.scss'
 })

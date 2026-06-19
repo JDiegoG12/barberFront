@@ -1,5 +1,5 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 export interface SelectOption {
@@ -9,7 +9,7 @@ export interface SelectOption {
 
 @Component({
     selector: 'app-input-select',
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [ReactiveFormsModule],
     templateUrl: './input-select.component.html',
     styleUrl: './input-select.component.scss',
     providers: [

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NgChartsModule } from 'ng2-charts';
 import { Chart, registerables, ChartConfiguration, ChartOptions } from 'chart.js';
 import { ReportService, ServiceReportItem, CancellationReportItem, PerformanceReportItem } from '../../../../../core/services/api/report.service';
@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 @Component({
     selector: 'app-reports',
-    imports: [CommonModule, NgChartsModule],
+    imports: [NgChartsModule],
     templateUrl: './reports.component.html',
     styleUrl: './reports.component.scss'
 })

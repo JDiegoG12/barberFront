@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
 // Componentes Atómicos
@@ -16,13 +16,12 @@ import { Service } from '../../../../core/models/views/service.view.model';
 @Component({
     selector: 'app-service-form',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        PrimaryButtonComponent,
-        InputTextComponent,
-        InputSelectComponent,
-        InputTextareaComponent
-    ],
+    ReactiveFormsModule,
+    PrimaryButtonComponent,
+    InputTextComponent,
+    InputSelectComponent,
+    InputTextareaComponent
+],
     templateUrl: './service-form.component.html',
     styleUrl: './service-form.component.scss'
 })

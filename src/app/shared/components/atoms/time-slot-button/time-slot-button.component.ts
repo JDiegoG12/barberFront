@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Componente atómico que representa un botón individual para un bloque de horario.
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
     selector: 'app-time-slot-button',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './time-slot-button.component.html',
     styleUrl: './time-slot-button.component.scss'
 })

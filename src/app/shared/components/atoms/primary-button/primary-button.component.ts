@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Componente atómico que representa el botón de acción principal de la interfaz.
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
     selector: 'app-primary-button',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './primary-button.component.html',
     styleUrl: './primary-button.component.scss'
 })

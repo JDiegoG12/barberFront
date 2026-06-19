@@ -1,5 +1,5 @@
 <div class="summary-card">
-  
+
   <!-- 1. INFO NEGOCIO (Solo Desktop) -->
   <div class="desktop-only-section">
     <div class="business-header">
@@ -11,29 +11,27 @@
 
   <!-- 2. SECCIÓN DINÁMICA (Visible en ambos) -->
   <div class="booking-section">
-    
+
     <!-- CASO A: Hay servicio seleccionado -->
-    <div *ngIf="selectedService; else noServiceTemplate" class="service-summary">
-      <div class="service-details">
-        <span class="service-name">{{ selectedService.name }}</span>
-        <div class="service-meta">
-          <span class="duration">{{ selectedService.duration | duration }}</span>
-          <span class="separator">•</span>
-          <span class="price">{{ selectedService.price | currency:'COP':'symbol':'1.0-0' }}</span>
+    @if (selectedService) {
+      <div class="service-summary">
+        <div class="service-details">
+          <span class="service-name">{{ selectedService.name }}</span>
+          <div class="service-meta">
+            <span class="duration">{{ selectedService.duration | duration }}</span>
+            <span class="separator">•</span>
+            <span class="price">{{ selectedService.price | currency:'COP':'symbol':'1.0-0' }}</span>
+          </div>
+        </div>
+        <div class="action-button-wrapper">
+          <app-primary-button
+            label="Reservar"
+            [fullWidth]="true"
+            (onClick)="handleReserve()">
+          </app-primary-button>
         </div>
       </div>
-
-      <div class="action-button-wrapper">
-        <app-primary-button 
-          label="Reservar" 
-          [fullWidth]="true"
-          (onClick)="handleReserve()">
-        </app-primary-button>
-      </div>
-    </div>
-
-    <!-- CASO B: No hay servicio -->
-    <ng-template #noServiceTemplate>
+    } @else {
       <div class="empty-state">
         <div class="text-wrapper">
           <!-- Texto corto para móvil, largo para PC -->
@@ -42,16 +40,17 @@
             <span class="desktop-text">Selecciona un servicio de la lista para iniciar tu proceso de reserva.</span>
           </p>
         </div>
-        
         <div class="action-button-wrapper">
-          <app-primary-button 
-            label="Reservar" 
-            [fullWidth]="true" 
+          <app-primary-button
+            label="Reservar"
+            [fullWidth]="true"
             [disabled]="true">
           </app-primary-button>
         </div>
       </div>
-    </ng-template>
+    }
+
+    <!-- CASO B: No hay servicio -->
 
   </div>
 

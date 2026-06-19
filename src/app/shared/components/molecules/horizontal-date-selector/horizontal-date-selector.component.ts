@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 import { CalendarDayButtonComponent } from '../../atoms/calendar-day-button/calendar-day-button.component';
 import { AvailabilityService } from '../../../../core/services/domain/availability.service';
@@ -12,7 +12,7 @@ import { Barber } from '../../../../core/models/views/barber.view.model';
  */
 @Component({
     selector: 'app-horizontal-date-selector',
-    imports: [CommonModule, CalendarDayButtonComponent],
+    imports: [CalendarDayButtonComponent],
     templateUrl: './horizontal-date-selector.component.html',
     styleUrl: './horizontal-date-selector.component.scss'
 })

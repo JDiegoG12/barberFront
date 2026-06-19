@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 // Componentes
 import { AvatarSelectionCardComponent } from '../../molecules/avatar-selection-card/avatar-selection-card.component';
@@ -13,7 +13,7 @@ import { AssignBarbersRequestDTO } from '../../../../core/models/dto/service-req
 
 @Component({
     selector: 'app-barber-assignment',
-    imports: [CommonModule, AvatarSelectionCardComponent, PrimaryButtonComponent],
+    imports: [AvatarSelectionCardComponent, PrimaryButtonComponent],
     templateUrl: './barber-assignment.component.html',
     styleUrl: './barber-assignment.component.scss'
 })

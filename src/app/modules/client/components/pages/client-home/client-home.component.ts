@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router'; // 1. Importamos Router
 
 // Reutilizamos los organismos existentes
@@ -20,13 +20,12 @@ import { Service } from '../../../../../core/models/views/service.view.model';
 @Component({
     selector: 'app-client-home',
     imports: [
-        CommonModule,
-        HeroSectionComponent,
-        ServicesListComponent,
-        BarbersListComponent,
-        InfoSectionComponent,
-        BusinessSummaryCardComponent
-    ],
+    HeroSectionComponent,
+    ServicesListComponent,
+    BarbersListComponent,
+    InfoSectionComponent,
+    BusinessSummaryCardComponent
+],
     templateUrl: './client-home.component.html',
     styleUrl: './client-home.component.scss'
 })

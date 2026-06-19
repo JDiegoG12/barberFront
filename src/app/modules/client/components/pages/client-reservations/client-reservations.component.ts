@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterLink } from '@angular/router';
 
 // Componentes UI
@@ -21,7 +21,7 @@ import { AuthService } from '../../../../../core/services/auth.service';
  */
 @Component({
     selector: 'app-client-reservations',
-    imports: [CommonModule, RouterLink, ReservationCardComponent, ModalAlertComponent, PrimaryButtonComponent],
+    imports: [RouterLink, ReservationCardComponent, ModalAlertComponent, PrimaryButtonComponent],
     templateUrl: './client-reservations.component.html',
     styleUrl: './client-reservations.component.scss'
 })

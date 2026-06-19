@@ -1,5 +1,5 @@
 <div class="page-container">
-  
+
   <!-- CABECERA -->
   <header class="page-header">
     <div class="header-text">
@@ -7,8 +7,8 @@
       <p class="subtitle">Administra el catálogo de servicios de la barbería</p>
     </div>
     <div class="header-actions">
-      <app-primary-button 
-        label="+ Nuevo Servicio" 
+      <app-primary-button
+        label="+ Nuevo Servicio"
         (onClick)="openCreateModal()">
       </app-primary-button>
     </div>
@@ -23,7 +23,9 @@
     <div class="filter-group">
       <select class="form-select" [(ngModel)]="selectedCategoryId" (change)="applyFilters()">
         <option value="all">Todas las Categorías</option>
-        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+        @for (cat of categories; track cat) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
       </select>
     </div>
     <div class="filter-group">
@@ -36,61 +38,70 @@
   </section>
 
   <!-- CONTENIDO PRINCIPAL -->
-  <div *ngIf="isLoading" class="loading-state">
-    <div class="spinner"></div>
-    <p>Cargando servicios...</p>
-  </div>
+  @if (isLoading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando servicios...</p>
+    </div>
+  }
 
-  <div *ngIf="!isLoading && filteredServices.length > 0" class="services-grid fade-in">
-    <app-admin-service-card 
-      *ngFor="let service of filteredServices"
-      [service]="service"
-      (onEdit)="handleEdit($event)"
-      (onAssign)="handleAssign($event)"
-      (onDelete)="handleDelete($event)">
-    </app-admin-service-card>
-  </div>
+  @if (!isLoading && filteredServices.length > 0) {
+    <div class="services-grid fade-in">
+      @for (service of filteredServices; track service) {
+        <app-admin-service-card
+          [service]="service"
+          (onEdit)="handleEdit($event)"
+          (onAssign)="handleAssign($event)"
+          (onDelete)="handleDelete($event)">
+        </app-admin-service-card>
+      }
+    </div>
+  }
 
-  <div *ngIf="!isLoading && filteredServices.length === 0" class="empty-state fade-in">
-    <div class="empty-icon">📂</div>
-    <h3>No se encontraron servicios</h3>
-    <p>Intenta ajustar los filtros o crea un nuevo servicio.</p>
-  </div>
+  @if (!isLoading && filteredServices.length === 0) {
+    <div class="empty-state fade-in">
+      <div class="empty-icon">📂</div>
+      <h3>No se encontraron servicios</h3>
+      <p>Intenta ajustar los filtros o crea un nuevo servicio.</p>
+    </div>
+  }
 
 </div>
 
 <!-- =========================
-     MODALES Y ALERTAS
-     ========================= -->
+MODALES Y ALERTAS
+========================= -->
 
 <!-- Modal de CREACIÓN -->
-<app-modal 
-  [isVisible]="isCreateModalOpen" 
+<app-modal
+  [isVisible]="isCreateModalOpen"
   title="Registrar Nuevo Servicio"
   (onClose)="requestCancelCreate()">
-  
-  <app-service-form
-    *ngIf="isCreateModalOpen" 
-    [categories]="categories"
-    (onSave)="handleCreateService($event)"
-    (onCancel)="requestCancelCreate()">
-  </app-service-form>
+
+  @if (isCreateModalOpen) {
+    <app-service-form
+      [categories]="categories"
+      (onSave)="handleCreateService($event)"
+      (onCancel)="requestCancelCreate()">
+    </app-service-form>
+  }
 
 </app-modal>
 
 <!-- Modal de EDICIÓN -->
-<app-modal 
-  [isVisible]="isEditModalOpen" 
+<app-modal
+  [isVisible]="isEditModalOpen"
   title="Editar Servicio"
   (onClose)="requestCancelEdit()">
-  
-  <app-service-form
-    *ngIf="isEditModalOpen && serviceToEdit" 
-    [categories]="categories"
-    [serviceToEdit]="serviceToEdit" 
-    (onSave)="handleUpdateService($event)"
-    (onCancel)="requestCancelEdit()">
-  </app-service-form>
+
+  @if (isEditModalOpen && serviceToEdit) {
+    <app-service-form
+      [categories]="categories"
+      [serviceToEdit]="serviceToEdit"
+      (onSave)="handleUpdateService($event)"
+      (onCancel)="requestCancelEdit()">
+    </app-service-form>
+  }
 
 </app-modal>
 
@@ -99,26 +110,28 @@
   [isVisible]="isAssignModalOpen"
   [title]="'Asignar Barberos: ' + (serviceToAssign?.name || '')"
   (onClose)="isAssignModalOpen = false">
-  
-  <!-- *ngIf asegura que el componente se destruya y recargue datos al cerrar/abrir -->
-  <app-barber-assignment
-    *ngIf="isAssignModalOpen && serviceToAssign"
-    [serviceId]="serviceToAssign.id"
-    (onSave)="handleSaveAssignment($event)"
-    (onCancel)="isAssignModalOpen = false">
-  </app-barber-assignment>
 
-</app-modal> 
+  <!-- *ngIf asegura que el componente se destruya y recargue datos al cerrar/abrir -->
+  @if (isAssignModalOpen && serviceToAssign) {
+    <app-barber-assignment
+      [serviceId]="serviceToAssign.id"
+      (onSave)="handleSaveAssignment($event)"
+      (onCancel)="isAssignModalOpen = false">
+    </app-barber-assignment>
+  }
+
+</app-modal>
 
 <!-- Modal de Alerta Global -->
-<app-modal-alert
-  *ngIf="alertConfig.isOpen"
-  [title]="alertConfig.title"
-  [message]="alertConfig.message"
-  [type]="alertConfig.type"
-  [isConfirmation]="alertConfig.isConfirmation"
-  [confirmLabel]="alertConfig.confirmLabel"
-  [cancelLabel]="alertConfig.cancelLabel"
-  (onConfirm)="handleAlertConfirm()"
-  (onCancel)="closeAlert()">
-</app-modal-alert>
+@if (alertConfig.isOpen) {
+  <app-modal-alert
+    [title]="alertConfig.title"
+    [message]="alertConfig.message"
+    [type]="alertConfig.type"
+    [isConfirmation]="alertConfig.isConfirmation"
+    [confirmLabel]="alertConfig.confirmLabel"
+    [cancelLabel]="alertConfig.cancelLabel"
+    (onConfirm)="handleAlertConfirm()"
+    (onCancel)="closeAlert()">
+  </app-modal-alert>
+}

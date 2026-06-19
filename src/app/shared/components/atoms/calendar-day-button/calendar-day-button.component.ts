@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Componente atómico que representa un día individual en un selector de calendario.
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
     selector: 'app-calendar-day-button',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './calendar-day-button.component.html',
     styleUrl: './calendar-day-button.component.scss'
 })

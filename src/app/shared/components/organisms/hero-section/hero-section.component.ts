@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-button.component';
 
 /**
@@ -9,7 +9,7 @@ import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-butto
  */
 @Component({
     selector: 'app-hero-section',
-    imports: [CommonModule, PrimaryButtonComponent],
+    imports: [PrimaryButtonComponent],
     templateUrl: './hero-section.component.html',
     styleUrl: './hero-section.component.scss'
 })

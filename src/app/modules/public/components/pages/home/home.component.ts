@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 // Importamos la plantilla y los organismos
 import { PublicTemplateComponent } from '../../templates/public-template/public-template.component';
@@ -23,15 +23,14 @@ import { AuthService } from '../../../../../core/services/auth.service';
 @Component({
     selector: 'app-home',
     imports: [
-        CommonModule,
-        PublicTemplateComponent,
-        ServicesListComponent,
-        BarbersListComponent,
-        InfoSectionComponent,
-        BusinessSummaryCardComponent,
-        ModalAlertComponent,
-        HeroSectionComponent
-    ],
+    PublicTemplateComponent,
+    ServicesListComponent,
+    BarbersListComponent,
+    InfoSectionComponent,
+    BusinessSummaryCardComponent,
+    ModalAlertComponent,
+    HeroSectionComponent
+],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })

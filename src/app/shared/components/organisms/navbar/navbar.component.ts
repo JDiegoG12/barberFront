@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { ThemeToggleComponent } from '../../atoms/theme-toggle/theme-toggle.component';
 import { User } from '../../../../core/models/views/user.view.model';
 
@@ -12,11 +12,10 @@ import { User } from '../../../../core/models/views/user.view.model';
 @Component({
     selector: 'app-navbar',
     imports: [
-        RouterLink,
-        RouterLinkActive,
-        CommonModule,
-        ThemeToggleComponent
-    ],
+    RouterLink,
+    RouterLinkActive,
+    ThemeToggleComponent
+],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss'
 })

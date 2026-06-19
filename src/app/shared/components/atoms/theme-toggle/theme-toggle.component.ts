@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../../../core/services/theme.service';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Componente atómico que proporciona un interruptor (toggle) para cambiar el tema visual de la aplicación.
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
     selector: 'app-theme-toggle',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './theme-toggle.component.html',
     styleUrl: './theme-toggle.component.scss'
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -22,16 +22,15 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
 @Component({
     selector: 'app-services',
     imports: [
-        CommonModule,
-        FormsModule,
-        AdminServiceCardComponent,
-        PrimaryButtonComponent,
-        SectionTitleComponent,
-        ModalComponent,
-        ServiceFormComponent,
-        ModalAlertComponent,
-        BarberAssignmentComponent
-    ],
+    FormsModule,
+    AdminServiceCardComponent,
+    PrimaryButtonComponent,
+    SectionTitleComponent,
+    ModalComponent,
+    ServiceFormComponent,
+    ModalAlertComponent,
+    BarberAssignmentComponent
+],
     templateUrl: './services.component.html',
     styleUrl: './services.component.scss'
 })
