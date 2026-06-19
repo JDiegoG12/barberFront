@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { Chart, registerables, ChartConfiguration, ChartOptions } from 'chart.js';
 import { ReportService, ServiceReportItem, CancellationReportItem, PerformanceReportItem } from '../../../../../core/services/api/report.service';
 
@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 @Component({
     selector: 'app-reports',
-    imports: [NgChartsModule],
+    imports: [BaseChartDirective],
     templateUrl: './reports.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './reports.component.scss'

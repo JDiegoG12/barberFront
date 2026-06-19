@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { HttpErrorResponse } from '@angular/common/http';
 
 // Componentes reutilizables (Ajusta las rutas)
-import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-button.component';
 import { InputTextComponent } from '../../atoms/input-text/input-text.component';
 import { InputTextareaComponent } from '../../atoms/input-textarea/input-textarea.component';
 import { InputSelectComponent, SelectOption } from '../../atoms/input-select/input-select.component';
@@ -18,7 +17,6 @@ import { CreateBarberRequestDTO, UpdateBarberRequestDTO } from '../../../../core
     selector: 'app-barber-form',
     imports: [
     ReactiveFormsModule,
-    PrimaryButtonComponent,
     InputTextComponent,
     InputTextareaComponent,
     InputSelectComponent

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 
 // Componentes
-import { AvatarSelectionCardComponent } from '../../molecules/avatar-selection-card/avatar-selection-card.component'; // Se usará para los servicios (se necesita adaptar o usar otra cosa)
 import { PrimaryButtonComponent } from '../../atoms/primary-button/primary-button.component';
 
 // Servicios y Modelos
@@ -15,7 +14,7 @@ import { AssignServicesToBarberRequestDTO } from '../../../../core/models/dto/ba
 
 @Component({
     selector: 'app-barber-service-assignment',
-    imports: [CommonModule, PrimaryButtonComponent, AvatarSelectionCardComponent], // AvatarSelectionCard solo si se adapta para mostrar Servicios
+    imports: [CommonModule, PrimaryButtonComponent],
     templateUrl: './barber-service-assignment.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './barber-service-assignment.component.scss'

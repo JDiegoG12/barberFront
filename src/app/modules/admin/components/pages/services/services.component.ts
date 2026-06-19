@@ -6,7 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 // Componentes
 import { AdminServiceCardComponent } from '../../../../../shared/components/molecules/admin-service-card/admin-service-card.component';
 import { PrimaryButtonComponent } from '../../../../../shared/components/atoms/primary-button/primary-button.component';
-import { SectionTitleComponent } from '../../../../../shared/components/atoms/section-title/section-title.component';
 import { ModalComponent } from '../../../../../shared/components/molecules/modal/modal.component';
 import { ServiceFormComponent } from '../../../../../shared/components/organisms/service-form/service-form.component';
 import { ModalAlertComponent, AlertType } from '../../../../../shared/components/molecules/modal-alert/modal-alert.component';
@@ -25,7 +24,6 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
     FormsModule,
     AdminServiceCardComponent,
     PrimaryButtonComponent,
-    SectionTitleComponent,
     ModalComponent,
     ServiceFormComponent,
     ModalAlertComponent,

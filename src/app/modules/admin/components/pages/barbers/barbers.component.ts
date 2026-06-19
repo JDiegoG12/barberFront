@@ -5,7 +5,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 // Componentes Reutilizados (Ajusta las rutas de importación si es necesario)
 import { PrimaryButtonComponent } from '../../../../../shared/components/atoms/primary-button/primary-button.component';
-import { SectionTitleComponent } from '../../../../../shared/components/atoms/section-title/section-title.component';
 import { ModalComponent } from '../../../../../shared/components/molecules/modal/modal.component';
 import { ModalAlertComponent, AlertType } from '../../../../../shared/components/molecules/modal-alert/modal-alert.component';
 // Componentes específicos (Asumo que ya tienes o crearás)
@@ -24,7 +23,6 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
     imports: [
     FormsModule,
     PrimaryButtonComponent,
-    SectionTitleComponent,
     ModalComponent,
     ModalAlertComponent,
     BarberFormComponent,
