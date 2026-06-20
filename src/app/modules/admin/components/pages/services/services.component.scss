@@ -114,15 +114,37 @@
 }
 
 .empty-icon {
-  font-size: 3rem;
   margin-bottom: 1rem;
-  opacity: 0.5;
+  color: var(--primary-color);
+  opacity: 0.7;
+
+  svg {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.skeleton-card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skeleton-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(var(--primary-color), 0.1);
+  border: 4px solid var(--border-color);
   border-left-color: var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;

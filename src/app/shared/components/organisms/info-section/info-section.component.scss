@@ -44,15 +44,17 @@
 
 .map-container {
   width: 100%;
-  height: 450px;
-  border-radius: 8px;
+  aspect-ratio: 4 / 3; // Fluido: se adapta al ancho disponible
+  border-radius: var(--radius-md);
   overflow: hidden; // Asegura que el iframe respete el borde redondeado
+  box-shadow: var(--shadow-sm);
 
   iframe {
+    display: block;
     width: 100%;
     height: 100%;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
   }
 }
 
@@ -60,12 +62,7 @@
   .content-grid {
     grid-template-columns: 1fr; // Una sola columna en pantallas más pequeñas
   }
-}
-
-// Usamos un punto de quiebre más pequeño para apuntar específicamente a teléfonos
-@media (max-width: 768px) {
   .map-container {
-    // Reducimos la altura del mapa en dispositivos más pequeños
-    height: 200px;
+    aspect-ratio: 16 / 9; // Más panorámico cuando va a ancho completo
   }
 }

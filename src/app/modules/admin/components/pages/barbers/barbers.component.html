@@ -42,9 +42,21 @@
     </section>
 
     @if (isLoading) {
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Cargando barberos...</p>
+      <div class="barbers-grid" aria-busy="true" aria-label="Cargando barberos">
+        @for (placeholder of [1,2,3,4,5,6]; track placeholder) {
+          <div class="skeleton-card">
+            <div class="skeleton-card-head">
+              <app-skeleton width="56px" height="56px" [circle]="true"></app-skeleton>
+              <div class="skeleton-card-lines">
+                <app-skeleton width="60%" height="1rem"></app-skeleton>
+                <app-skeleton width="40%" height="0.8rem"></app-skeleton>
+              </div>
+            </div>
+            <app-skeleton width="100%" height="0.8rem"></app-skeleton>
+            <app-skeleton width="80%" height="0.8rem"></app-skeleton>
+            <app-skeleton width="100%" height="40px" radius="var(--radius-md)"></app-skeleton>
+          </div>
+        }
       </div>
     }
 
@@ -63,7 +75,9 @@
 
     @if (!isLoading && filteredBarbers.length === 0) {
       <div class="empty-state fade-in">
-        <div class="empty-icon">✂️</div>
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+        </div>
         <h3>No se encontraron barberos</h3>
         <p>Intenta ajustar los filtros o registra un nuevo profesional.</p>
       </div>

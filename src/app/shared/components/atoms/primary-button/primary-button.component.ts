@@ -35,6 +35,17 @@ export class PrimaryButtonComponent {
   @Input() fullWidth: boolean = false;
 
   /**
+   * Indica que hay una operación asíncrona en curso.
+   * Muestra un spinner, deshabilita el botón y marca `aria-busy` para lectores de pantalla.
+   */
+  @Input() loading: boolean = false;
+
+  /**
+   * Etiqueta accesible opcional. Si no se define, los lectores de pantalla usan el `label` visible.
+   */
+  @Input() ariaLabel?: string;
+
+  /**
    * Evento que se emite cuando el usuario hace clic en el botón.
    * Este evento solo se dispara si el botón no está deshabilitado.
    */
@@ -46,7 +57,7 @@ export class PrimaryButtonComponent {
    * cuando la propiedad `disabled` es verdadera.
    */
   handleClick(): void {
-    if (!this.disabled) {
+    if (!this.disabled && !this.loading) {
       this.onClick.emit();
     }
   }

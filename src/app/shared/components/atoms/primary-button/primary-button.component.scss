@@ -1,23 +1,28 @@
 .btn-primary {
-  background-color: var(--text-color); /* Usamos el color oscuro/texto como fondo para resaltar (estilo Fresha/Uber) o puedes usar --primary-color */
-  color: var(--surface-color); /* Texto blanco/claro */
+  background-color: var(--text-color); /* Color claro/crema sobre fondo oscuro: máximo contraste y elegancia */
+  color: var(--background-color);
   border: none;
-  padding: 12px 24px;
-  border-radius: 25px; /* Bordes redondeados elegantes */
-  font-family: 'Poppins', sans-serif;
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
   font-weight: 600;
   font-size: 1rem;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    background-color var(--transition), color var(--transition);
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  gap: 0.6rem;
+  min-height: 44px; /* Target táctil accesible */
+  box-shadow: var(--shadow-sm);
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    background-color: var(--primary-color); /* Al hover cambiamos al color primario de la marca */
+    box-shadow: var(--shadow-md);
+    background-color: var(--primary-color); /* Oro de marca al hover */
+    color: #16130F;
   }
 
   &:active:not(:disabled) {
@@ -31,7 +36,27 @@
     box-shadow: none;
   }
 
+  &.is-loading {
+    cursor: progress;
+  }
+
   &.full-width {
     width: 100%;
+  }
+}
+
+.btn-spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
   }
 }

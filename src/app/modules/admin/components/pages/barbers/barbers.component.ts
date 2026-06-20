@@ -12,6 +12,7 @@ import { BarberFormComponent } from '../../../../../shared/components/organisms/
 import { BarberServiceAssignmentComponent } from '../../../../../shared/components/organisms/barber-service-assignment/barber-service-assignment.component'; // Formulario de asignación de servicios
 import { AdminBarberCardComponent } from '../../../../../shared/components/molecules/admin-barber-card/admin-barber-card.component'; // Card de vista previa
 import { BarberScheduleAssignmentComponent } from '../../../../../shared/components/organisms/barber-schedule-assignment/barber-schedule-assignment.component';
+import { SkeletonComponent } from '../../../../../shared/components/atoms/skeleton/skeleton.component';
 // Servicios y Modelos
 import { BarberService } from '../../../../../core/services/api/barber.service'; // Servicio de Barberos
 import { Barber, BarberAvailabilityStatus, BarberSystemStatus } from '../../../../../core/models/views/barber.view.model'; // Modelo de vista del Barbero
@@ -28,7 +29,8 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
     BarberFormComponent,
     BarberServiceAssignmentComponent,
     AdminBarberCardComponent,
-    BarberScheduleAssignmentComponent
+    BarberScheduleAssignmentComponent,
+    SkeletonComponent
 ],
     templateUrl: './barbers.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,

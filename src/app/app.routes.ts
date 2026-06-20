@@ -55,11 +55,10 @@ export const routes: Routes = [
   },
 
   // --- RUTA COMODÍN (WILDCARD) ---
-  // Si el usuario introduce una URL que no coincide con ninguna de las anteriores (ej. /pagina-inexistente),
-  // será redirigido a la ruta raíz (nuestra página de inicio).
+  // Si el usuario introduce una URL que no coincide con ninguna de las anteriores
+  // (ej. /pagina-inexistente), mostramos una página 404 con la identidad de marca.
   {
     path: '**',
-    redirectTo: '',
-    pathMatch: 'full'
+    loadComponent: () => import('./modules/public/components/pages/not-found/not-found.component').then(c => c.NotFoundComponent),
   }
 ];

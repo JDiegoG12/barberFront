@@ -1,7 +1,13 @@
-<button 
-  class="btn-primary" 
+<button
+  class="btn-primary"
   [class.full-width]="fullWidth"
-  [disabled]="disabled"
+  [class.is-loading]="loading"
+  [disabled]="disabled || loading"
+  [attr.aria-label]="ariaLabel || label"
+  [attr.aria-busy]="loading"
   (click)="handleClick()">
-  {{ label }}
+  @if (loading) {
+    <span class="btn-spinner" aria-hidden="true"></span>
+  }
+  <span class="btn-label">{{ label }}</span>
 </button>

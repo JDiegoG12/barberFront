@@ -1,53 +1,180 @@
 /* ===============================================
-   ESTILOS GLOBALES Y SISTEMA DE TEMAS
+   ESTILOS GLOBALES Y SISTEMA DE DISEÑO
+   BarberIA — Premium (carbón + oro)
    =============================================== */
 
-/* 1. Importamos una fuente elegante que usaremos en toda la web */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* 1. Tipografías: Playfair Display (títulos) + Poppins (cuerpo) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* 2. Un reseteo de CSS básico para consistencia entre navegadores */
+/* 2. Reseteo de CSS básico para consistencia entre navegadores */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* 3. Definición de variables de color para los temas */
+/* ===============================================
+   3. DESIGN TOKENS
+   =============================================== */
 :root {
-  /* TEMA CLARO (por defecto) */
-  --primary-color: #AF8F6F;       /* Un tono café/beige elegante */
-  --secondary-color: #74512D;     /* Café más oscuro para acentos */
-  --background-color: #F5EFE6;   /* Fondo claro, ligeramente cálido */
-  --surface-color: #FFFFFF;      /* Color para tarjetas y superficies (blanco limpio) */
-  --text-color: #543310;         /* Color de texto principal */
-  --text-muted-color: #74512D;   /* Color de texto secundario */
-  --border-color: #D4C5A5;       /* Color para bordes sutiles */
-  --success-color: #4CAF50;      /* Verde para acciones exitosas */
-  --error-color: #F44336;        /* Rojo para errores */
+  /* --- TEMA OSCURO (POR DEFECTO: identidad premium de la marca) --- */
+  --primary-color: #C8A25A;        /* Oro cálido: CTA, acentos, links activos */
+  --primary-hover: #D9B873;        /* Oro más claro para hover */
+  --secondary-color: #8C6E45;      /* Oro apagado para detalles */
+  --background-color: #16130F;     /* Carbón cálido profundo */
+  --surface-color: #211C16;        /* Tarjetas y superficies */
+  --surface-2-color: #2A241C;      /* Elevación / superficies anidadas */
+  --text-color: #F3ECE0;           /* Texto principal */
+  --text-muted-color: #B3A88F;     /* Texto secundario */
+  --border-color: #3A332A;         /* Bordes sutiles */
+  --success-color: #6FBF73;        /* Verde para acciones exitosas */
+  --error-color: #EF6B63;          /* Rojo para errores */
+
+  /* --- TIPOGRAFÍA --- */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Poppins', system-ui, sans-serif;
+
+  /* --- ESPACIADO (escala 4px) --- */
+  --space-1: 0.25rem;   /* 4 */
+  --space-2: 0.5rem;    /* 8 */
+  --space-3: 0.75rem;   /* 12 */
+  --space-4: 1rem;      /* 16 */
+  --space-5: 1.5rem;    /* 24 */
+  --space-6: 2rem;      /* 32 */
+  --space-7: 3rem;      /* 48 */
+  --space-8: 4rem;      /* 64 */
+
+  /* --- RADIOS --- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  /* --- SOMBRAS (tinte cálido/profundo) --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+
+  /* --- Z-INDEX SCALE --- */
+  --z-nav: 1000;
+  --z-modal: 1100;
+  --z-toast: 1200;
+
+  /* --- MOTION --- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms var(--ease);
+  --transition: 250ms var(--ease);
 }
 
-body.theme-dark {
-  /* TEMA OSCURO (se activa con la clase 'theme-dark' en el body) */
-  --primary-color: #AF8F6F;       /* El primario puede mantenerse para consistencia de marca */
-  --secondary-color: #E8DFCA;     /* Un secundario más claro para buen contraste */
-  --background-color: #1a1a1a;   /* Fondo oscuro profundo */
-  --surface-color: #2c2c2c;      /* Superficies oscuras (tarjetas, modales, etc.) */
-  --text-color: #F5EFE6;         /* Texto claro */
-  --text-muted-color: #AF8F6F;   /* Texto secundario en tono primario */
-  --border-color: #444;          /* Bordes más oscuros */
-  --success-color: #66BB6A;      /* Verde más brillante para tema oscuro */
-  --error-color: #EF5350;        /* Rojo más brillante para tema oscuro */
+/* --- TEMA CLARO (alternativa refinada, cálida) --- */
+body.theme-light {
+  --primary-color: #A87A3C;        /* Oro más oscuro para contraste AA sobre claro */
+  --primary-hover: #8C6431;
+  --secondary-color: #74512D;
+  --background-color: #F6F1E8;
+  --surface-color: #FFFFFF;
+  --surface-2-color: #FBF7F0;
+  --text-color: #2C2118;
+  --text-muted-color: #6E5C45;
+  --border-color: #E3D8C5;
+  --success-color: #3E8E41;
+  --error-color: #D2342B;
+
+  --shadow-sm: 0 2px 8px rgba(84, 51, 16, 0.06);
+  --shadow-md: 0 8px 24px rgba(84, 51, 16, 0.10);
+  --shadow-lg: 0 16px 48px rgba(84, 51, 16, 0.14);
 }
 
-/* 4. Aplicamos los estilos y variables base al body */
+/* ===============================================
+   4. BASE
+   =============================================== */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--background-color);
   color: var(--text-color);
-  transition: background-color 0.5s, color 0.3s; /* Transición suave al cambiar de tema */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s var(--ease), color 0.3s var(--ease);
 }
 
-/* Activa el desplazamiento suave para toda la aplicación */
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+/* Foco accesible global (solo navegación por teclado) */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Scrollbar sutil acorde al tema */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Respeto a usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enlace para saltar al contenido (accesibilidad por teclado) */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--primary-color);
+  color: #16130F;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transition: top var(--transition);
+
+  &:focus {
+    top: var(--space-4);
+  }
+}
+
+/* Utilidad: contenido visible solo para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

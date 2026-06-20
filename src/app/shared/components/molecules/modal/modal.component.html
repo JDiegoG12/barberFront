@@ -3,15 +3,17 @@
   
   <!-- Contenedor principal del modal -->
   <!-- (click)="$event.stopPropagation()" evita que al hacer clic DENTRO del modal, este se cierre -->
-  <div class="modal-container" (click)="$event.stopPropagation()">
-    
+  <div class="modal-container" (click)="$event.stopPropagation()"
+    role="dialog" aria-modal="true" [attr.aria-label]="title"
+    cdkTrapFocus [cdkTrapFocusAutoCapture]="isVisible">
+
     <!-- HEADER: Título y Botón Cerrar -->
     <div class="modal-header">
       <h3 class="modal-title">{{ title }}</h3>
-      
-      <button class="close-btn" (click)="close()" title="Cerrar">
+
+      <button class="close-btn" (click)="close()" title="Cerrar" aria-label="Cerrar ventana">
         <!-- Icono SVG de 'X' -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>

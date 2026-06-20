@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 
 import { ThemeToggleComponent } from '../../atoms/theme-toggle/theme-toggle.component';
 import { User } from '../../../../core/models/views/user.view.model';
@@ -20,13 +20,27 @@ import { User } from '../../../../core/models/views/user.view.model';
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+
   /**
    * Objeto del usuario actualmente autenticado.
    * - Si es `null`, el componente renderiza la vista de invitado (Botón "Iniciar Sesión", enlaces públicos).
    * - Si tiene valor, renderiza la vista de usuario (Saludo, Botón "Cerrar Sesión", enlaces privados).
    */
-  @Input() user: User | null = null; 
+  @Input() user: User | null = null;
+
+  /**
+   * Sección de la landing actualmente visible (scroll-spy).
+   * `null` significa que estamos en la parte superior → el enlace "Inicio" queda activo.
+   */
+  readonly activeSection = signal<string | null>(null);
+
+  /** Ids de las secciones de la landing que participan en el resaltado por scroll. */
+  private readonly sectionIds = ['seccion-servicios', 'seccion-barberos', 'seccion-contacto'];
+
+  /** Referencia al listener de scroll para poder removerlo al destruir el componente. */
+  private readonly onScroll = () => this.updateActiveSection();
 
   /**
    * Evento que se emite cuando el usuario hace clic en la acción de "Iniciar Sesión".
@@ -44,6 +58,48 @@ export class NavbarComponent {
    * `true` indica que el menú está expandido.
    */
   public isMenuOpen = false;
+
+  ngOnInit(): void {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    // Cálculo inicial (por si la página carga ya desplazada).
+    this.updateActiveSection();
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  /**
+   * Recalcula qué sección de la landing está visible según la posición de scroll.
+   * Marca como activa la última sección cuyo borde superior ha pasado el navbar.
+   * Si ninguna ha pasado (estamos arriba), deja `null` → "Inicio" activo.
+   */
+  private updateActiveSection(): void {
+    const offset = 140; // altura aproximada del navbar + margen
+    let current: string | null = null;
+
+    for (const id of this.sectionIds) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= offset) {
+        current = id;
+      }
+    }
+
+    if (current !== this.activeSection()) {
+      this.activeSection.set(current);
+    }
+  }
+
+  /**
+   * Determina si el enlace "Inicio" debe resaltarse.
+   * Solo cuando estamos en la ruta de inicio (`/` o `/client`) y en la parte
+   * superior de la página (sin ninguna sección activa por scroll).
+   */
+  isInicioActive(): boolean {
+    const path = this.router.url.split('#')[0].split('?')[0];
+    const homePath = this.user ? '/client' : '/';
+    return path === homePath && this.activeSection() === null;
+  }
 
   /**
    * Alterna el estado de visibilidad del menú móvil (abrir/cerrar).

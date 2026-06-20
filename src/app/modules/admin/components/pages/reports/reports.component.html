@@ -5,9 +5,11 @@
   </div>
 
   <div class="chart-card full-width">
-    <h2>Rendimiento: Horas Trabajadas vs Totales (%)</h2>
+    <h2 id="chart-performance-title">Rendimiento: Horas Trabajadas vs Totales (%)</h2>
     <div class="chart-wrapper">
       <canvas baseChart
+              role="img"
+              aria-labelledby="chart-performance-title"
               [data]="performanceChartData"
               [options]="performanceChartOptions"
               [type]="'bar'">
@@ -17,9 +19,11 @@
 
   <div class="charts-row">
     <div class="chart-card half-width">
-      <h2>Cancelaciones por Semana</h2>
+      <h2 id="chart-cancellations-title">Cancelaciones por Semana</h2>
       <div class="chart-wrapper">
         <canvas baseChart
+                role="img"
+                aria-labelledby="chart-cancellations-title"
                 [data]="cancellationsChartData"
                 [options]="cancellationsChartOptions"
                 [type]="'line'">
@@ -28,9 +32,11 @@
     </div>
 
     <div class="chart-card half-width">
-      <h2>Servicios Más Solicitados</h2>
+      <h2 id="chart-services-title">Servicios Más Solicitados</h2>
       <div class="chart-wrapper">
         <canvas baseChart
+                role="img"
+                aria-labelledby="chart-services-title"
                 [data]="servicesChartData"
                 [options]="servicesChartOptions"
                 [type]="'bar'">

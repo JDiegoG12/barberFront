@@ -44,7 +44,7 @@
           <app-primary-button
             label="Reservar"
             [fullWidth]="true"
-            [disabled]="true">
+            (onClick)="scrollToServices()">
           </app-primary-button>
         </div>
       </div>
@@ -59,7 +59,9 @@
     <hr class="divider">
     <div class="info-footer">
       <div class="info-item">
-        <span class="icon">📍</span>
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </span>
         <div class="text-content">
           <span class="address">Calle 2 Norte 15, Popayán</span>
           <a href="#" class="link" (click)="scrollToContact($event)">Cómo llegar</a>

@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, HostListener } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
 
 
 @Component({
     selector: 'app-modal',
-    imports: [],
+    imports: [A11yModule],
     templateUrl: './modal.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './modal.component.scss'
@@ -25,6 +26,16 @@ export class ModalComponent {
    * (ya sea clic en la X o en el fondo oscuro).
    */
   @Output() onClose = new EventEmitter<void>();
+
+  /**
+   * Cierra el modal al pulsar la tecla Escape (solo si está visible).
+   */
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.isVisible) {
+      this.close();
+    }
+  }
 
   /**
    * Método interno para emitir el cierre.

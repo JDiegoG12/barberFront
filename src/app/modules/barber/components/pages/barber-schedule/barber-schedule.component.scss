@@ -7,14 +7,14 @@
   max-width: 40px;
   max-height: 40px;
   border-radius: 50%;
-  background: var(--color-bg-secondary, #f3f3f3);
+  background: color-mix(in srgb, var(--primary-color) 18%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
   font-weight: 600;
-  color: var(--color-primary, #222);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
   margin-right: 1rem;
   flex-shrink: 0;
   overflow: hidden;

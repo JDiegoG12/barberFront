@@ -13,5 +13,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
-  // Este componente es actualmente estático y no requiere lógica de negocio.
+  /** Año actual para la línea de copyright (siempre actualizado). */
+  readonly currentYear = new Date().getFullYear();
 }

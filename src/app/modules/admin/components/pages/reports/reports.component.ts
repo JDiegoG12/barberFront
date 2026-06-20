@@ -49,11 +49,11 @@ export class ReportsComponent implements OnInit {
     datasets: [{
       data: [],
       label: 'Cancelaciones',
-      borderColor: '#ff4d4d',
-      backgroundColor: 'rgba(255, 77, 77, 0.2)',
+      borderColor: '#EF6B63',
+      backgroundColor: 'rgba(239, 107, 99, 0.12)',
       fill: true,
       tension: 0.4,
-      pointBackgroundColor: '#ff4d4d'
+      pointBackgroundColor: '#EF6B63'
     }]
   };
   public cancellationsChartOptions: ChartOptions<'line'> = {
@@ -81,8 +81,8 @@ export class ReportsComponent implements OnInit {
     datasets: [{
       data: [],
       label: 'Cantidad',
-      backgroundColor: '#8d6e63',
-      hoverBackgroundColor: '#a1887f'
+      backgroundColor: '#C8A25A',
+      hoverBackgroundColor: '#D9B873'
     }]
   };
   public servicesChartOptions: ChartOptions<'bar'> = {
@@ -139,7 +139,8 @@ export class ReportsComponent implements OnInit {
     // I'll just use beige for all for simplicity, or random.
     // Image: Carlos (Beige), Miguel (Beige), Andrés (Green), Santiago (Beige).
     // I'll use a function to set color.
-    const colors = values.map(v => v > 50 ? '#00c853' : '#d7ccc8'); // Example logic
+    // Paleta de marca: oro para alta ocupación, tono apagado para baja
+    const colors = values.map(v => v > 50 ? '#C8A25A' : '#6E5C45');
 
     this.performanceChartData = {
       labels: labels,
@@ -163,11 +164,11 @@ export class ReportsComponent implements OnInit {
       datasets: [{
         data: values,
         label: 'Cancelaciones',
-        borderColor: '#ff5252',
-        backgroundColor: 'rgba(255, 82, 82, 0.1)',
+        borderColor: '#EF6B63',
+        backgroundColor: 'rgba(239, 107, 99, 0.12)',
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: '#ff5252',
+        pointBackgroundColor: '#EF6B63',
         pointRadius: 3
       }]
     };
@@ -182,8 +183,8 @@ export class ReportsComponent implements OnInit {
       datasets: [{
         data: values,
         label: 'Solicitudes',
-        backgroundColor: '#8d6e63',
-        hoverBackgroundColor: '#a1887f',
+        backgroundColor: '#C8A25A',
+        hoverBackgroundColor: '#D9B873',
         borderRadius: 4
       }]
     };

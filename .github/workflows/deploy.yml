@@ -1,0 +1,60 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Despliega automáticamente al hacer push a main
+  push:
+    branches: [main]
+  # Permite lanzarlo manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+# Permisos que necesita la acción oficial de GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita despliegues solapados; deja terminar el que está en curso
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (producción, base-href para GitHub Pages)
+        run: npm run build -- --configuration production --base-href "/barberFront/"
+
+      - name: SPA fallback (copiar index.html como 404.html)
+        run: cp dist/barber-front/browser/index.html dist/barber-front/browser/404.html
+
+      - name: Evitar procesado Jekyll
+        run: touch dist/barber-front/browser/.nojekyll
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/barber-front/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

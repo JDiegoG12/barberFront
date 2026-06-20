@@ -1,0 +1,16 @@
+<app-public-template>
+  <section class="not-found">
+    <div class="not-found-content">
+      <span class="error-eyebrow">Error 404</span>
+      <p class="error-code" aria-hidden="true">4<span class="razor">0</span>4</p>
+      <h1 class="error-title">Esta página se fue al corte</h1>
+      <p class="error-text">
+        No encontramos lo que buscabas. Puede que el enlace haya cambiado o que la
+        página ya no exista. Volvamos a un terreno conocido.
+      </p>
+      <div class="error-actions">
+        <app-primary-button label="Volver al inicio" (onClick)="goHome()"></app-primary-button>
+      </div>
+    </div>
+  </section>
+</app-public-template>

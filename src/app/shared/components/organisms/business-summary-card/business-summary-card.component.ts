@@ -55,4 +55,16 @@ export class BusinessSummaryCardComponent {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+  /**
+   * Desplaza la vista hacia la sección de servicios cuando aún no hay un servicio
+   * seleccionado. Permite que el botón "Reservar" guíe al usuario al primer paso
+   * del flujo (elegir servicio) en lugar de quedar inactivo.
+   */
+  scrollToServices(): void {
+    const servicesSection = document.getElementById('seccion-servicios');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

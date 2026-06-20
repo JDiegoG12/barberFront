@@ -44,7 +44,10 @@ export class AvailabilityService {
   ): TimeSlot[] {
     
     const slots: TimeSlot[] = [];
-    
+
+    // Momento actual: usado para descartar horarios que ya pasaron (no se puede reservar en el pasado).
+    const now = new Date();
+
     // 1. Determinar el día de la semana (0=Dom, 1=Lun...)
     const dayOfWeek = date.getDay();
     const daySchedule = barber.schedule.find(d => d.dayOfWeek === dayOfWeek);
@@ -72,8 +75,12 @@ export class AvailabilityService {
           break;
         }
 
-        // 4. Verificación de colisiones
-        if (!this.isOverlapping(currentSlotStart, currentSlotEnd, existingReservations)) {
+        // 4. Descartar horarios que ya pasaron: si la cita empieza en el pasado
+        // (relevante cuando la fecha seleccionada es hoy), saltamos este bloque.
+        const isInThePast = currentSlotStart <= now;
+
+        // 5. Verificación de colisiones
+        if (!isInThePast && !this.isOverlapping(currentSlotStart, currentSlotEnd, existingReservations)) {
           // Si no hay conflicto, agregamos el slot a la lista de resultados
           slots.push({
             start: new Date(currentSlotStart),

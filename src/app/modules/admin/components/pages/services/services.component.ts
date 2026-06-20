@@ -10,6 +10,7 @@ import { ModalComponent } from '../../../../../shared/components/molecules/modal
 import { ServiceFormComponent } from '../../../../../shared/components/organisms/service-form/service-form.component';
 import { ModalAlertComponent, AlertType } from '../../../../../shared/components/molecules/modal-alert/modal-alert.component';
 import { BarberAssignmentComponent } from '../../../../../shared/components/organisms/barber-assignment/barber-assignment.component';
+import { SkeletonComponent } from '../../../../../shared/components/atoms/skeleton/skeleton.component';
 
 // Servicios y Modelos
 import { ServiceService } from '../../../../../core/services/api/service.service';
@@ -27,7 +28,8 @@ import { BackendError } from '../../../../../core/models/backend-error.model';
     ModalComponent,
     ServiceFormComponent,
     ModalAlertComponent,
-    BarberAssignmentComponent
+    BarberAssignmentComponent,
+    SkeletonComponent
 ],
     templateUrl: './services.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,

@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-2-color);
+}
+
+:host.is-circle {
+  border-radius: 50% !important;
+}
+
+/* Brillo deslizante (shimmer) */
+:host::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--text-color) 8%, transparent),
+    transparent
+  );
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host::after {
+    animation: none;
+  }
+}

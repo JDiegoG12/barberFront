@@ -18,9 +18,9 @@ export class ThemeService {
   /**
    * Señal reactiva de Angular que mantiene el estado actual del tema.
    * Permite a los componentes suscribirse o reaccionar eficientemente a los cambios de tema.
-   * @default 'light'
+   * @default 'dark'
    */
-  public theme = signal<Theme>('light');
+  public theme = signal<Theme>('dark');
 
   constructor() {
     this.initializeTheme();
@@ -30,11 +30,10 @@ export class ThemeService {
    * Inicializa la configuración del tema al arrancar el servicio.
    * Determina el tema inicial siguiendo una jerarquía de prioridades:
    * 1. Preferencia guardada manualmente por el usuario (localStorage).
-   * 2. Preferencia del sistema operativo (media query `prefers-color-scheme`).
-   * 3. Tema claro por defecto.
+   * 2. Tema oscuro por defecto (identidad premium de la marca).
    *
-   * También establece un "listener" para reaccionar a cambios en la configuración del sistema operativo
-   * si el usuario no ha establecido una preferencia manual.
+   * El tema oscuro es la identidad principal de BarberIA, por lo que se usa como
+   * valor por defecto en lugar de seguir la preferencia del sistema operativo.
    */
   private initializeTheme(): void {
     // 1. Verificamos si existe una preferencia guardada previamente
@@ -44,17 +43,8 @@ export class ThemeService {
       return;
     }
 
-    // 2. Si no, detectamos la preferencia del sistema
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    this.setTheme(prefersDark.matches ? 'dark' : 'light');
-
-    // Escuchamos cambios en tiempo real en la preferencia del sistema
-    prefersDark.addEventListener('change', (e) => {
-      // Solo aplicamos el cambio del sistema si el usuario NO ha forzado una preferencia manual
-      if (!localStorage.getItem('theme')) {
-        this.setTheme(e.matches ? 'dark' : 'light');
-      }
-    });
+    // 2. Si no, aplicamos el tema oscuro de marca por defecto
+    this.setTheme('dark');
   }
 
   /**
@@ -71,17 +61,18 @@ export class ThemeService {
 
   /**
    * Aplica el tema especificado al estado de la aplicación y al DOM.
-   * Actualiza la señal `theme` y añade o remueve la clase CSS `theme-dark` en el body
-   * para activar las variables CSS correspondientes.
+   * Actualiza la señal `theme` y añade o remueve la clase CSS `theme-light` en el body.
+   * El tema oscuro es el valor por defecto (definido en `:root`), por lo que solo se
+   * añade la clase `theme-light` cuando el usuario elige el tema claro.
    *
    * @param theme - El tema a aplicar ('light' o 'dark').
    */
   private setTheme(theme: Theme): void {
     this.theme.set(theme);
-    if (theme === 'dark') {
-      document.body.classList.add('theme-dark');
+    if (theme === 'light') {
+      document.body.classList.add('theme-light');
     } else {
-      document.body.classList.remove('theme-dark');
+      document.body.classList.remove('theme-light');
     }
   }
 }
