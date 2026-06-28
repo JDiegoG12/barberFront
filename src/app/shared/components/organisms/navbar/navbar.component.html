@@ -1,4 +1,4 @@
-<nav class="navbar-container">
+<nav class="navbar-container" [class.scrolled]="scrolled()" [class.menu-open]="isMenuOpen">
   <div class="navbar-brand">
     <a [routerLink]="user ? '/client' : '/'" aria-label="BarberIA — Ir al inicio">
       <img src="assets/logo.png" alt="Barber IA" class="brand-logo" />
@@ -119,9 +119,15 @@
     <!-- Acciones Móviles (Dentro del menú) -->
     <li class="navbar-actions-mobile">
 
-      <!-- Nota: Ya no ponemos el botón de Login aquí porque está arriba -->
+      <!-- Caso Invitado: CTA de acceso dentro del menú -->
+      @if (!user) {
+        <button class="btn-login-mobile-menu" (click)="handleLogin()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          Iniciar Sesión
+        </button>
+      }
 
-      <!-- Caso Cliente: Botón Cerrar Sesión -->
+      <!-- Caso Usuario: Botón Cerrar Sesión -->
       @if (user) {
         <div class="mobile-user-info">
           <button class="btn-logout-mobile" (click)="handleLogout()">
@@ -132,6 +138,7 @@
       }
 
       <div class="theme-toggle-wrapper">
+        <span class="theme-toggle-label">Tema</span>
         <app-theme-toggle></app-theme-toggle>
       </div>
     </li>

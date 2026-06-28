@@ -28,6 +28,13 @@ export class ThemeToggleComponent {
   public currentTheme = this.themeService.theme;
 
   /**
+   * Id único para la máscara SVG del morph sol↔luna.
+   * Necesario porque hay varias instancias del toggle en la página (navbar de
+   * escritorio y menú móvil); ids duplicados harían que `url(#...)` colisione.
+   */
+  readonly maskId = `theme-moon-mask-${Math.random().toString(36).slice(2, 9)}`;
+
+  /**
    * Ejecuta la acción de cambio de tema invocando al servicio.
    * Usualmente vinculado al evento de clic del botón en la plantilla.
    */

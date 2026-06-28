@@ -1,35 +1,61 @@
 <section class="hero-container">
-  
-  <!-- Capa de Fondo con Animación -->
-  <div class="hero-background">
+
+  <!-- Capa de Fondo con Ken Burns + parallax sutil al hacer scroll -->
+  <div class="hero-background" [style.--parallax-y.px]="parallaxOffset()">
     <!-- Imagen local de barbería elegante (sin dependencia externa) -->
     <img src="assets/hero-barber.jpg" alt="Ambiente de la barbería" loading="eager" fetchpriority="high" decoding="async">
   </div>
 
-  <!-- Capa Oscura para contraste -->
+  <!-- Overlay en gradiente (profundidad) + viñeta -->
   <div class="hero-overlay"></div>
+  <div class="hero-vignette"></div>
 
-  <!-- Contenido de Texto -->
+  <!-- Contenido de Texto (entrada escalonada fade + slide) -->
   <div class="hero-content">
-    <!-- Badge o texto pequeño superior -->
-    <span class="hero-subtitle">ESTILO & TRADICIÓN</span>
-    
+    <!-- Eyebrow dorado con líneas decorativas -->
+    <span class="hero-eyebrow reveal" style="--reveal-delay: 0.1s">
+      <span class="eyebrow-rule" aria-hidden="true"></span>
+      ESTILO &amp; TRADICIÓN
+      <span class="eyebrow-rule" aria-hidden="true"></span>
+    </span>
+
     <h1 class="hero-title">
-      Tu mejor versión <br>
-      comienza aquí
+      <span class="title-line reveal" style="--reveal-delay: 0.25s">Tu mejor versión</span>
+      <span class="title-line reveal" style="--reveal-delay: 0.4s">comienza aquí</span>
     </h1>
-    
-    <p class="hero-description">
+
+    <p class="hero-description reveal" style="--reveal-delay: 0.55s">
       Disfruta de una experiencia de barbería premium donde la técnica clásica se encuentra con el estilo moderno.
     </p>
 
-    <div class="hero-actions">
-      <!-- Usamos tu átomo existente -->
-      <app-primary-button 
-        label="Reservar Cita" 
+    <div class="hero-actions reveal" style="--reveal-delay: 0.7s">
+      <!-- Átomo existente; la micro-interacción (escala + glow) se scopea desde el hero -->
+      <app-primary-button
+        label="Reservar Cita"
+        [fullWidth]="true"
         (onClick)="scrollToServices()">
       </app-primary-button>
     </div>
   </div>
+
+  <!-- Indicador de scroll animado -->
+  <button
+    type="button"
+    class="hero-scroll reveal"
+    style="--reveal-delay: 1s"
+    (click)="scrollToServices()"
+    aria-label="Desplazarse a la sección de servicios">
+    <span class="hero-scroll-label">Descubre más</span>
+    <!-- Desktop: "ratón" con rueda que cae -->
+    <span class="hero-scroll-mouse" aria-hidden="true">
+      <span class="hero-scroll-wheel"></span>
+    </span>
+    <!-- Móvil: solo flecha hacia abajo (indica bajar) -->
+    <span class="hero-scroll-hand" aria-hidden="true">
+      <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </span>
+  </button>
 
 </section>

@@ -28,7 +28,9 @@
   &.selected {
     border-color: var(--text-color);
     background-color: var(--background-color);
-    box-shadow: 0 0 0 1px var(--text-color); /* Borde doble sutil */
+    /* Anillo INTERNO (inset): consigue el "borde doble" sin salirse de la tarjeta,
+       evitando que el carrusel (overflow-x) lo recorte en la primera tarjeta. */
+    box-shadow: inset 0 0 0 1px var(--text-color);
   }
 
   /* --- ESTADO NO DISPONIBLE --- */

@@ -1,30 +1,133 @@
+/* ===============================================
+   NAVBAR — Premium flotante (carbón + oro)
+   =============================================== */
+
 :host {
   display: block;
   position: sticky;
   top: 0;
   z-index: var(--z-nav);
-  background-color: color-mix(in srgb, var(--surface-color) 85%, transparent);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+  /* El gap superior y lateral crea el efecto "flotante" */
+  padding: var(--space-4) var(--space-4) 0;
+  /* La franja transparente no captura clics; solo la píldora sí */
+  pointer-events: none;
 }
 
+/* === LA PÍLDORA FLOTANTE === */
 .navbar-container {
+  pointer-events: auto;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  max-width: 1200px;
+  gap: var(--space-5);
+  max-width: 1080px;
   margin: 0 auto;
+  padding: 0.55rem 0.6rem 0.55rem 1.5rem;
+  border-radius: var(--radius-full);
+
+  /* Borde dorado sutil + luz interior superior */
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, var(--border-color));
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 0 color-mix(in srgb, #ffffff 10%, transparent);
+
+  transition:
+    padding 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    max-width 0.35s var(--ease);
+
+  /* Vidrio esmerilado cálido — en un pseudo-elemento con z-index negativo, para que:
+     1) el `backdrop-filter` NO convierta a la píldora en bloque contenedor de los
+        `position: fixed` (eso rompía el overlay móvil), y
+     2) quede detrás del contenido sin forzar `position` en los hijos
+        (lo que a su vez anulaba el `position: fixed` del propio overlay). */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--surface-color) 72%, transparent);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    pointer-events: none;
+    transition: background-color 0.35s var(--ease);
+  }
+
+  /* Halo dorado difuso detrás de la píldora */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: 2;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--primary-color) 45%, transparent),
+      transparent 35%,
+      transparent 65%,
+      color-mix(in srgb, var(--primary-color) 30%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.35s var(--ease);
+  }
+
+  /* Estado compactado al hacer scroll: más estrecho, más sólido, con glow */
+  &.scrolled {
+    max-width: 940px;
+    padding: 0.4rem 0.5rem 0.4rem 1.25rem;
+    border-color: color-mix(in srgb, var(--primary-color) 32%, var(--border-color));
+    box-shadow:
+      var(--shadow-lg),
+      0 0 0 1px color-mix(in srgb, var(--primary-color) 8%, transparent),
+      inset 0 1px 0 color-mix(in srgb, #ffffff 12%, transparent);
+
+    &::after {
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+    }
+
+    &::before {
+      opacity: 0.9;
+    }
+  }
 }
 
-.navbar-brand a {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  text-decoration: none;
+/* === MARCA === */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: transform var(--transition);
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+}
+
+.brand-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+  user-select: none;
+  /* Brillo dorado tenue para integrar el logo con la identidad */
+  filter: drop-shadow(0 1px 6px color-mix(in srgb, var(--primary-color) 30%, transparent));
+  transition: filter var(--transition);
 }
 
 /* Por defecto ocultamos el contenido extra de cabecera móvil */
@@ -32,108 +135,155 @@
   display: none;
 }
 
+/* === ENLACES (escritorio) === */
 .navbar-links {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 0.25rem;
+  /* Evita que el grupo central se comprima al compactar la píldora en scroll,
+     lo que provocaba que "Mis Reservas" saltara a dos líneas (cambio de altura). */
+  flex-shrink: 0;
+  flex-wrap: nowrap;
 
   a {
     position: relative;
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--text-muted-color);
     font-weight: 500;
-    padding-bottom: 4px;
-    transition: color var(--transition-fast);
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    /* El texto del enlace nunca se parte: la altura del navbar permanece estable
+       durante la transición de ancho (1080px → 940px). */
+    white-space: nowrap;
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
 
-    /* Subrayado dorado animado */
+    /* Punto dorado animado bajo el enlace activo */
     &::after {
       content: '';
       position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 2px;
+      left: 50%;
+      bottom: 4px;
+      width: 5px;
+      height: 5px;
+      border-radius: var(--radius-full);
       background-color: var(--primary-color);
-      transform: scaleX(0);
-      transform-origin: left;
+      transform: translateX(-50%) scale(0);
       transition: transform var(--transition);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--primary-color) 70%, transparent);
     }
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--text-color);
+      background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
     }
 
     &.active {
       color: var(--primary-color);
       font-weight: 600;
+      background-color: color-mix(in srgb, var(--primary-color) 14%, transparent);
 
       &::after {
-        transform: scaleX(1);
+        transform: translateX(-50%) scale(1);
       }
+    }
+
+    &.nav-highlight {
+      color: var(--primary-color) !important;
+      font-weight: 600 !important;
     }
   }
 }
 
-/* Estilos de botones Desktop */
-.btn-login {
-  background-color: transparent;
-  border: 1px solid var(--text-color);
-  color: var(--text-color);
-  padding: 0.5rem 1.2rem;
-  border-radius: 24px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: var(--text-color);
-    color: var(--surface-color);
-  }
-}
-
+/* === ACCIONES ESCRITORIO === */
 .navbar-actions-desktop {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+.btn-login {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  border: none;
+  color: #16130F;
+  padding: 0.55rem 1.35rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--primary-color) 35%, transparent);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    filter var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    box-shadow: 0 6px 22px color-mix(in srgb, var(--primary-color) 50%, transparent);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .navbar-actions-mobile {
   display: none;
 }
 
+/* === BOTÓN HAMBURGUESA === */
 .navbar-toggle {
   display: none;
-  background: none;
-  border: none;
+  /* `position: relative` necesario para que su `z-index` (sobre el overlay) aplique */
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 18%, var(--border-color));
+  border-radius: var(--radius-full);
   cursor: pointer;
-  padding: 0.5rem;
-  z-index: 1001;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  z-index: calc(var(--z-nav) + 2);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 
   svg {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     stroke: var(--text-color);
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--primary-color) 16%, transparent);
+    border-color: color-mix(in srgb, var(--primary-color) 35%, transparent);
   }
 }
 
-/* Estilos Comunes Cliente */
+/* === MENÚS DE USUARIO (escritorio) === */
 .greeting {
   font-weight: 600;
   color: var(--primary-color);
   font-size: 0.95rem;
-  margin-right: 0.5rem;
+  white-space: nowrap;
 }
 
-.greeting-admin{
-  font-weight: 800;
+.greeting-admin {
+  font-weight: 700;
   color: var(--text-color);
   font-size: 0.95rem;
-  margin-right: 0.5rem;
+  white-space: nowrap;
 }
+
 .nav-highlight {
   color: var(--primary-color) !important;
   font-weight: 600 !important;
@@ -142,7 +292,8 @@
 .user-menu-desktop {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  padding-left: 0.25rem;
 }
 
 .btn-logout-icon {
@@ -154,8 +305,8 @@
   align-items: center;
   justify-content: center;
   padding: 8px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
 
   svg {
     width: 22px;
@@ -164,53 +315,46 @@
 
   &:hover {
     color: var(--error-color);
-    background-color: rgba(244, 67, 54, 0.1);
+    background-color: color-mix(in srgb, var(--error-color) 12%, transparent);
   }
 }
-.brand-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: inherit;
-}
 
-.brand-logo {
-  height: 50px;   /* ajustar según diseño */
-  width: auto;
-  display: block;
-  user-select: none;
-}
-/* --- ESTILOS RESPONSIVE (MÓVIL) --- */
+/* === RESPONSIVE (MÓVIL) === */
 @media (max-width: 768px) {
-  .brand-logo { height: 32px; }
-  .navbar-container {
-    padding: 0.8rem 1.5rem; /* Reducimos un poco el padding general */
+  :host {
+    padding: var(--space-3) var(--space-3) 0;
   }
 
-  /* 1. Reducimos tamaño de fuente de la marca */
-  .navbar-brand a {
-    font-size: 1.2rem; 
+  .navbar-container,
+  .navbar-container.scrolled {
+    padding: 0.5rem 0.6rem 0.5rem 1.1rem;
+    gap: var(--space-3);
+    max-width: 100%;
   }
 
-  /* 2. Mostramos y estilizamos el contenido de cabecera móvil */
+  .brand-logo {
+    height: 32px;
+  }
+
+  /* Contenido de cabecera móvil (login rápido / saludo) */
   .mobile-header-content {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Empuja todo a la derecha (junto al toggle) */
-    margin-right: 1rem; /* Separación con el botón hamburguesa */
+    margin-left: auto;
+    margin-right: 0.5rem;
     gap: 0.5rem;
   }
 
   .btn-login-mobile-header {
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    border: none;
+    color: #16130F;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-full);
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 3px 12px color-mix(in srgb, var(--primary-color) 30%, transparent);
   }
 
   .greeting-mobile-header {
@@ -221,34 +365,104 @@
 
   .navbar-toggle {
     display: flex;
-    padding: 0; /* Quitamos padding extra para alinear mejor */
   }
 
   .navbar-actions-desktop {
     display: none;
   }
 
-  /* Menú desplegable */
+  /* La marca y el botón de cerrar flotan POR ENCIMA del overlay para que
+     el logo siga visible y la "X" siga siendo clicable con el menú abierto. */
+  .navbar-container.menu-open .navbar-brand {
+    position: relative;
+    z-index: calc(var(--z-nav) + 3);
+  }
+  .navbar-container.menu-open .mobile-header-content {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* === MENÚ OVERLAY A PANTALLA COMPLETA (WOW) === */
   .navbar-links {
     display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    min-height: 100vh;
-    background-color: var(--surface-color);
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-nav);
     flex-direction: column;
     justify-content: center;
-    gap: 2rem;
-    padding: 1rem 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    gap: clamp(0.4rem, 2.4vh, 1.1rem);
+    padding: max(var(--space-8), 15vh) var(--space-5) var(--space-7);
+
+    /* Fondo en capas: carbón casi opaco + doble glow dorado (arriba y abajo) */
+    background:
+      radial-gradient(ellipse 90% 45% at 50% 0%,
+        color-mix(in srgb, var(--primary-color) 20%, transparent), transparent 70%),
+      radial-gradient(ellipse 120% 60% at 50% 118%,
+        color-mix(in srgb, var(--primary-color) 12%, transparent), transparent 62%),
+      color-mix(in srgb, var(--background-color) 96%, transparent);
+    backdrop-filter: saturate(160%) blur(30px);
+    -webkit-backdrop-filter: saturate(160%) blur(30px);
 
     &.is-open {
       display: flex;
+      animation: nav-overlay-in 0.35s var(--ease);
+    }
+
+    li {
+      width: 100%;
+      max-width: 340px;
+      text-align: center;
+      opacity: 0;
+      animation: nav-item-in 0.45s var(--ease) forwards;
+    }
+
+    /* Aparición escalonada de los enlaces */
+    @for $i from 1 through 10 {
+      li:nth-child(#{$i}) {
+        animation-delay: #{0.16 + $i * 0.05}s;
+      }
     }
 
     li a {
-      font-size: 1.5rem;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: clamp(1.55rem, 6.5vw, 2.05rem);
+      font-weight: 600;
+      color: var(--text-color);
+      padding: 0.3rem 1.2rem;
+      transition: color var(--transition), letter-spacing var(--transition);
+
+      /* Subrayado dorado que crece desde el centro (reemplaza el punto de escritorio) */
+      &::after {
+        left: 50%;
+        bottom: 0.05rem;
+        top: auto;
+        width: 0;
+        height: 2px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        box-shadow: 0 0 14px color-mix(in srgb, var(--primary-color) 60%, transparent);
+        transform: translateX(-50%);
+        transition: width var(--transition);
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: var(--primary-color);
+        background: transparent;
+        letter-spacing: 0.6px;
+        &::after { width: 58%; }
+      }
+
+      &.active {
+        color: var(--primary-color);
+        background: transparent;
+        &::after {
+          width: 68%;
+          transform: translateX(-50%);
+        }
+      }
     }
   }
 
@@ -256,13 +470,44 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
     width: 100%;
-    padding: 0 2rem;
+    max-width: 320px;
+    /* Separador dorado tenue entre los enlaces y las acciones */
+    border-top: 1px solid color-mix(in srgb, var(--primary-color) 18%, transparent);
   }
 
-  /* Botón cerrar sesión en menú móvil */
+  /* CTA de acceso para invitados (oro de marca) */
+  .btn-login-mobile-menu {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    border: none;
+    color: #16130F;
+    padding: 0.95rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 26px color-mix(in srgb, var(--primary-color) 40%, transparent);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+
+    svg { width: 18px; height: 18px; }
+
+    &:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+      box-shadow: 0 12px 34px color-mix(in srgb, var(--primary-color) 55%, transparent);
+    }
+    &:active { transform: translateY(0); }
+  }
+
   .btn-logout-mobile {
     width: 100%;
     display: flex;
@@ -272,20 +517,22 @@
     background: transparent;
     border: 1px solid var(--error-color);
     color: var(--error-color);
-    padding: 0.8rem;
-    border-radius: 4px;
+    padding: 0.85rem;
+    border-radius: var(--radius-full);
     font-weight: 600;
-    margin-top: 0.5rem;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
 
     svg {
       width: 18px;
       height: 18px;
     }
 
-    &:active {
+    &:active,
+    &:hover {
       background-color: var(--error-color);
-      color: white;
+      color: #fff;
     }
   }
 
@@ -296,5 +543,57 @@
     gap: 0.5rem;
     width: 100%;
     text-align: center;
+  }
+
+  /* Toggle de tema con etiqueta dentro del menú */
+  .theme-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.9rem 0.4rem 1.1rem;
+    border-radius: var(--radius-full);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 18%, var(--border-color));
+    background: color-mix(in srgb, var(--surface-color) 60%, transparent);
+
+    .theme-toggle-label {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted-color);
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+/* La etiqueta del toggle solo tiene sentido dentro del overlay móvil */
+.theme-toggle-label {
+  display: none;
+}
+@media (max-width: 768px) {
+  .theme-toggle-label { display: inline; }
+}
+
+@keyframes nav-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes nav-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respeto a usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-links.is-open,
+  .navbar-links li {
+    animation: none !important;
+    opacity: 1 !important;
   }
 }

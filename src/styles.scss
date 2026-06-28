@@ -11,6 +11,21 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  /* Elimina el destello/“película” azul al tocar en móviles (WebKit/Chrome) */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Evita la selección de texto al tocar/mantener sobre elementos interactivos,
+   conservando la selección normal en textos, párrafos e inputs */
+a,
+button,
+[role='button'],
+label,
+.btn,
+summary {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* ===============================================

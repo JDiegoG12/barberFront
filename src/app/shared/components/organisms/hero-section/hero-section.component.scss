@@ -1,8 +1,12 @@
+/* ===============================================
+   HERO — BarberIA (carbón + oro, editorial premium)
+   =============================================== */
+
 .hero-container {
   position: relative;
-  /* Altura: Ocupa el 85% de la altura de la pantalla, dejando ver un poco lo de abajo */
-  height: 85vh; 
-  min-height: 600px;
+  /* Altura: Ocupa el 92% del viewport, dejando entrever lo de abajo */
+  height: 92vh;
+  min-height: 620px;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -10,90 +14,278 @@
   justify-content: center;
   text-align: center;
   background-color: var(--background-color);
+
+  /* Hace que el hero suba por debajo del navbar flotante (efecto inmersivo):
+     la imagen se extiende detrás del navbar y el padding superior recentra
+     el contenido en el área visible. */
+  --nav-overlay-height: 76px;
+  margin-top: calc(-1 * var(--nav-overlay-height));
+  padding-top: var(--nav-overlay-height);
 }
 
-/* IMAGEN DE FONDO ANIMADA (Ken Burns Effect) */
+/* ===============================================
+   IMAGEN DE FONDO — Ken Burns (zoom lento) + parallax
+   =============================================== */
 .hero-background {
   position: absolute;
-  top: 0;
+  /* Sobredimensionada para que ni el zoom ni el parallax revelen bordes vacíos */
+  top: -8%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 116%;
   z-index: 0;
+  /* El parallax (var inyectada desde el componente) desplaza toda la capa */
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  will-change: transform;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* La animación: Zoom lento infinito */
-    animation: slowZoom 20s infinite alternate ease-in-out;
+    /* Zoom lento infinito (efecto Ken Burns) */
+    animation: slowZoom 22s infinite alternate ease-in-out;
   }
 }
 
-/* OVERLAY (Para que el texto blanco se lea sobre cualquier foto) */
+/* ===============================================
+   OVERLAY EN GRADIENTE (profundidad, no plano) + VIÑETA
+   =============================================== */
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Gradiente cálido (tinte carbón/oro) para cohesión con la marca */
-  background:
-    linear-gradient(to bottom, rgba(22, 19, 15, 0.35), rgba(22, 19, 15, 0.82)),
-    radial-gradient(circle at 50% 120%, rgba(200, 162, 90, 0.22), transparent 60%);
+  inset: 0;
   z-index: 1;
+  /* Triple capa: diagonal cálida + asentamiento inferior + glow dorado bajo el CTA */
+  background:
+    linear-gradient(
+      115deg,
+      rgba(22, 19, 15, 0.86) 0%,
+      rgba(22, 19, 15, 0.55) 38%,
+      rgba(22, 19, 15, 0.30) 70%,
+      rgba(22, 19, 15, 0.55) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(22, 19, 15, 0.10) 0%,
+      rgba(22, 19, 15, 0.20) 55%,
+      rgba(22, 19, 15, 0.90) 100%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 50% 116%,
+      rgba(200, 162, 90, 0.30),
+      transparent 60%
+    );
 }
 
-/* CONTENIDO */
+/* Viñeta radial para enfocar la mirada en el centro */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 90% 80% at 50% 42%,
+    transparent 45%,
+    rgba(10, 8, 6, 0.55) 100%
+  );
+}
+
+/* ===============================================
+   CONTENIDO
+   =============================================== */
 .hero-content {
   position: relative;
-  z-index: 2; /* Encima de todo */
-  max-width: 800px;
+  z-index: 2;
+  max-width: 820px;
   padding: 0 24px;
-  color: #FFFFFF; /* Texto blanco fijo porque el fondo es oscuro */
-  
-  /* Animación de entrada del texto */
-  animation: fadeInUp 1s ease-out forwards;
+  color: #ffffff; /* Texto blanco fijo: el fondo siempre es oscuro */
 }
 
-.hero-subtitle {
-  display: block;
-  font-size: 0.9rem;
+/* --- Eyebrow dorado con reglas decorativas --- */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.82rem;
   letter-spacing: 4px;
   text-transform: uppercase;
-  margin-bottom: 1rem;
-  color: var(--primary-color); /* Tu color dorado */
+  margin-bottom: 1.4rem;
+  color: var(--primary-color);
   font-weight: 600;
+
+  .eyebrow-rule {
+    display: block;
+    width: clamp(28px, 7vw, 64px);
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--primary-color) 75%, transparent)
+    );
+
+    &:last-child {
+      background: linear-gradient(
+        to left,
+        transparent,
+        color-mix(in srgb, var(--primary-color) 75%, transparent)
+      );
+    }
+  }
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 5vw, 4.5rem); /* Tipografía responsiva grande */
+  font-size: clamp(2.6rem, 6vw, 4.75rem);
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.08;
   margin-bottom: 1.5rem;
   font-family: var(--font-heading); /* Serif editorial premium */
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+
+  .title-line {
+    display: block;
+  }
+
+  /* Acento dorado en la segunda línea para jerarquía */
+  .title-line:last-child {
+    background: linear-gradient(120deg, var(--primary-hover), var(--primary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--primary-color); /* fallback */
+  }
 }
 
 .hero-description {
-  font-size: 1.1rem;
-  margin-bottom: 2.5rem;
-  opacity: 0.9;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
+  font-size: clamp(1rem, 2.2vw, 1.18rem);
+  margin: 0 auto 2.6rem;
+  max-width: 580px;
+  line-height: 1.65;
+  color: rgba(243, 236, 224, 0.88);
 }
 
-/* ANIMACIONES */
+/* ===============================================
+   CTA — micro-interacción (escala + glow dorado)
+   Scopeada al hero: no toca el átomo global de botón.
+   =============================================== */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+
+  app-primary-button {
+    display: block;
+    width: min(100%, 300px);
+    border-radius: var(--radius-full);
+    transition: transform var(--transition), box-shadow var(--transition);
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--primary-color) 40%, transparent),
+        0 10px 36px color-mix(in srgb, var(--primary-color) 45%, transparent),
+        0 0 60px color-mix(in srgb, var(--primary-color) 25%, transparent);
+    }
+
+    &:active {
+      transform: scale(1.01);
+    }
+  }
+}
+
+/* ===============================================
+   INDICADOR DE SCROLL ANIMADO
+   =============================================== */
+.hero-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(20px, 4vh, 40px);
+  transform: translateX(-50%);
+  z-index: 2;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(243, 236, 224, 0.7);
+  transition: color var(--transition);
+
+  .hero-scroll-label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* "Ratón" con rueda que cae en bucle */
+  .hero-scroll-mouse {
+    width: 26px;
+    height: 42px;
+    border: 2px solid color-mix(in srgb, var(--primary-color) 65%, transparent);
+    border-radius: var(--radius-full);
+    display: flex;
+    justify-content: center;
+    padding-top: 7px;
+    box-shadow: 0 0 18px color-mix(in srgb, var(--primary-color) 25%, transparent);
+  }
+
+  .hero-scroll-wheel {
+    width: 4px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--primary-color);
+    animation: scrollWheel 1.8s infinite var(--ease);
+  }
+
+  /* Flecha hacia abajo — solo en móvil (el "ratón" no tiene sentido en táctil) */
+  .hero-scroll-hand {
+    display: none;
+    color: color-mix(in srgb, var(--primary-color) 85%, transparent);
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--primary-color) 30%, transparent));
+
+    /* La flecha rebota hacia abajo para indicar el sentido del scroll */
+    .chevron-icon {
+      display: block;
+      animation: scrollChevron 1.6s infinite var(--ease);
+    }
+  }
+
+  &:hover {
+    color: var(--primary-color);
+
+    .hero-scroll-mouse {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 26px color-mix(in srgb, var(--primary-color) 45%, transparent);
+    }
+
+    .hero-scroll-hand {
+      color: var(--primary-color);
+    }
+  }
+}
+
+/* ===============================================
+   ANIMACIONES
+   =============================================== */
 @keyframes slowZoom {
   0% { transform: scale(1); }
-  100% { transform: scale(1.15); }
+  100% { transform: scale(1.16); }
 }
 
-@keyframes fadeInUp {
+/* Entrada escalonada fade + slide (controlada por --reveal-delay en el HTML) */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  animation: revealUp 0.9s var(--ease) forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+@keyframes revealUp {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(34px);
   }
   to {
     opacity: 1;
@@ -101,9 +293,131 @@
   }
 }
 
-/* Ajuste Móvil */
+/* El indicador de scroll necesita keyframes propios que conserven el
+   centrado horizontal (translateX(-50%)) que la animación genérica perdería.
+   Primero se revela, luego encadena la flotación continua. */
+.hero-scroll.reveal {
+  opacity: 0;
+  transform: translateX(-50%);
+  animation:
+    heroScrollReveal 0.9s var(--ease) var(--reveal-delay, 0s) both,
+    heroScrollFloat 2.4s ease-in-out calc(var(--reveal-delay, 0s) + 0.9s) infinite;
+}
+
+@keyframes heroScrollReveal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 34px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes heroScrollFloat {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+
+@keyframes scrollWheel {
+  0% { opacity: 0; transform: translateY(-4px); }
+  35% { opacity: 1; }
+  70% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+/* La flecha rebota hacia abajo para indicar el sentido del scroll */
+@keyframes scrollChevron {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+/* ===============================================
+   RESPONSIVE
+   =============================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero-content {
+    max-width: 680px;
+  }
+}
+
+/* Móvil (< 768px): h1 reducido, layout apilado centrado, CTA cómodo al tap */
 @media (max-width: 768px) {
   .hero-container {
-    height: 75vh; /* Un poco más corto en móvil */
+    height: 88vh;
+    min-height: 560px;
+    /* Cubre la altura real del navbar en móvil (píldora + botón hamburguesa de 42px
+       + paddings); si se queda corto asoma el fondo del tema tras el navbar. */
+    --nav-overlay-height: 80px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.1rem, 9vw, 3.2rem);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.74rem;
+    letter-spacing: 3px;
+  }
+
+  .hero-actions app-primary-button {
+    /* Botón a un ancho cómodo para tap, sin llegar a borde a borde */
+    width: min(100%, 340px);
+  }
+
+  /* En móvil (táctil) el indicador muestra una mano, no un ratón */
+  .hero-scroll .hero-scroll-mouse {
+    display: none;
+  }
+  .hero-scroll .hero-scroll-hand {
+    display: block;
+  }
+}
+
+/* Móvil pequeño */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: clamp(1.85rem, 10vw, 2.6rem);
+  }
+
+  .hero-description {
+    margin-bottom: 2.1rem;
+  }
+}
+
+/* ===============================================
+   ACCESIBILIDAD — reducir movimiento
+   =============================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-background {
+    transform: none !important;
+
+    img {
+      animation: none !important;
+    }
+  }
+
+  .reveal,
+  .hero-scroll.reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .hero-scroll {
+    animation: none !important;
+  }
+
+  .hero-scroll-wheel,
+  .hero-scroll-hand svg {
+    animation: none !important;
+  }
+
+  /* El float usa translateX(-50%) para centrar; sin animación lo fijamos manualmente */
+  .hero-scroll.reveal {
+    transform: translateX(-50%) !important;
   }
 }

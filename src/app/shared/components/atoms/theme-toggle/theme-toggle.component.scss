@@ -8,18 +8,86 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  /* currentColor (usado por el disco y los rayos) sigue al color del texto del tema */
+  color: var(--text-color);
   transition: background-color 0.2s, border-color 0.2s;
 
   &:hover {
     background-color: var(--background-color);
+    border-color: color-mix(in srgb, var(--primary-color) 40%, var(--border-color));
+  }
+}
+
+/* ===============================================
+   MORPH SOL ↔ LUNA
+   Técnica: un disco enmascarado + rayos. El círculo de la máscara
+   se desliza sobre el disco para tallar la luna creciente, mientras
+   los rayos se escalan/desvanecen. Estado oscuro = luna.
+   =============================================== */
+.sun-and-moon {
+  width: 22px;
+  height: 22px;
+
+  /* Todo gira/escala respecto al centro del viewport (12,12) */
+  > :is(.moon, .sun, .sun-beams) {
+    transform-origin: center center;
   }
 
-  // Estilos para los iconos SVG
-  svg {
-    width: 20px;
-    height: 20px;
-    // La clave: el color del borde del SVG usará la variable de color de texto del tema.
-    stroke: var(--text-color);
-    transition: stroke 0.3s;
+  > .sun {
+    fill: currentColor;
+    transition: transform 0.5s cubic-bezier(0.5, 1.25, 0.75, 1.25);
+  }
+
+  > .sun-beams {
+    stroke: currentColor;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    transition:
+      transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
+      opacity 0.5s ease;
+  }
+
+  .moon > circle {
+    transition: transform 0.25s cubic-bezier(0, 0, 0, 1);
+  }
+  @supports (cx: 1) {
+    .moon > circle {
+      transition: cx 0.25s cubic-bezier(0, 0, 0, 1);
+    }
+  }
+}
+
+/* === Estado oscuro: el sol se agranda en luna, los rayos desaparecen === */
+.is-dark .sun-and-moon {
+  > .sun {
+    transform: scale(1.75);
+  }
+
+  > .sun-beams {
+    transform: scale(0.5) rotate(45deg);
+    opacity: 0;
+    transition:
+      transform 0.5s cubic-bezier(0.25, 0, 0.3, 1),
+      opacity 0.5s ease;
+  }
+
+  /* La máscara entra y talla la luna creciente */
+  .moon > circle {
+    transform: translateX(-7px);
+  }
+  @supports (cx: 1) {
+    .moon > circle {
+      cx: 17;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* Respeto a quien prefiere menos movimiento: cambio instantáneo, sin animar */
+@media (prefers-reduced-motion: reduce) {
+  .sun-and-moon > .sun,
+  .sun-and-moon > .sun-beams,
+  .sun-and-moon .moon > circle {
+    transition: none !important;
   }
 }

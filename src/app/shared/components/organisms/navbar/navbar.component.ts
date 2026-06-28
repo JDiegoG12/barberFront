@@ -36,11 +36,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   readonly activeSection = signal<string | null>(null);
 
+  /**
+   * Indica si la página se ha desplazado más allá del umbral inicial.
+   * Cuando es `true`, el navbar flotante se compacta y refuerza su fondo/sombra.
+   */
+  readonly scrolled = signal<boolean>(false);
+
   /** Ids de las secciones de la landing que participan en el resaltado por scroll. */
   private readonly sectionIds = ['seccion-servicios', 'seccion-barberos', 'seccion-contacto'];
 
   /** Referencia al listener de scroll para poder removerlo al destruir el componente. */
-  private readonly onScroll = () => this.updateActiveSection();
+  private readonly onScroll = () => {
+    this.updateActiveSection();
+    this.updateScrolled();
+  };
 
   /**
    * Evento que se emite cuando el usuario hace clic en la acción de "Iniciar Sesión".
@@ -53,20 +62,42 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   @Output() onLogout = new EventEmitter<void>();
   
+  /** Respaldo del estado del menú móvil. */
+  private _isMenuOpen = false;
+
   /**
    * Estado que controla la visibilidad del menú desplegable en dispositivos móviles.
    * `true` indica que el menú está expandido.
+   *
+   * Al cambiar, además bloquea/restaura el scroll del documento para que el fondo
+   * no se desplace mientras el overlay a pantalla completa está abierto.
    */
-  public isMenuOpen = false;
+  get isMenuOpen(): boolean {
+    return this._isMenuOpen;
+  }
+  set isMenuOpen(open: boolean) {
+    this._isMenuOpen = open;
+    this.lockBodyScroll(open);
+  }
+
+  /** Bloquea (o restaura) el scroll del documento mientras el menú móvil está abierto. */
+  private lockBodyScroll(lock: boolean): void {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = lock ? 'hidden' : '';
+    }
+  }
 
   ngOnInit(): void {
     window.addEventListener('scroll', this.onScroll, { passive: true });
     // Cálculo inicial (por si la página carga ya desplazada).
     this.updateActiveSection();
+    this.updateScrolled();
   }
 
   ngOnDestroy(): void {
     window.removeEventListener('scroll', this.onScroll);
+    // Evita dejar el scroll bloqueado si el componente se destruye con el menú abierto.
+    this.lockBodyScroll(false);
   }
 
   /**
@@ -87,6 +118,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     if (current !== this.activeSection()) {
       this.activeSection.set(current);
+    }
+  }
+
+  /** Actualiza el estado `scrolled` según la posición vertical de la página. */
+  private updateScrolled(): void {
+    const isScrolled = window.scrollY > 16;
+    if (isScrolled !== this.scrolled()) {
+      this.scrolled.set(isScrolled);
     }
   }
 

@@ -40,8 +40,8 @@
 }
 
 .carousel-item {
-  min-width: 180px; 
-  max-width: 180px;
+  min-width: 210px;
+  max-width: 210px;
   flex-shrink: 0;
   height: auto;
   scroll-snap-align: start;
@@ -66,25 +66,27 @@
   transform: translateY(-50%); /* Centrar verticalmente */
   z-index: 10;
   
-  /* Estética */
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  background-color: var(--surface-color);
+  /* Estética glass dorada */
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 25%, var(--border-color));
+  background: color-mix(in srgb, var(--surface-color) 80%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--primary-color);
-  
+
   /* Flexbox para centrar el icono */
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra sutil */
-  
+  box-shadow: var(--shadow-md);
+
   /* TRANSICIONES PARA EL EFECTO "INTELIGENTE" */
-  transition: all 0.3s ease, opacity 0.3s ease, visibility 0.3s;
-  
+  transition: all 0.3s var(--ease), opacity 0.3s ease, visibility 0.3s;
+
   /* Estado por defecto: Visible */
   opacity: 1;
   visibility: visible;
@@ -92,9 +94,12 @@
 
   /* Hover effect */
   &:hover {
-    background-color: var(--primary-color);
-    color: var(--surface-color); /* Icono blanco al hover */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    background: var(--primary-color);
+    color: #16130F; /* Icono carbón al hover */
+    border-color: var(--primary-color);
+    box-shadow:
+      var(--shadow-lg),
+      0 0 18px color-mix(in srgb, var(--primary-color) 40%, transparent);
     transform: translateY(-50%) scale(1.1); /* Efecto pop */
   }
 
@@ -136,9 +141,9 @@
   }
 
   .carousel-item {
-    min-width: 150px;
-    max-width: 150px;
-    width: auto; 
+    min-width: 165px;
+    max-width: 165px;
+    width: auto;
   }
   
   /* Ajustamos los botones prev/next para que no afecten el layout si estuvieran */
